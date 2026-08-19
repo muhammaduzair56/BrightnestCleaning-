@@ -12,3 +12,4 @@
 - [x] Add Redis caching, resilient rate limiting, structured error handling, and audit logging.
 - [x] Connect the website booking form and build the protected admin bookings interface.
 - [x] Test the complete flow and add Hugging Face Spaces deployment files.
+- [x] Add clear loading and success feedback to the public booking submission flow.

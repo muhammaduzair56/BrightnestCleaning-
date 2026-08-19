@@ -9,6 +9,7 @@ import {
   ChevronDown,
   Clock3,
   Home as HomeIcon,
+  LoaderCircle,
   Menu,
   ShieldCheck,
   Sparkles,
@@ -503,7 +504,7 @@ export default function Home() {
 
               <div className="rounded-[30px] bg-[#173137] p-5 text-[#f8f6ef] shadow-2xl shadow-[#173137]/10 sm:p-8 lg:rounded-[38px] lg:p-10">
                 {!submitted ? (
-                  <form onSubmit={advanceBooking}>
+                  <form onSubmit={advanceBooking} aria-busy={isSubmitting}>
                     <div className="mb-9 grid grid-cols-3 gap-2 sm:gap-4">
                       {[
                         [1, "Service & visit"],
@@ -603,21 +604,30 @@ export default function Home() {
                       </div>
                     )}
 
+                    {isSubmitting && (
+                      <div className="booking-loading" role="status" aria-live="polite">
+                        <span className="booking-loading-orb"><LoaderCircle className="h-4 w-4 animate-spin" /></span>
+                        <span><strong>Sending your request securely</strong><small>BrightNest is recording your preferred visit and home details.</small></span>
+                      </div>
+                    )}
                     {formError && <p role="alert" className="mt-5 rounded-xl bg-[#f1c9ad] px-4 py-3 text-sm font-bold text-[#173137]">{formError}</p>}
                     <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      {step > 1 ? <button type="button" className="btn-ghost-light" onClick={() => setStep((current) => (current - 1) as BookingStep)}>Back</button> : <span />}
+                      {step > 1 ? <button type="button" className="btn-ghost-light" disabled={isSubmitting} onClick={() => setStep((current) => (current - 1) as BookingStep)}>Back</button> : <span />}
                       <button type="submit" className="btn-mint justify-center" disabled={isSubmitting}>
-                        {isSubmitting ? "Sending request…" : step === 3 ? "Send request" : "Continue"} <ArrowRight className="h-4 w-4" />
+                        {isSubmitting ? <><LoaderCircle className="h-4 w-4 animate-spin" /> Sending request…</> : <>{step === 3 ? "Send request" : "Continue"} <ArrowRight className="h-4 w-4" /></>}
                       </button>
                     </div>
                   </form>
                 ) : (
-                  <div className="flex min-h-[500px] flex-col items-center justify-center px-3 text-center sm:px-10">
-                    <div className="grid h-16 w-16 place-items-center rounded-full bg-[#2f9f91] text-white"><Check className="h-7 w-7" /></div>
-                    <p className="eyebrow mt-7 text-[#9ee0d2]">Request received</p>
+                  <div className="booking-success flex min-h-[500px] flex-col items-center justify-center px-3 text-center sm:px-10" role="status" aria-live="polite">
+                    <div className="booking-success-seal"><span className="booking-success-orbit booking-success-orbit-one" /><span className="booking-success-orbit booking-success-orbit-two" /><span className="relative z-10 grid h-16 w-16 place-items-center rounded-full bg-[#2f9f91] text-white shadow-lg shadow-[#2f9f91]/30"><Check className="h-7 w-7" /></span></div>
+                    <p className="eyebrow mt-9 text-[#9ee0d2]">Request received</p>
                     <h3 className="font-display mt-4 max-w-[480px] text-[46px] leading-[0.96] tracking-[-0.055em] sm:text-[58px]">Your clean is now in the right hands.</h3>
                     <p className="mt-6 max-w-[490px] text-sm leading-7 text-white/65 sm:text-base">BrightNest has your preferred service, time and home details. The team will confirm the next step with you.</p>
                     {bookingReference && <p className="mt-5 rounded-full border border-white/20 px-4 py-2 text-xs font-extrabold tracking-[0.1em] text-[#9ee0d2]">REFERENCE · {bookingReference.slice(0, 8).toUpperCase()}</p>}
+                    <div className="mt-8 grid w-full max-w-[470px] gap-2 text-left sm:grid-cols-3">
+                      {["Request logged", "Details reviewed", "Visit confirmed"].map((item, index) => <div key={item} className="booking-success-step"><span>0{index + 1}</span><p>{item}</p></div>)}
+                    </div>
                     <button className="btn-light mt-9" onClick={() => { setSubmitted(false); setStep(1); setBookingReference(""); }}>
                       Start another request <ArrowRight className="h-4 w-4" />
                     </button>

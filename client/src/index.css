@@ -215,6 +215,18 @@ button:disabled { cursor: not-allowed; }
 .booking-step-done { color: rgba(255,255,255,0.78); }
 
 .booking-panel { display: grid; gap: 1.25rem; }
+.booking-loading { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; border: 1px solid rgba(158,224,210,0.25); border-radius: 16px; background: rgba(47,159,145,0.16); padding: 0.85rem 1rem; color: white; text-align: left; }
+.booking-loading-orb { display: grid; width: 2rem; height: 2rem; flex: 0 0 auto; place-items: center; border-radius: 999px; background: #9ee0d2; color: #173137; }
+.booking-loading strong, .booking-loading small { display: block; }
+.booking-loading strong { font-size: 0.78rem; font-weight: 800; }
+.booking-loading small { margin-top: 0.18rem; font-size: 0.71rem; line-height: 1.3; color: rgba(255,255,255,0.63); }
+.booking-success-seal { position: relative; display: grid; width: 7rem; height: 7rem; place-items: center; }
+.booking-success-orbit { position: absolute; border: 1px solid rgba(158,224,210,0.55); border-radius: 50%; }
+.booking-success-orbit-one { width: 6.55rem; height: 6.55rem; transform: rotate(-22deg) scaleX(1.15); }
+.booking-success-orbit-two { width: 7.05rem; height: 7.05rem; border-style: dashed; opacity: 0.7; }
+.booking-success-step { display: flex; min-height: 4.15rem; align-items: center; gap: 0.6rem; border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; background: rgba(255,255,255,0.06); padding: 0.7rem; }
+.booking-success-step span { font-family: "DM Serif Display", Georgia, serif; color: #9ee0d2; font-size: 1.25rem; }
+.booking-success-step p { font-size: 0.7rem; font-weight: 800; line-height: 1.2; color: rgba(255,255,255,0.75); }
 .field-label { display: block; margin: 0 0 0.5rem; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
 .field-control {
   width: 100%;
@@ -245,12 +257,19 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
   .service-card:nth-child(4) { animation-delay: 135ms; }
   .service-card:nth-child(5) { animation-delay: 180ms; }
   .service-card:nth-child(6) { animation-delay: 225ms; }
+  .booking-success-seal { animation: success-enter 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .booking-success-orbit-two { animation: orbit-turn 12s linear infinite; }
 }
 
 @keyframes subtle-rise {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes success-enter {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes orbit-turn { to { transform: rotate(360deg); } }
 
 /* BrightNest private operations UI — preserve the ink/mint identity, with denser working surfaces. */
 .admin-shell { min-height: 100vh; background: #f8f6ef; padding: clamp(1.25rem, 4vw, 4rem); }
