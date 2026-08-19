@@ -760,7 +760,7 @@ export default function Home() {
         </div>
         <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} BrightNest Cleaning UK. All rights reserved.</span>
-          <span>Thoughtful domestic & specialist cleaning for Birmingham homes.</span>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><Link href="/privacy-policy" className="transition-colors hover:text-white">Privacy Policy</Link><span aria-hidden="true">·</span><Link href="/terms-of-service" className="transition-colors hover:text-white">Terms of Service</Link></div>
         </div>
       </footer>
     </div>

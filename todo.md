@@ -23,3 +23,5 @@
 - [x] Add the verified customer feedback to a homepage testimonial section.
 - [x] Create a dedicated Privacy Policy route and page.
 - [x] Link the mandatory booking consent text to the Privacy Policy page.
+- [x] Create a dedicated Terms of Service route and page.
+- [x] Add Terms of Service beside Privacy Policy in the website footer.
