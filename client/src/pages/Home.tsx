@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
+import { ApiError, bookingApi } from "@/lib/api";
 
 type BookingStep = 1 | 2 | 3;
 
@@ -160,6 +161,8 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [postcode, setPostcode] = useState("");
   const [notes, setNotes] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingReference, setBookingReference] = useState("");
   const minimumDate = new Date().toISOString().slice(0, 10);
 
   const bookService = (serviceName?: string) => {
@@ -167,7 +170,7 @@ export default function Home() {
     scrollToSection("booking");
   };
 
-  const advanceBooking = (event: FormEvent<HTMLFormElement>) => {
+  const advanceBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError("");
 
@@ -186,10 +189,26 @@ export default function Home() {
       return;
     }
 
-    setSubmitted(true);
-    toast.success("Your booking request is prepared.", {
-      description: "Your service, timing and home details are now gathered in one clear summary.",
-    });
+    setIsSubmitting(true);
+    try {
+      const response = await bookingApi.create({
+        customer_name: name.trim(),
+        customer_email: email.trim(),
+        postcode: postcode.trim(),
+        service_type: service,
+        frequency,
+        preferred_date: date,
+        preferred_time: time,
+        notes: notes.trim() || undefined,
+      });
+      setBookingReference(response.booking_id);
+      setSubmitted(true);
+      toast.success("Your booking request has been received.", { description: "BrightNest will review your preferred visit and service details." });
+    } catch (error) {
+      setFormError(error instanceof ApiError ? error.message : "We could not send your booking request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const navItems = [
@@ -580,25 +599,26 @@ export default function Home() {
                           ))}
                         </div>
                         {notes && <p className="mt-4 rounded-[16px] bg-[#2f9f91]/15 px-4 py-3 text-sm leading-6 text-white/75">“{notes}”</p>}
-                        <p className="mt-5 text-sm leading-6 text-white/60">This is a request summary, not a confirmed appointment. Your preferred visit can be confirmed once the service details are reviewed.</p>
+                        <p className="mt-5 text-sm leading-6 text-white/60">Submitting sends your request securely to BrightNest. Your preferred visit is confirmed once the service details are reviewed.</p>
                       </div>
                     )}
 
                     {formError && <p role="alert" className="mt-5 rounded-xl bg-[#f1c9ad] px-4 py-3 text-sm font-bold text-[#173137]">{formError}</p>}
                     <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                       {step > 1 ? <button type="button" className="btn-ghost-light" onClick={() => setStep((current) => (current - 1) as BookingStep)}>Back</button> : <span />}
-                      <button type="submit" className="btn-mint justify-center">
-                        {step === 3 ? "Prepare request" : "Continue"} <ArrowRight className="h-4 w-4" />
+                      <button type="submit" className="btn-mint justify-center" disabled={isSubmitting}>
+                        {isSubmitting ? "Sending request…" : step === 3 ? "Send request" : "Continue"} <ArrowRight className="h-4 w-4" />
                       </button>
                     </div>
                   </form>
                 ) : (
                   <div className="flex min-h-[500px] flex-col items-center justify-center px-3 text-center sm:px-10">
                     <div className="grid h-16 w-16 place-items-center rounded-full bg-[#2f9f91] text-white"><Check className="h-7 w-7" /></div>
-                    <p className="eyebrow mt-7 text-[#9ee0d2]">Request prepared</p>
-                    <h3 className="font-display mt-4 max-w-[480px] text-[46px] leading-[0.96] tracking-[-0.055em] sm:text-[58px]">Your calm home plan is taking shape.</h3>
-                    <p className="mt-6 max-w-[490px] text-sm leading-7 text-white/65 sm:text-base">You have brought the essential details together: the kind of clean, your preferred time and the notes that make a Birmingham home feel properly looked after.</p>
-                    <button className="btn-light mt-9" onClick={() => { setSubmitted(false); setStep(1); }}>
+                    <p className="eyebrow mt-7 text-[#9ee0d2]">Request received</p>
+                    <h3 className="font-display mt-4 max-w-[480px] text-[46px] leading-[0.96] tracking-[-0.055em] sm:text-[58px]">Your clean is now in the right hands.</h3>
+                    <p className="mt-6 max-w-[490px] text-sm leading-7 text-white/65 sm:text-base">BrightNest has your preferred service, time and home details. The team will confirm the next step with you.</p>
+                    {bookingReference && <p className="mt-5 rounded-full border border-white/20 px-4 py-2 text-xs font-extrabold tracking-[0.1em] text-[#9ee0d2]">REFERENCE · {bookingReference.slice(0, 8).toUpperCase()}</p>}
+                    <button className="btn-light mt-9" onClick={() => { setSubmitted(false); setStep(1); setBookingReference(""); }}>
                       Start another request <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>

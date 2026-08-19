@@ -1,0 +1,80 @@
+/**
+ * BrightNest API client — the only public runtime setting is the backend URL;
+ * credentials, database access and email keys remain exclusively server-side.
+ */
+export type BookingStatus = "new" | "contacted" | "confirmed" | "cancelled" | "completed";
+
+export type BookingPayload = {
+  customer_name: string;
+  customer_email: string;
+  postcode: string;
+  service_type: string;
+  frequency: string;
+  preferred_date: string;
+  preferred_time: string;
+  notes?: string;
+};
+
+export type Booking = BookingPayload & {
+  id: string;
+  status: BookingStatus;
+  admin_notes: string | null;
+  email_status: string;
+  created_at: string;
+  updated_at: string;
+  customer_phone: string | null;
+};
+
+export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
+export type Dashboard = Record<"total" | BookingStatus, number>;
+export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
+
+const configuredApiUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/$/, "");
+
+class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status = 0) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+function apiUrl(path: string) {
+  if (!configuredApiUrl) {
+    throw new ApiError("The booking service is not configured yet. Please try again soon.");
+  }
+  return `${configuredApiUrl}/api/v1${path}`;
+}
+
+async function request<T>(path: string, options: RequestInit = {}, accessToken?: string): Promise<T> {
+  const headers = new Headers(options.headers);
+  headers.set("Content-Type", "application/json");
+  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+  let response: Response;
+  try {
+    response = await fetch(apiUrl(path), { ...options, headers });
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    throw new ApiError("We could not reach the booking service. Please check your connection and try again.");
+  }
+  const payload = await response.json().catch(() => null);
+  if (!response.ok) {
+    const detail = payload?.detail;
+    const message = typeof detail === "string" ? detail : "The request could not be completed.";
+    throw new ApiError(message, response.status);
+  }
+  return payload as T;
+}
+
+export const bookingApi = {
+  create: (payload: BookingPayload) => request<{ booking_id: string; message: string }>("/bookings", { method: "POST", body: JSON.stringify(payload) }),
+  login: (email: string, password: string) => request<Tokens>("/admin/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
+  dashboard: (token: string) => request<Dashboard>("/admin/dashboard", {}, token),
+  list: (token: string, filter: BookingStatus | "all" = "all") => request<BookingList>(`/admin/bookings${filter === "all" ? "" : `?status=${filter}`}`, {}, token),
+  update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string }) =>
+    request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
+};
+
+export { ApiError, configuredApiUrl };

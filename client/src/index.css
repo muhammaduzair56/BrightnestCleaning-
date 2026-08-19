@@ -251,3 +251,33 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* BrightNest private operations UI — preserve the ink/mint identity, with denser working surfaces. */
+.admin-shell { min-height: 100vh; background: #f8f6ef; padding: clamp(1.25rem, 4vw, 4rem); }
+.admin-setup-card { max-width: 760px; margin: 8vh auto; border: 1px solid rgba(23,49,55,0.12); border-radius: 34px; background: #edf3ed; padding: clamp(2rem, 6vw, 4rem); }
+.admin-icon { display: grid; height: 3.5rem; width: 3.5rem; place-items: center; border-radius: 18px; background: #2f9f91; color: white; }
+.admin-login-grid { max-width: 1040px; margin: 6vh auto; display: grid; overflow: hidden; border-radius: 38px; box-shadow: 0 24px 70px rgba(23,49,55,0.15); }
+.admin-login-intro { background: #173137; padding: clamp(2.25rem, 6vw, 5rem); color: #f8f6ef; }
+.admin-login-form { background: white; padding: clamp(2.25rem, 6vw, 5rem); }
+.admin-label { display: block; margin: 1.25rem 0 0.5rem; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(23,49,55,0.6); }
+.admin-input { width: 100%; border: 1px solid rgba(23,49,55,0.16); border-radius: 14px; background: #f8f6ef; padding: 0.82rem 0.9rem; color: #173137; outline: none; transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.admin-input:focus { border-color: #2f9f91; box-shadow: 0 0 0 3px rgba(47,159,145,0.13); }
+.admin-error { border-radius: 13px; background: #f1c9ad; padding: 0.8rem 0.9rem; font-size: 0.84rem; font-weight: 700; color: #173137; }
+.admin-dashboard-shell { display: grid; min-height: 100vh; grid-template-columns: 250px minmax(0, 1fr); }
+.admin-sidebar { display: flex; min-height: 100vh; flex-direction: column; background: #173137; padding: 1.75rem; color: #f8f6ef; }
+.admin-nav-item { display: flex; align-items: center; gap: 0.75rem; border-radius: 12px; padding: 0.8rem 0.85rem; font-size: 0.84rem; font-weight: 800; }
+.admin-nav-current { background: rgba(255,255,255,0.1); color: white; }
+.admin-stat { border: 1px solid rgba(23,49,55,0.1); border-radius: 18px; background: white; padding: 1rem; }
+.admin-stat span { display: block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(23,49,55,0.5); }
+.admin-stat strong { display: block; margin-top: 0.45rem; font-family: "DM Serif Display", Georgia, serif; font-size: 2rem; line-height: 1; color: #173137; }
+.admin-filter { border-radius: 999px; padding: 0.58rem 0.85rem; font-size: 0.75rem; font-weight: 800; color: rgba(23,49,55,0.62); transition: 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.admin-filter:hover, .admin-filter-active { background: #173137; color: white; }
+.admin-booking-row { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.25rem; text-align: left; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.admin-booking-row:hover, .admin-booking-selected { background: #edf3ed; }
+.admin-status { display: inline-flex; align-items: center; border-radius: 999px; padding: 0.27rem 0.52rem; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.admin-action-button { display: inline-flex; min-height: 2.4rem; align-items: center; justify-content: center; gap: 0.35rem; border-radius: 11px; border: 1px solid rgba(23,49,55,0.14); background: rgba(255,255,255,0.55); padding: 0.5rem; font-size: 0.7rem; font-weight: 800; color: #173137; transition: 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.admin-action-button:hover { border-color: #2f9f91; background: #2f9f91; color: white; }
+.admin-action-button:disabled { cursor: wait; opacity: 0.55; }
+
+@media (min-width: 768px) { .admin-login-grid { grid-template-columns: 1fr 0.9fr; } }
+@media (max-width: 840px) { .admin-dashboard-shell { grid-template-columns: 1fr; } .admin-sidebar { min-height: auto; padding: 1rem 1.25rem; } .admin-sidebar .mt-14 { display: none; } .admin-sidebar .mt-auto { margin-top: 1rem; } }
