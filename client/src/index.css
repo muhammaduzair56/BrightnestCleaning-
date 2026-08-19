@@ -1,3 +1,7 @@
+/**
+ * BrightNest design reminder — Quiet British Home Editorial: warm ivory foundation, signature
+ * BrightNest Mint, deep ink contrast, editorial serif/sans pairing and fine nestline detail.
+ */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,135 +47,207 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --radius: 0.8rem;
+  --background: oklch(0.974 0.01 88);
+  --foreground: oklch(0.25 0.035 176);
+  --card: oklch(0.99 0.004 92);
+  --card-foreground: oklch(0.25 0.035 176);
+  --popover: oklch(0.99 0.004 92);
+  --popover-foreground: oklch(0.25 0.035 176);
+  --primary: oklch(0.61 0.102 177);
+  --primary-foreground: oklch(0.99 0.004 92);
+  --secondary: oklch(0.93 0.022 152);
+  --secondary-foreground: oklch(0.25 0.035 176);
+  --muted: oklch(0.94 0.012 88);
+  --muted-foreground: oklch(0.52 0.03 176);
+  --accent: oklch(0.94 0.06 61);
+  --accent-foreground: oklch(0.25 0.035 176);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0.004 92);
+  --border: oklch(0.83 0.02 176);
+  --input: oklch(0.94 0.01 88);
+  --ring: oklch(0.61 0.102 177);
+  --chart-1: oklch(0.61 0.102 177);
+  --chart-2: oklch(0.74 0.06 152);
+  --chart-3: oklch(0.73 0.09 61);
+  --chart-4: oklch(0.36 0.04 176);
+  --chart-5: oklch(0.86 0.03 88);
+  --sidebar: oklch(0.974 0.01 88);
+  --sidebar-foreground: oklch(0.25 0.035 176);
+  --sidebar-primary: oklch(0.61 0.102 177);
+  --sidebar-primary-foreground: oklch(0.99 0.004 92);
+  --sidebar-accent: oklch(0.94 0.06 61);
+  --sidebar-accent-foreground: oklch(0.25 0.035 176);
+  --sidebar-border: oklch(0.83 0.02 176);
+  --sidebar-ring: oklch(0.61 0.102 177);
 }
 
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+* { border-color: var(--border); }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: #f8f6ef;
+  color: #173137;
+  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+button, input, select, textarea { font: inherit; }
+button:not(:disabled), a[href], summary { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+.font-display { font-family: "DM Serif Display", Georgia, serif; }
+
+.brand-mark::after {
+  position: absolute;
+  right: -10px;
+  bottom: -11px;
+  width: 29px;
+  height: 29px;
+  border: 2px solid rgba(47, 159, 145, 0.5);
+  border-radius: 13px 13px 0 0;
+  content: "";
+  transform: rotate(-18deg);
 }
 
-@layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
+.nestline {
+  position: relative;
+  display: inline-block;
+  width: 27px;
+  height: 16px;
+  border: 2px solid #2f9f91;
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+}
+.nestline::after {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  width: 13px;
+  height: 9px;
+  border: 2px solid #2f9f91;
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  content: "";
+}
 
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
+.hero-grain {
+  background:
+    radial-gradient(circle at 7% 15%, rgba(47, 159, 145, 0.12) 0 1px, transparent 1.5px) 0 0 / 17px 17px,
+    linear-gradient(130deg, #f8f6ef 5%, #eef4ef 62%, #f8f6ef 100%);
+}
 
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
+.eyebrow {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #2f9f91;
+}
 
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
+.btn-primary, .btn-light, .btn-dark, .btn-mint, .btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  padding: 0.83rem 1.15rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.btn-primary { background: #173137; color: #f8f6ef; }
+.btn-primary:hover { background: #2f9f91; transform: translateY(-2px); }
+.btn-light { background: #f8f6ef; color: #173137; }
+.btn-light:hover { background: #9ee0d2; transform: translateY(-2px); }
+.btn-dark { background: #173137; color: #f8f6ef; }
+.btn-dark:hover { background: #f8f6ef; color: #173137; transform: translateY(-2px); }
+.btn-mint { background: #2f9f91; color: white; }
+.btn-mint:hover { background: #9ee0d2; color: #173137; transform: translateY(-2px); }
+.btn-ghost-light { color: rgba(255,255,255,0.65); }
+.btn-ghost-light:hover { color: white; transform: translateX(-2px); }
+.btn-primary:active, .btn-light:active, .btn-dark:active, .btn-mint:active, .btn-ghost-light:active { transform: scale(0.97); }
+
+.service-card {
+  border-radius: 26px;
+  isolation: isolate;
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.service-card::after {
+  position: absolute;
+  top: -36px;
+  right: -27px;
+  z-index: -1;
+  width: 118px;
+  height: 118px;
+  border: 1px solid currentColor;
+  border-radius: 50% 50% 0 50%;
+  content: "";
+  opacity: 0.11;
+  box-shadow: -14px 14px 0 -1px transparent, -14px 14px 0 0 currentColor;
+}
+.service-card:hover { transform: translateY(-5px); box-shadow: 0 18px 30px rgba(23,49,55,0.11); }
+.service-mint { background: #d9f0e8; color: #173137; }
+.service-ink { background: #173137; color: #f8f6ef; }
+.service-apricot { background: #f1c9ad; color: #173137; }
+.service-sage { background: #e6efea; color: #173137; }
+.service-linen { background: #f8f6ef; color: #173137; }
+.service-number { font-family: "DM Serif Display", Georgia, serif; font-size: 1.5rem; letter-spacing: -0.06em; opacity: 0.58; }
+
+.booking-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 14px;
+  padding: 0.7rem;
+  color: rgba(255,255,255,0.45);
+  text-align: left;
+  transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.booking-step span { display: grid; height: 1.5rem; width: 1.5rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(255,255,255,0.25); border-radius: 999px; font-size: 0.68rem; font-weight: 800; }
+.booking-step small { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.04em; line-height: 1.2; }
+.booking-step-current { background: rgba(255,255,255,0.11); color: white; }
+.booking-step-current span, .booking-step-done span { border-color: #2f9f91; background: #2f9f91; color: white; }
+.booking-step-done { color: rgba(255,255,255,0.78); }
+
+.booking-panel { display: grid; gap: 1.25rem; }
+.field-label { display: block; margin: 0 0 0.5rem; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+.field-control {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.08);
+  padding: 0.85rem 0.9rem;
+  color: white;
+  outline: none;
+  transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.field-control::placeholder { color: rgba(255,255,255,0.36); }
+.field-control:focus { border-color: #9ee0d2; background: rgba(255,255,255,0.12); box-shadow: 0 0 0 3px rgba(158,224,210,0.14); }
+.field-control option { background: #173137; color: white; }
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.75; }
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+@media (max-width: 520px) {
+  .booking-step { padding: 0.55rem 0.4rem; gap: 0.35rem; }
+  .booking-step small { font-size: 0.57rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .service-card, .faq-item, .booking-panel { animation: subtle-rise 480ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .service-card:nth-child(2) { animation-delay: 45ms; }
+  .service-card:nth-child(3) { animation-delay: 90ms; }
+  .service-card:nth-child(4) { animation-delay: 135ms; }
+  .service-card:nth-child(5) { animation-delay: 180ms; }
+  .service-card:nth-child(6) { animation-delay: 225ms; }
+}
+
+@keyframes subtle-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
