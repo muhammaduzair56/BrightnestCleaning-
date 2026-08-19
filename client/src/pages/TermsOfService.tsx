@@ -23,19 +23,19 @@ const terms = [
     body: "You are responsible for providing accurate booking details, reasonable access at the agreed time, and a safe environment for cleaning work. Please let us know in advance about access instructions, pets, fragile items, hazards, or any relevant practical information. BrightNest may pause or reschedule work where safe access or safe working conditions are not available.",
   },
   {
-    title: "5. Changes, cancellation and payment",
-    body: "If you need to change or cancel a request, contact BrightNest as soon as possible. Any service-specific cancellation timing, payment method, invoice details, or deposit requirements will be confirmed with you before a booking is finalised. We will not take payment through this website unless a secure payment service is clearly provided and agreed.",
+    title: "6. Payment arrangements",
+    body: "Payment method, invoice details, and any deposit requirements will be confirmed with you before a booking is finalised. We will not take payment through this website unless a secure payment service is clearly provided and agreed.",
   },
   {
-    title: "6. Website content and acceptable use",
+    title: "7. Website content and acceptable use",
     body: "The website, BrightNest name, visual identity, and original content are provided for personal, non-commercial use in connection with our services. You must not misuse the booking form, attempt to interfere with the website, or use content from the site in a way that suggests BrightNest has endorsed or partnered with you without written permission.",
   },
   {
-    title: "7. Liability and your legal rights",
+    title: "8. Liability and your legal rights",
     body: "Nothing in these terms excludes or limits liability where it would be unlawful to do so. Subject to applicable law and any service-specific written agreement, BrightNest’s responsibility relates to the services we have expressly agreed to provide. These terms do not affect any statutory consumer rights that you may have.",
   },
   {
-    title: "8. Contact and updates",
+    title: "9. Contact and updates",
     body: "Questions about these terms, a booking request, or a confirmed service can be sent to brightnestcleaninguk@gmail.com. We may update these terms as our services or booking process develop. The latest version will be published on this page.",
   },
 ];
@@ -73,7 +73,18 @@ export default function TermsOfService() {
               <a href="mailto:brightnestcleaninguk@gmail.com" className="mt-6 inline-flex items-center gap-2 text-sm font-extrabold text-[#9ee0d2] underline decoration-[#9ee0d2]/35 underline-offset-4"><Mail className="h-4 w-4" /> Ask a question</a>
             </aside>
             <div className="space-y-4">
-              {terms.map((term) => <article key={term.title} className="rounded-[22px] border border-[#173137]/10 bg-white p-6 sm:p-8"><h2 className="font-display text-[30px] tracking-[-0.045em]">{term.title}</h2><p className="mt-4 text-sm leading-7 text-[#173137]/72 sm:text-base">{term.body}</p></article>)}
+              {terms.slice(0, 4).map((term) => <article key={term.title} className="rounded-[22px] border border-[#173137]/10 bg-white p-6 sm:p-8"><h2 className="font-display text-[30px] tracking-[-0.045em]">{term.title}</h2><p className="mt-4 text-sm leading-7 text-[#173137]/72 sm:text-base">{term.body}</p></article>)}
+              <article className="overflow-hidden rounded-[22px] border border-[#2f9f91]/30 bg-white">
+                <div className="bg-[#d9f0e8] p-6 sm:p-8"><p className="eyebrow">Clear and considered</p><h2 className="font-display mt-3 text-[34px] tracking-[-0.05em]">5. Cancellation and refund policy</h2><p className="mt-4 max-w-[700px] text-sm leading-7 text-[#173137]/75 sm:text-base">We understand that plans change. Please contact BrightNest as early as possible if you need to move or cancel a confirmed booking. Any amount retained or charged for a late cancellation will be limited to a reasonable amount reflecting our direct loss, after taking reasonable steps to rebook the time.</p></div>
+                <div className="grid gap-3 p-6 sm:grid-cols-2 sm:p-8">
+                  <div className="rounded-[16px] border border-[#173137]/10 bg-[#f8f6ef] p-5"><p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">48+ hours’ notice</p><p className="mt-3 text-sm font-bold leading-6 text-[#173137]/78">Change or cancel without a BrightNest cancellation charge. If you have paid in advance, we will refund the relevant unused amount or apply it to an agreed rescheduled visit.</p></div>
+                  <div className="rounded-[16px] border border-[#173137]/10 bg-[#f8f6ef] p-5"><p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">24–48 hours’ notice</p><p className="mt-3 text-sm font-bold leading-6 text-[#173137]/78">We will try to reschedule your visit at no extra charge, subject to availability. If cancellation is necessary, we will discuss any reasonable direct loss with you before applying a charge.</p></div>
+                  <div className="rounded-[16px] border border-[#173137]/10 bg-[#f8f6ef] p-5"><p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">Less than 24 hours</p><p className="mt-3 text-sm font-bold leading-6 text-[#173137]/78">A reasonable late-cancellation charge may apply where the allocated time cannot be rebooked. We will not treat this as a penalty or retain more than is reasonable for the direct loss.</p></div>
+                  <div className="rounded-[16px] border border-[#173137]/10 bg-[#f8f6ef] p-5"><p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">No access or no-show</p><p className="mt-3 text-sm font-bold leading-6 text-[#173137]/78">If we cannot safely access the property at the agreed time, the same short-notice approach may apply. Please contact us promptly if an access issue arises.</p></div>
+                </div>
+                <div className="border-t border-[#173137]/10 p-6 sm:p-8"><h3 className="font-display text-[28px] tracking-[-0.045em]">If you are unhappy with a service</h3><p className="mt-3 text-sm leading-7 text-[#173137]/72 sm:text-base">Please contact us as soon as reasonably possible, ideally within 48 hours, with any relevant details. We will review the concern and, where appropriate, offer to repeat the affected service within a reasonable time. If repeat performance is not possible, would take too long, or would cause significant inconvenience, we will discuss an appropriate price reduction or refund. Your statutory consumer rights are not affected.</p><h3 className="font-display mt-7 text-[28px] tracking-[-0.045em]">Online and distance bookings</h3><p className="mt-3 text-sm leading-7 text-[#173137]/72 sm:text-base">Where a statutory cooling-off right applies to a service arranged online, by phone, or away from our premises, you may have 14 days to cancel. If you ask us to begin services during that period, we may charge a proportionate amount for the work supplied up to cancellation. For general guidance, see the <a className="font-bold text-[#2f9f91] underline decoration-[#2f9f91]/40 underline-offset-4" href="https://www.gov.uk/government/publications/cancelling-goods-or-services-guide-for-consumers/cancelling-goods-or-services" target="_blank" rel="noreferrer">GOV.UK consumer cancellation guide</a>.</p></div>
+              </article>
+              {terms.slice(4).map((term) => <article key={term.title} className="rounded-[22px] border border-[#173137]/10 bg-white p-6 sm:p-8"><h2 className="font-display text-[30px] tracking-[-0.045em]">{term.title}</h2><p className="mt-4 text-sm leading-7 text-[#173137]/72 sm:text-base">{term.body}</p></article>)}
               <article className="rounded-[22px] bg-[#f1c9ad] p-6 sm:p-8"><p className="eyebrow">Related policy</p><p className="font-display mt-3 text-[28px] tracking-[-0.045em]">Want to know how booking details are handled?</p><Link href="/privacy-policy" className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#173137] underline decoration-[#173137]/35 underline-offset-4">Read the Privacy Policy <ArrowLeft className="h-4 w-4 rotate-180" /></Link></article>
             </div>
           </div>
