@@ -15,3 +15,7 @@
 - [x] Add clear loading and success feedback to the public booking submission flow.
 - [x] Add live email and phone validation with accessible field-level guidance.
 - [x] Add a required privacy-policy consent checkbox before booking submission.
+- [x] Synchronize the preview with the shared project’s latest version.
+- [x] Verify current frontend-to-backend integration readiness locally.
+- [x] Export the complete current project as a ZIP archive.
+- [ ] Push the synchronized project to the configured GitHub repository.
