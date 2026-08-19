@@ -4,3 +4,5 @@
 - [x] Expand the booking service choices to cover all listed cleaning categories.
 - [x] Verify the revised page on desktop and mobile.
 - [x] Run the production build and save the updated release checkpoint.
+- [x] Create a clean source-code ZIP archive for download.
+- [ ] Push the complete current codebase to github.com/muhammaduzair56/BrightnestCleaning-.
