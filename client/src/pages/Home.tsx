@@ -18,6 +18,7 @@ import {
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { ApiError, bookingApi } from "@/lib/api";
+import { Link } from "wouter";
 
 type BookingStep = 1 | 2 | 3;
 
@@ -663,8 +664,8 @@ export default function Home() {
                     {step === 3 && (
                       <div className={`privacy-consent ${privacyTouched && !privacyConsent ? "privacy-consent-error" : ""}`}>
                         <input id="privacy-consent" type="checkbox" checked={privacyConsent} onChange={(event) => { setPrivacyConsent(event.target.checked); setPrivacyTouched(true); if (event.target.checked) setFormError(""); }} aria-invalid={privacyTouched && !privacyConsent} aria-describedby="privacy-consent-help" />
-                        <label htmlFor="privacy-consent"><strong>I consent to BrightNest using my details under its privacy policy</strong> to assess and respond to this booking request.</label>
-                        <p id="privacy-consent-help" className="privacy-consent-help" aria-live="polite">{privacyTouched && !privacyConsent ? "Your consent is required before this request can be sent." : "Required to send your booking request."}</p>
+                        <label htmlFor="privacy-consent"><strong>I consent to BrightNest using my details under its Privacy Policy</strong> to assess and respond to this booking request.</label>
+                        <p id="privacy-consent-help" className="privacy-consent-help" aria-live="polite">{privacyTouched && !privacyConsent ? "Your consent is required before this request can be sent." : <>Required to send your booking request. <Link href="/privacy-policy" className="underline decoration-current/45 underline-offset-2">Read the Privacy Policy</Link>.</>}</p>
                       </div>
                     )}
 

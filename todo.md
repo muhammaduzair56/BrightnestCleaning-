@@ -21,3 +21,5 @@
 - [x] Push the synchronized project to the configured GitHub repository.
 - [x] Create a BrightNest-branded version of the supplied authentic feedback asset.
 - [x] Add the verified customer feedback to a homepage testimonial section.
+- [x] Create a dedicated Privacy Policy route and page.
+- [x] Link the mandatory booking consent text to the Privacy Policy page.
