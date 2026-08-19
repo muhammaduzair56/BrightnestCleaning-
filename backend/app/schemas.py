@@ -36,6 +36,7 @@ class BookingCreate(BaseModel):
     frequency: Literal["One-off visit", "Weekly", "Fortnightly", "Monthly"]
     preferred_date: date
     preferred_time: time
+    privacy_consent: Literal[True]
     notes: str | None = Field(default=None, max_length=2000)
 
     @field_validator("customer_name", "postcode", "service_type", "customer_phone", "notes", mode="before")
@@ -87,6 +88,7 @@ class BookingRead(BaseModel):
     status: BookingStatus
     admin_notes: str | None
     email_status: str
+    privacy_consent_at: datetime
     created_at: datetime
     updated_at: datetime
 

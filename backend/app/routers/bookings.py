@@ -30,11 +30,11 @@ async def _invalidate_booking_cache() -> None:
 async def create_booking(payload: BookingCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)) -> BookingAccepted:
     if payload.preferred_date < date.today():
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Preferred date must be today or later")
-    booking = Booking(**payload.model_dump())
+    booking = Booking(**payload.model_dump(exclude={"privacy_consent"}))
     try:
         db.add(booking)
         db.flush()
-        db.add(AuditEvent(booking_id=booking.id, action="booking_created", metadata_json={"service_type": booking.service_type}))
+        db.add(AuditEvent(booking_id=booking.id, action="booking_created", metadata_json={"service_type": booking.service_type, "privacy_consent": True}))
         db.commit()
     except SQLAlchemyError as exc:
         db.rollback()

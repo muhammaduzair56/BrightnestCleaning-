@@ -87,6 +87,7 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
                 "frequency": "One-off visit",
                 "preferred_date": "2030-01-01",
                 "preferred_time": "10:30:00",
+                "privacy_consent": True,
                 "notes": "Please call on arrival.",
             },
         )

@@ -66,6 +66,7 @@ class Booking(Base):
     admin_notes: Mapped[str | None] = mapped_column(Text)
     assigned_admin_id: Mapped[str | None] = mapped_column(ForeignKey("admin_users.id", ondelete="SET NULL"), index=True)
     email_status: Mapped[str] = mapped_column(String(24), nullable=False, default="pending")
+    privacy_consent_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
 

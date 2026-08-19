@@ -14,3 +14,4 @@
 - [x] Test the complete flow and add Hugging Face Spaces deployment files.
 - [x] Add clear loading and success feedback to the public booking submission flow.
 - [x] Add live email and phone validation with accessible field-level guidance.
+- [x] Add a required privacy-policy consent checkbox before booking submission.

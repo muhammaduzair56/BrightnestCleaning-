@@ -13,6 +13,7 @@ export type BookingPayload = {
   frequency: string;
   preferred_date: string;
   preferred_time: string;
+  privacy_consent: true;
   notes?: string;
 };
 

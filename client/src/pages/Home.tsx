@@ -165,6 +165,8 @@ export default function Home() {
   const [notes, setNotes] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [phoneTouched, setPhoneTouched] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [privacyTouched, setPrivacyTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingReference, setBookingReference] = useState("");
   const minimumDate = new Date().toISOString().slice(0, 10);
@@ -198,6 +200,12 @@ export default function Home() {
       return;
     }
 
+    if (step === 3 && !privacyConsent) {
+      setPrivacyTouched(true);
+      setFormError("Please confirm that you consent to the BrightNest privacy policy before sending your request.");
+      return;
+    }
+
     if (step < 3) {
       setStep((current) => (current + 1) as BookingStep);
       return;
@@ -214,6 +222,7 @@ export default function Home() {
         frequency,
         preferred_date: date,
         preferred_time: time,
+        privacy_consent: true,
         notes: notes.trim() || undefined,
       });
       setBookingReference(response.booking_id);
@@ -631,6 +640,14 @@ export default function Home() {
                       </div>
                     )}
 
+                    {step === 3 && (
+                      <div className={`privacy-consent ${privacyTouched && !privacyConsent ? "privacy-consent-error" : ""}`}>
+                        <input id="privacy-consent" type="checkbox" checked={privacyConsent} onChange={(event) => { setPrivacyConsent(event.target.checked); setPrivacyTouched(true); if (event.target.checked) setFormError(""); }} aria-invalid={privacyTouched && !privacyConsent} aria-describedby="privacy-consent-help" />
+                        <label htmlFor="privacy-consent"><strong>I consent to BrightNest using my details under its privacy policy</strong> to assess and respond to this booking request.</label>
+                        <p id="privacy-consent-help" className="privacy-consent-help" aria-live="polite">{privacyTouched && !privacyConsent ? "Your consent is required before this request can be sent." : "Required to send your booking request."}</p>
+                      </div>
+                    )}
+
                     {isSubmitting && (
                       <div className="booking-loading" role="status" aria-live="polite">
                         <span className="booking-loading-orb"><LoaderCircle className="h-4 w-4 animate-spin" /></span>
@@ -655,7 +672,7 @@ export default function Home() {
                     <div className="mt-8 grid w-full max-w-[470px] gap-2 text-left sm:grid-cols-3">
                       {["Request logged", "Details reviewed", "Visit confirmed"].map((item, index) => <div key={item} className="booking-success-step"><span>0{index + 1}</span><p>{item}</p></div>)}
                     </div>
-                    <button className="btn-light mt-9" onClick={() => { setSubmitted(false); setStep(1); setBookingReference(""); }}>
+                    <button className="btn-light mt-9" onClick={() => { setSubmitted(false); setStep(1); setBookingReference(""); setPrivacyConsent(false); setPrivacyTouched(false); }}>
                       Start another request <ArrowRight className="h-4 w-4" />
                     </button>
                   </div>
