@@ -23,38 +23,100 @@ const services = [
   {
     eyebrow: "Everyday care",
     title: "Regular home cleaning",
+    price: "From £25/hr",
     description: "A dependable rhythm for the places you live in most.",
     tone: "mint",
   },
   {
     eyebrow: "Room by room",
     title: "Deep cleaning",
+    price: "From £30/hr",
     description: "A thorough reset for overlooked corners, surfaces and details.",
     tone: "ink",
   },
   {
     eyebrow: "Moving made easier",
     title: "End of tenancy",
+    price: "From £35/hr",
     description: "A considered clean for a smoother handover and fresh start.",
     tone: "apricot",
   },
   {
+    eyebrow: "A fresh start",
+    title: "Move-in / move-out",
+    price: "From £35/hr",
+    description: "A detail-first reset before you settle in or hand over the keys.",
+    tone: "linen",
+  },
+  {
+    eyebrow: "After the work",
+    title: "Post-renovation",
+    price: "From £35/hr",
+    description: "Clear the dust and fine detail left behind after improving your home.",
+    tone: "mint",
+  },
+  {
+    eyebrow: "Guest-ready",
+    title: "Airbnb / short-term rental",
+    price: "From £25/hr",
+    description: "Reliable resets with the finishing touches your guests notice.",
+    tone: "linen",
+  },
+  {
+    eyebrow: "Working spaces",
+    title: "Office & commercial",
+    price: "From £30/hr",
+    description: "A considered clean for busy workspaces, shared areas and daily routines.",
+    tone: "ink",
+  },
+  {
     eyebrow: "Specialist care",
-    title: "Carpet & upholstery",
-    description: "Bring softness, freshness and care back to the fabrics at home.",
-    tone: "sage",
+    title: "Window cleaning",
+    price: "Quote based",
+    description: "A tailored quote for the glass, access and finish your property needs.",
+    tone: "mint",
   },
   {
     eyebrow: "Kitchen detail",
     title: "Oven cleaning",
+    price: "Quote based",
     description: "A focussed appliance clean for the room that works hardest.",
     tone: "linen",
   },
   {
-    eyebrow: "Guest-ready",
-    title: "Airbnb turnovers",
-    description: "Reliable resets with the finishing touches your guests notice.",
+    eyebrow: "Fabric refresh",
+    title: "Carpet cleaning",
+    price: "Quote based",
+    description: "A room-by-room quote shaped around your carpets and cleaning needs.",
     tone: "mint",
+  },
+  {
+    eyebrow: "Fabric refresh",
+    title: "Rug cleaning",
+    price: "Quote based",
+    description: "A tailored refresh for the rugs that make your rooms feel like home.",
+    tone: "linen",
+  },
+  {
+    eyebrow: "Fabric refresh",
+    title: "Sofa / upholstery",
+    price: "Quote based",
+    description: "A care-led quote for sofas, chairs and the fabrics you use every day.",
+    tone: "ink",
+  },
+  {
+    eyebrow: "Clear the way",
+    title: "Rubbish / waste removal",
+    price: "Quote based",
+    description: "A job-specific quote to help clear unwanted items with less stress.",
+    tone: "mint",
+  },
+  {
+    eyebrow: "Small jobs",
+    title: "Small one-off jobs",
+    price: "Minimum / job quote",
+    description: "A flexible, job-specific plan for the little cleaning tasks that add up.",
+    tone: "linen",
   },
 ];
 
@@ -62,7 +124,7 @@ const faqs = [
   {
     question: "What can I request through the booking form?",
     answer:
-      "You can request regular, deep, end-of-tenancy, carpet, oven and Airbnb cleaning. Once the scope is understood, your preferred visit and any tailored details can be confirmed with BrightNest.",
+      "You can request regular, deep, moving, post-renovation, Airbnb, office and specialist cleaning. Starting rates are shown for routine services; windows, ovens, carpets, rugs, upholstery, waste removal and one-off jobs receive a quote based on the work required.",
   },
   {
     question: "Do you cover my area?",
@@ -294,13 +356,13 @@ export default function Home() {
                 <h2 className="font-display mt-5 max-w-[510px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[58px]">A clean that fits the way you live.</h2>
               </div>
               <p className="max-w-[570px] text-base leading-7 text-[#173137]/70 lg:pb-2 lg:text-lg">
-                From Birmingham family homes to carefully prepared short-lets, choose the service that gives your home its breathing space back.
+                From Birmingham family homes to carefully prepared short-lets, choose the service that gives your home its breathing space back. Routine services have clear starting rates; specialist work is quoted around your exact needs.
               </p>
             </div>
 
             <div className="mt-14 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {services.map((item, index) => (
-                <article key={item.title} className={`service-card service-${item.tone} group relative min-h-[248px] overflow-hidden p-6 sm:p-7`}>
+                <article key={item.title} className={`service-card service-${item.tone} group relative min-h-[278px] overflow-hidden p-6 sm:p-7`}>
                   <div className="flex items-start justify-between">
                     <span className="service-number">0{index + 1}</span>
                     <span className="grid h-10 w-10 place-items-center rounded-full border border-current/20 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110">
@@ -310,6 +372,7 @@ export default function Home() {
                   <div className="absolute bottom-6 right-6 left-6 sm:bottom-7 sm:right-7 sm:left-7">
                     <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] opacity-65">{item.eyebrow}</p>
                     <h3 className="font-display mt-2 text-[31px] leading-[0.98] tracking-[-0.045em]">{item.title}</h3>
+                    <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-[#2f9f91]">{item.price}</p>
                     <p className="mt-3 max-w-[340px] text-sm leading-6 opacity-75">{item.description}</p>
                     <button className="mt-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.13em] underline decoration-current/35 underline-offset-4" onClick={() => bookService(item.title)}>
                       Request this service <ArrowRight className="h-3.5 w-3.5" />
@@ -412,7 +475,7 @@ export default function Home() {
               <div className="lg:pt-6">
                 <p className="eyebrow">Booking request</p>
                 <h2 className="font-display mt-5 max-w-[490px] text-[45px] leading-[0.96] tracking-[-0.06em] sm:text-[63px]">A few details, then a cleaner plan.</h2>
-                <p className="mt-7 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. BrightNest will use these details to shape a clear, considered service request.</p>
+                <p className="mt-7 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. Starting rates are shown in the service guide; specialist requests are quoted around your space and scope.</p>
                 <div className="mt-10 flex gap-4 border-t border-[#173137]/15 pt-6 text-sm font-bold leading-6 text-[#173137]/70">
                   <ShieldCheck className="h-5 w-5 shrink-0 text-[#2f9f91]" />
                   A preferred time, postcode and a few home details help shape the right cleaning request.
@@ -450,7 +513,7 @@ export default function Home() {
                           <label htmlFor="service" className="field-label">Which service feels right?</label>
                           <select id="service" value={service} onChange={(event) => setService(event.target.value)} className="field-control" required>
                             <option value="">Choose a service</option>
-                            {services.map((item) => <option key={item.title} value={item.title}>{item.title}</option>)}
+                            {services.map((item) => <option key={item.title} value={item.title}>{item.title} — {item.price}</option>)}
                             <option value="Tailored / other request">Tailored / other request</option>
                           </select>
                         </div>
