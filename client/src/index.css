@@ -243,6 +243,11 @@ button:disabled { cursor: not-allowed; }
 .booking-success-step { display: flex; min-height: 4.15rem; align-items: center; gap: 0.6rem; border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; background: rgba(255,255,255,0.06); padding: 0.7rem; }
 .booking-success-step span { font-family: "DM Serif Display", Georgia, serif; color: #9ee0d2; font-size: 1.25rem; }
 .booking-success-step p { font-size: 0.7rem; font-weight: 800; line-height: 1.2; color: rgba(255,255,255,0.75); }
+.testimonial-quote { position: relative; border-left: 2px solid #9ee0d2; padding: 0.35rem 0 0.35rem 1.4rem; }
+.testimonial-quote span { position: absolute; top: -1.4rem; left: 1.1rem; font-family: "DM Serif Display", Georgia, serif; font-size: 5.8rem; line-height: 1; color: rgba(158,224,210,0.24); }
+.testimonial-quote p { position: relative; max-width: 530px; font-family: "DM Serif Display", Georgia, serif; font-size: clamp(2rem, 3.4vw, 3.25rem); line-height: 1.03; letter-spacing: -0.045em; color: white; }
+.testimonial-proof-card { position: relative; justify-self: center; width: min(100%, 360px); padding: 0.7rem; border: 1px solid rgba(255,255,255,0.12); border-radius: 30px; background: linear-gradient(145deg, rgba(158,224,210,0.18), rgba(255,255,255,0.05)); }
+.testimonial-proof-glow { position: absolute; top: 9%; right: -10%; width: 72%; height: 35%; border-radius: 999px; background: rgba(47,159,145,0.4); filter: blur(55px); }
 .field-label { display: block; margin: 0 0 0.5rem; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
 .field-control {
   width: 100%;

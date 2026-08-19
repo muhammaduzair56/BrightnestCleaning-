@@ -491,6 +491,26 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-24 text-[#f8f6ef] lg:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center lg:gap-20">
+            <div className="max-w-[610px]">
+              <p className="eyebrow text-[#9ee0d2]">Customer feedback</p>
+              <h2 className="font-display mt-5 text-[46px] leading-[0.97] tracking-[-0.06em] sm:text-[64px]">Care you can see. Relief you can feel.</h2>
+              <blockquote className="testimonial-quote mt-10">
+                <span aria-hidden="true">“</span>
+                <p>It looks amazing, we are beyond grateful!</p>
+              </blockquote>
+              <p className="mt-7 max-w-[520px] text-base leading-7 text-white/65">A real message shared by a BrightNest client after their cleaning visit. The original feedback is shown here with BrightNest branding, while keeping the customer’s words intact.</p>
+              <div className="mt-8 flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]"><span className="grid h-8 w-8 place-items-center rounded-full border border-[#9ee0d2]/35"><Check className="h-4 w-4" /></span> Verified feedback supplied by BrightNest</div>
+            </div>
+            <figure className="testimonial-proof-card">
+              <div className="testimonial-proof-glow" aria-hidden="true" />
+              <img src="/manus-storage/brightnest-client-feedback_2fd077cc.png" alt="BrightNest client feedback showing an authentic customer message after a cleaning visit" className="relative z-10 w-full rounded-[22px] border border-white/15 shadow-[0_26px_70px_rgba(0,0,0,0.36)]" />
+              <figcaption className="relative z-10 mt-4 flex items-center justify-between gap-4 px-1 text-xs font-bold text-white/55"><span>Authentic customer feedback</span><span>Shared after service</span></figcaption>
+            </figure>
+          </div>
+        </section>
+
         <section className="px-5 pb-24 lg:px-10 lg:pb-32">
           <div className="mx-auto grid max-w-[1440px] overflow-hidden rounded-[32px] bg-[#dbece4] lg:grid-cols-[0.95fr_1.05fr] lg:rounded-[42px]">
             <div className="order-2 px-7 py-10 sm:px-10 sm:py-14 lg:order-1 lg:px-16 lg:py-20">
