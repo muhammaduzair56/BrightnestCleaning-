@@ -43,6 +43,16 @@ class BookingCreate(BaseModel):
     def normalize_text(cls, value: str | None) -> str | None:
         return value.strip() if isinstance(value, str) else value
 
+    @field_validator("customer_phone")
+    @classmethod
+    def validate_phone(cls, value: str | None) -> str | None:
+        if value is None:
+            return value
+        digits = "".join(character for character in value if character.isdigit())
+        if not 10 <= len(digits) <= 16:
+            raise ValueError("Enter a valid phone number")
+        return value
+
     @field_validator("service_type")
     @classmethod
     def validate_service(cls, value: str) -> str:

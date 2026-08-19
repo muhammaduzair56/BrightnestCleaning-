@@ -215,6 +215,15 @@ button:disabled { cursor: not-allowed; }
 .booking-step-done { color: rgba(255,255,255,0.78); }
 
 .booking-panel { display: grid; gap: 1.25rem; }
+.field-validation-wrap { position: relative; }
+.field-validation-wrap .field-control { padding-right: 2.9rem; }
+.field-control-error { border-color: #f1c9ad !important; box-shadow: 0 0 0 3px rgba(241,201,173,0.14); }
+.field-control-valid { border-color: #9ee0d2 !important; box-shadow: 0 0 0 3px rgba(158,224,210,0.1); }
+.field-validation-icon { position: absolute; top: 50%; right: 0.9rem; display: grid; width: 1.5rem; height: 1.5rem; place-items: center; border-radius: 999px; transform: translateY(-50%); }
+.field-validation-icon-valid { background: #9ee0d2; color: #173137; }
+.field-validation-message { min-height: 1.25rem; margin-top: 0.42rem; font-size: 0.72rem; line-height: 1.35; color: rgba(255,255,255,0.5); }
+.field-validation-message-error { color: #f1c9ad; font-weight: 700; }
+.field-validation-message-valid { color: #9ee0d2; font-weight: 700; }
 .booking-loading { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; border: 1px solid rgba(158,224,210,0.25); border-radius: 16px; background: rgba(47,159,145,0.16); padding: 0.85rem 1rem; color: white; text-align: left; }
 .booking-loading-orb { display: grid; width: 2rem; height: 2rem; flex: 0 0 auto; place-items: center; border-radius: 999px; background: #9ee0d2; color: #173137; }
 .booking-loading strong, .booking-loading small { display: block; }

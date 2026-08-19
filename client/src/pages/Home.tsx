@@ -160,11 +160,19 @@ export default function Home() {
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [postcode, setPostcode] = useState("");
   const [notes, setNotes] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingReference, setBookingReference] = useState("");
   const minimumDate = new Date().toISOString().slice(0, 10);
+  const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const phoneDigits = phone.replace(/\D/g, "");
+  const phoneIsValid = /^(?:0\d{9,10}|44\d{9,10})$/.test(phoneDigits);
+  const emailError = emailTouched ? (!email.trim() ? "Please enter an email address." : !emailIsValid ? "Enter a valid email address, for example you@example.com." : "") : "";
+  const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
 
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
@@ -180,8 +188,13 @@ export default function Home() {
       return;
     }
 
-    if (step === 2 && (!name.trim() || !email.includes("@") || !postcode.trim())) {
-      setFormError("Please add your name, email and postcode so we can prepare your request.");
+    if (step === 2) {
+      setEmailTouched(true);
+      setPhoneTouched(true);
+    }
+
+    if (step === 2 && (!name.trim() || !emailIsValid || !phoneIsValid || !postcode.trim())) {
+      setFormError("Please check your contact details before continuing.");
       return;
     }
 
@@ -195,6 +208,7 @@ export default function Home() {
       const response = await bookingApi.create({
         customer_name: name.trim(),
         customer_email: email.trim(),
+        customer_phone: phone.trim(),
         postcode: postcode.trim(),
         service_type: service,
         frequency,
@@ -573,7 +587,19 @@ export default function Home() {
                         </div>
                         <div>
                           <label htmlFor="email" className="field-label">Email address</label>
-                          <input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="field-control" required />
+                          <div className="field-validation-wrap">
+                            <input id="email" type="email" inputMode="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} onBlur={() => setEmailTouched(true)} placeholder="you@example.com" className={`field-control ${emailError ? "field-control-error" : emailTouched && emailIsValid ? "field-control-valid" : ""}`} aria-invalid={Boolean(emailError)} aria-describedby="email-help" required />
+                            {emailTouched && emailIsValid && <span className="field-validation-icon field-validation-icon-valid" aria-hidden="true"><Check className="h-3.5 w-3.5" /></span>}
+                          </div>
+                          <p id="email-help" className={`field-validation-message ${emailError ? "field-validation-message-error" : emailTouched && emailIsValid ? "field-validation-message-valid" : ""}`} aria-live="polite">{emailError || (emailTouched && emailIsValid ? "Email address looks good." : "We will only use this to confirm your request.")}</p>
+                        </div>
+                        <div>
+                          <label htmlFor="phone" className="field-label">Phone number</label>
+                          <div className="field-validation-wrap">
+                            <input id="phone" type="tel" inputMode="tel" autoComplete="tel" value={phone} onChange={(event) => setPhone(event.target.value)} onBlur={() => setPhoneTouched(true)} placeholder="e.g. 07123 456789" className={`field-control ${phoneError ? "field-control-error" : phoneTouched && phoneIsValid ? "field-control-valid" : ""}`} aria-invalid={Boolean(phoneError)} aria-describedby="phone-help" required />
+                            {phoneTouched && phoneIsValid && <span className="field-validation-icon field-validation-icon-valid" aria-hidden="true"><Check className="h-3.5 w-3.5" /></span>}
+                          </div>
+                          <p id="phone-help" className={`field-validation-message ${phoneError ? "field-validation-message-error" : phoneTouched && phoneIsValid ? "field-validation-message-valid" : ""}`} aria-live="polite">{phoneError || (phoneTouched && phoneIsValid ? "Phone number looks good." : "Use a UK number beginning 0 or +44.")}</p>
                         </div>
                         <div>
                           <label htmlFor="notes" className="field-label">Anything helpful to know? <span className="normal-case tracking-normal text-white/45">(optional)</span></label>
@@ -592,6 +618,7 @@ export default function Home() {
                             ["Preferred slot", `${date} at ${time}`],
                             ["For", `${name} · ${postcode}`],
                             ["Email", email],
+                            ["Phone", phone],
                           ].map(([label, value]) => (
                             <div key={label} className="flex flex-col gap-1 py-3.5 sm:flex-row sm:items-center sm:justify-between">
                               <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-white/45">{label}</span>

@@ -7,6 +7,7 @@ export type BookingStatus = "new" | "contacted" | "confirmed" | "cancelled" | "c
 export type BookingPayload = {
   customer_name: string;
   customer_email: string;
+  customer_phone: string;
   postcode: string;
   service_type: string;
   frequency: string;
