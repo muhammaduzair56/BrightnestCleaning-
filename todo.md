@@ -27,4 +27,4 @@
 - [x] Add Terms of Service beside Privacy Policy in the website footer.
 - [x] Research and draft the cancellation and refund policy section.
 - [x] Validate frontend, backend, and migration behaviour after the policy update.
-- [ ] Push the completed policy update to GitHub and refresh the complete ZIP archive.
+- [x] Push the completed policy update to GitHub and refresh the complete ZIP archive.
