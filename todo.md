@@ -57,7 +57,7 @@
 - [ ] Resolve the missing Koyeb repository option or switch to a free hosting fallback.
 - [ ] Deploy the FastAPI backend through the Render Free web-service setup instead of Koyeb.
 - [ ] Evaluate Railway as the preferred deployment path for the FastAPI backend.
-- [ ] Add and verify Railway deployment configuration for the FastAPI backend.
+- [x] Add and verify Railway deployment configuration for the FastAPI backend.
 
 ## Current repair findings
 
