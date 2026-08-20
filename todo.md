@@ -51,6 +51,13 @@
 - [x] Fix service-card numbering after 10 and eliminate mobile text overlaps.
 - [x] Verify the new domain deployment and deliver a refreshed source ZIP.
 - [x] Reduce mobile service-card height while keeping all card text readable.
+- [ ] Select a free hosting path for the FastAPI backend instead of Hugging Face Docker Spaces.
+- [x] Verify Koyeb readiness and document exact deployment settings and environment variables.
+- [ ] Guide Koyeb setup away from the example repository to the BrightNest backend repository path.
+- [ ] Resolve the missing Koyeb repository option or switch to a free hosting fallback.
+- [ ] Deploy the FastAPI backend through the Render Free web-service setup instead of Koyeb.
+- [ ] Evaluate Railway as the preferred deployment path for the FastAPI backend.
+- [ ] Add and verify Railway deployment configuration for the FastAPI backend.
 
 ## Current repair findings
 

@@ -30,6 +30,10 @@ Create a new **Docker Space**, then upload or push this `backend/` directory as 
 
 The startup command applies the Alembic migration and creates the first private administrator only when `BOOTSTRAP_ADMIN_EMAIL` and `BOOTSTRAP_ADMIN_PASSWORD` are present. Both operations are idempotent, so safe restarts do not duplicate records.
 
+## Deployment to Railway
+
+Railway can deploy this backend directly from the GitHub repository without Docker. In Railway, select the repository, set **Root Directory** to `backend`, and use the included `railway.json`. The start script detects Railway's `PORT` automatically while preserving port `7860` for the existing Docker workflow. Read [`RAILWAY_DEPLOYMENT.md`](./RAILWAY_DEPLOYMENT.md) for exact secret values, verification steps, and the Vercel API URL update.
+
 ## Required secrets
 
 Read [`SECRETS_AND_DEPLOYMENT.md`](./SECRETS_AND_DEPLOYMENT.md) for the complete variables list, handling rules, and production email requirements. The key set is `DATABASE_URL`, `JWT_SECRET`, `REDIS_URL`, `RESEND_API_KEY`, `ADMIN_NOTIFICATION_EMAIL`, `EMAIL_FROM`, `BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD`, `ALLOWED_ORIGINS`, and `TRUSTED_HOSTS`.
