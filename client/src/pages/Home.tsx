@@ -771,7 +771,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-[1440px] gap-10 border-b border-white/15 pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="brand-mark block h-[54px] w-[54px] rounded-[20px] bg-[#d9f0e8] p-1.5"><img src="/manus-storage/brightnest-logo_f888d03d.png" alt="BrightNest Cleaning mark" className="h-full w-full object-contain" /></span>
+              <span className="brand-mark block h-[54px] w-[54px] rounded-[20px] bg-[#d9f0e8] p-1.5"><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/epmAnxWTqVplpnUt.webp" alt="BrightNest Cleaning mark" className="h-full w-full object-contain" /></span>
               <span className="font-display text-[28px] tracking-[-0.05em]">BrightNest</span>
             </div>
             <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/60">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>

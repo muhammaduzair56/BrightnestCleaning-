@@ -42,5 +42,5 @@
 - [x] Verify the deployed social metadata and push the update to GitHub.
 - [x] Capture and fix the deployed frontend runtime error causing the blank page.
 - [x] Publish and verify the repaired Vercel frontend.
-- [ ] Replace deployed image paths that return 404 on Vercel.
+- [x] Replace deployed image paths that return 404 on Vercel.
 - [ ] Remove horizontal overflow in the mobile layout and verify the corrected deployment.
