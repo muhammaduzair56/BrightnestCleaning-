@@ -50,7 +50,7 @@
 - [x] Create a new social-preview image and update metadata for brightnestcleaning.vercel.app.
 - [x] Fix service-card numbering after 10 and eliminate mobile text overlaps.
 - [x] Verify the new domain deployment and deliver a refreshed source ZIP.
-- [ ] Reduce mobile service-card height while keeping all card text readable.
+- [x] Reduce mobile service-card height while keeping all card text readable.
 
 ## Current repair findings
 
