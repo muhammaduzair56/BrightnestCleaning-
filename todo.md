@@ -63,11 +63,17 @@
 - [x] Replace the native Visit rhythm dropdown with a matching branded picker.
 - [x] Replace the native date and time controls with branded custom booking pickers.
 - [x] Audit and reduce excessive mobile spacing across the homepage.
+- [x] Identify and eliminate the remaining mobile horizontal overflow/right-edge gap.
 
 ## Mobile spacing findings
 
 - The main mobile excess came from desktop-scale section padding, repeated 460–500px media blocks, and service-card minimum heights.
 - Mobile-only spacing now uses tighter 64px section rhythm, shorter media blocks, reduced editorial grid gaps, denser service cards, and a more compact booking, FAQ, CTA, and footer flow while preserving readable controls.
+
+## Mobile overflow findings
+
+- Mobile diagnostics found no individual element wider than the viewport, but the rendered app shell was narrower than the mobile visual viewport on affected browsers.
+- The document root now fills the viewport and clips horizontal paint; the diagnostic reports matching viewport/document widths and no overflow offenders.
 
 ## Current date and time picker validation
 

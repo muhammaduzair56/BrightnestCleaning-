@@ -85,15 +85,17 @@
 * { border-color: var(--border); }
 
 html {
+  width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: #f8f6ef;
   color: #173137;
   font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
@@ -101,7 +103,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-#root { max-width: 100%; overflow-x: clip; }
+#root { width: 100vw; min-width: 100%; max-width: 100vw; overflow-x: clip; }
 
 button, input, select, textarea { font: inherit; }
 button:not(:disabled), a[href], summary { cursor: pointer; }
