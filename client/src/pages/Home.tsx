@@ -124,6 +124,13 @@ const services = [
   },
 ];
 
+const visitRhythms = [
+  { value: "One-off visit", description: "A single clean for the space you need refreshed now." },
+  { value: "Weekly", description: "A regular weekly rhythm for ongoing home care." },
+  { value: "Fortnightly", description: "A considered clean every two weeks." },
+  { value: "Monthly", description: "A monthly reset for a calmer home." },
+];
+
 const faqs = [
   {
     question: "What happens after I submit a booking request?",
@@ -201,6 +208,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingReference, setBookingReference] = useState("");
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
+  const [frequencyPickerOpen, setFrequencyPickerOpen] = useState(false);
   const minimumDate = new Date().toISOString().slice(0, 10);
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const phoneDigits = phone.replace(/\D/g, "");
@@ -208,6 +216,7 @@ export default function Home() {
   const emailError = emailTouched ? (!email.trim() ? "Please enter an email address." : !emailIsValid ? "Enter a valid email address, for example you@example.com." : "") : "";
   const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
   const selectedService = services.find((item) => item.title === service);
+  const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
 
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
@@ -644,13 +653,36 @@ export default function Home() {
                           <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
                         </div>
                         <div>
-                          <label htmlFor="frequency" className="field-label">Visit rhythm</label>
-                          <select id="frequency" value={frequency} onChange={(event) => setFrequency(event.target.value)} className="field-control">
-                            <option>One-off visit</option>
-                            <option>Weekly</option>
-                            <option>Fortnightly</option>
-                            <option>Monthly</option>
-                          </select>
+                          <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
+                          <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
+                            <DrawerTrigger asChild>
+                              <button type="button" className="service-picker-trigger service-picker-selected" aria-labelledby="frequency-picker-label" aria-describedby="frequency-picker-help">
+                                <span className="min-w-0 text-left">
+                                  <span className="block truncate text-sm font-extrabold">{selectedFrequency.value}</span>
+                                  <span className="mt-1 block text-xs font-bold text-white/52">{selectedFrequency.description}</span>
+                                </span>
+                                <ChevronDown className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
+                              </button>
+                            </DrawerTrigger>
+                            <DrawerContent className="service-picker-drawer border-0 bg-[#f8f6ef] text-[#173137]">
+                              <DrawerHeader className="border-b border-[#173137]/10 px-5 pb-4 pt-2 text-left sm:px-7">
+                                <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose visit rhythm</DrawerTitle>
+                                <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Choose the rhythm that works best for your home right now.</DrawerDescription>
+                              </DrawerHeader>
+                              <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
+                                {visitRhythms.map((item) => {
+                                  const selected = frequency === item.value;
+                                  return (
+                                    <button key={item.value} type="button" className={`service-picker-option ${selected ? "service-picker-option-active" : ""}`} onClick={() => { setFrequency(item.value); setFormError(""); setFrequencyPickerOpen(false); }}>
+                                      <span className="min-w-0 text-left"><strong>{item.value}</strong><small>{item.description}</small></span>
+                                      <span className="service-picker-check" aria-hidden="true">{selected && <Check className="h-4 w-4" />}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </DrawerContent>
+                          </Drawer>
+                          <p id="frequency-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">You can start with a one-off clean or request a regular visit rhythm.</p>
                         </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                           <div>

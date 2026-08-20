@@ -60,6 +60,7 @@
 - [x] Add and verify Railway deployment configuration for the FastAPI backend.
 - [x] Review and enhance booking-form loading and successful-submission feedback.
 - [x] Replace the native mobile service dropdown with a branded accessible service picker.
+- [x] Replace the native Visit rhythm dropdown with a matching branded picker.
 
 ## Current booking-picker validation
 
@@ -67,6 +68,8 @@
 - The revised booking layout remains contained at the booking section with the custom trigger, visit rhythm, date, time, and continue controls clearly separated.
 - The custom drawer opens above the booking page with all 15 service choices, concise price labels, and individual selection indicators, replacing the browser-native option sheet.
 - Selecting a service closes the drawer and updates the branded trigger with the chosen service and its starting price.
+- The Visit rhythm control now uses the same branded trigger and opens a custom picker instead of the mobile browser’s native choice sheet.
+- The custom frequency drawer presents one-off, weekly, fortnightly, and monthly choices; choosing Weekly closes the drawer and updates the trigger with its explanatory text.
 
 ## Current repair findings
 
