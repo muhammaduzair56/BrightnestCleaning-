@@ -44,3 +44,5 @@
 - [x] Publish and verify the repaired Vercel frontend.
 - [x] Replace deployed image paths that return 404 on Vercel.
 - [x] Remove horizontal overflow in the mobile layout and verify the corrected deployment.
+- [x] Create a refreshed downloadable ZIP archive of the latest source code.
+- [ ] Diagnose and fix the Open Graph preview image on the live website.
