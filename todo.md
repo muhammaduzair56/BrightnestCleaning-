@@ -58,6 +58,7 @@
 - [ ] Deploy the FastAPI backend through the Render Free web-service setup instead of Koyeb.
 - [ ] Evaluate Railway as the preferred deployment path for the FastAPI backend.
 - [x] Add and verify Railway deployment configuration for the FastAPI backend.
+- [x] Review and enhance booking-form loading and successful-submission feedback.
 
 ## Current repair findings
 
