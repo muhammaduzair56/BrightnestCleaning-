@@ -49,7 +49,8 @@
 - [x] Create and deliver a refreshed source-code ZIP after the Open Graph update.
 - [x] Create a new social-preview image and update metadata for brightnestcleaning.vercel.app.
 - [x] Fix service-card numbering after 10 and eliminate mobile text overlaps.
-- [ ] Verify the new domain deployment and deliver a refreshed source ZIP.
+- [x] Verify the new domain deployment and deliver a refreshed source ZIP.
+- [ ] Reduce mobile service-card height while keeping all card text readable.
 
 ## Current repair findings
 

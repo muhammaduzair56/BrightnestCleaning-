@@ -280,7 +280,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 @media (max-width: 520px) {
   .booking-step { padding: 0.55rem 0.4rem; gap: 0.35rem; }
   .booking-step small { font-size: 0.57rem; }
-  .service-card-content { padding-top: 2rem; }
+  .service-card-content { padding-top: 0; }
   .service-card-content h3 { font-size: 1.82rem; }
   .service-card-content button { align-items: flex-start; line-height: 1.45; text-align: left; }
 }

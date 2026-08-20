@@ -436,14 +436,14 @@ export default function Home() {
 
             <div className="mt-14 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {services.map((item, index) => (
-                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[348px] flex-col overflow-hidden p-6 sm:min-h-[320px] sm:p-7`}>
+                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[260px] flex-col overflow-hidden p-5 sm:min-h-[320px] sm:p-7`}>
                   <div className="flex shrink-0 items-start justify-between">
                     <span className="service-number">{String(index + 1).padStart(2, "0")}</span>
                     <span className="grid h-10 w-10 place-items-center rounded-full border border-current/20 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110">
                       <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
-                  <div className="service-card-content mt-auto min-w-0 pt-8 sm:pt-9">
+                  <div className="service-card-content mt-6 min-w-0 sm:mt-auto sm:pt-9">
                     <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] opacity-65">{item.eyebrow}</p>
                     <h3 className="font-display mt-2 text-[31px] leading-[0.98] tracking-[-0.045em]">{item.title}</h3>
                     <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-[#2f9f91]">{item.price}</p>
