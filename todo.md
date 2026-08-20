@@ -61,6 +61,15 @@
 - [x] Review and enhance booking-form loading and successful-submission feedback.
 - [x] Replace the native mobile service dropdown with a branded accessible service picker.
 - [x] Replace the native Visit rhythm dropdown with a matching branded picker.
+- [x] Replace the native date and time controls with branded custom booking pickers.
+
+## Current date and time picker validation
+
+- The booking flow now presents branded Preferred date and Preferred time triggers instead of browser-native date and time controls.
+- The Preferred date trigger opens the BrightNest calendar drawer for future-date selection.
+- Selecting a future calendar date closes the drawer and updates the trigger with a readable date label.
+- The Preferred time drawer presents clear 8:00 am–5:00 pm daytime slots with concise time-of-day guidance.
+- Selecting a time slot closes the drawer and updates the trigger with the chosen time and timing context.
 
 ## Current booking-picker validation
 

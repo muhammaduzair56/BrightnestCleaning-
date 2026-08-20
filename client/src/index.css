@@ -243,6 +243,11 @@ button:disabled { cursor: not-allowed; }
 .service-picker-check { display: grid; width: 1.75rem; height: 1.75rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(23,49,55,0.2); border-radius: 999px; color: #173137; }
 .service-picker-option-active { background: #d9f0e8; }
 .service-picker-option-active .service-picker-check { border-color: #2f9f91; background: #2f9f91; color: white; }
+.booking-date-calendar { width: min(100%, 23rem); border-radius: 20px; background: #edf3ed !important; padding: 0.85rem !important; color: #173137; }
+.booking-date-calendar .rdp-caption_label { color: #173137; font-family: "DM Serif Display", Georgia, serif; font-size: 1.12rem; letter-spacing: -0.03em; }
+.booking-date-calendar .rdp-weekday { color: rgba(23,49,55,0.52); font-size: 0.67rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.booking-date-calendar .rdp-day_button { border-radius: 10px; color: #173137; font-weight: 800; }
+.booking-date-calendar .rdp-day_button:hover { background: #d9f0e8; }
 .field-validation-wrap { position: relative; }
 .field-validation-wrap .field-control { padding-right: 2.9rem; }
 .field-control-error { border-color: #f1c9ad !important; box-shadow: 0 0 0 3px rgba(241,201,173,0.14); }

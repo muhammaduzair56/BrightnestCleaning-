@@ -18,6 +18,7 @@ import {
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { ApiError, bookingApi } from "@/lib/api";
+import { Calendar } from "@/components/ui/calendar";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
 
@@ -131,6 +132,19 @@ const visitRhythms = [
   { value: "Monthly", description: "A monthly reset for a calmer home." },
 ];
 
+const timeSlots = [
+  { value: "08:00", label: "8:00 am", description: "Early morning" },
+  { value: "09:00", label: "9:00 am", description: "Morning" },
+  { value: "10:00", label: "10:00 am", description: "Morning" },
+  { value: "11:00", label: "11:00 am", description: "Late morning" },
+  { value: "12:00", label: "12:00 pm", description: "Midday" },
+  { value: "13:00", label: "1:00 pm", description: "Early afternoon" },
+  { value: "14:00", label: "2:00 pm", description: "Afternoon" },
+  { value: "15:00", label: "3:00 pm", description: "Afternoon" },
+  { value: "16:00", label: "4:00 pm", description: "Late afternoon" },
+  { value: "17:00", label: "5:00 pm", description: "Evening" },
+];
+
 const faqs = [
   {
     question: "What happens after I submit a booking request?",
@@ -187,6 +201,18 @@ function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function toDateKey(value: Date) {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, "0");
+  const day = String(value.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function formatBookingDate(value: string) {
+  if (!value) return "Choose your preferred date";
+  return new Date(`${value}T12:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "long" });
+}
+
 export default function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [step, setStep] = useState<BookingStep>(1);
@@ -209,7 +235,10 @@ export default function Home() {
   const [bookingReference, setBookingReference] = useState("");
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const [frequencyPickerOpen, setFrequencyPickerOpen] = useState(false);
-  const minimumDate = new Date().toISOString().slice(0, 10);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [timePickerOpen, setTimePickerOpen] = useState(false);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const phoneDigits = phone.replace(/\D/g, "");
   const phoneIsValid = /^(?:0\d{9,10}|44\d{9,10})$/.test(phoneDigits);
@@ -217,6 +246,8 @@ export default function Home() {
   const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
   const selectedService = services.find((item) => item.title === service);
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
+  const selectedTime = timeSlots.find((item) => item.value === time);
+  const selectedDate = date ? new Date(`${date}T12:00:00`) : undefined;
 
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
@@ -686,12 +717,60 @@ export default function Home() {
                         </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                           <div>
-                            <label htmlFor="date" className="field-label">Preferred date</label>
-                            <input id="date" type="date" min={minimumDate} value={date} onChange={(event) => setDate(event.target.value)} className="field-control" required />
+                            <label id="date-picker-label" className="field-label">Preferred date</label>
+                            <Drawer open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                              <DrawerTrigger asChild>
+                                <button type="button" className={`service-picker-trigger ${date ? "service-picker-selected" : ""}`} aria-labelledby="date-picker-label" aria-describedby="date-picker-help">
+                                  <span className="min-w-0 text-left">
+                                    <span className="block truncate text-sm font-extrabold">{formatBookingDate(date)}</span>
+                                    <span className="mt-1 block text-xs font-bold text-white/52">{date ? "Preferred visit date" : "Select an available future date"}</span>
+                                  </span>
+                                  <CalendarDays className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
+                                </button>
+                              </DrawerTrigger>
+                              <DrawerContent className="service-picker-drawer border-0 bg-[#f8f6ef] text-[#173137]">
+                                <DrawerHeader className="border-b border-[#173137]/10 px-5 pb-4 pt-2 text-left sm:px-7">
+                                  <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred date</DrawerTitle>
+                                  <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Choose a future date that suits your home and schedule.</DrawerDescription>
+                                </DrawerHeader>
+                                <div className="flex justify-center px-4 py-3 sm:px-6">
+                                  <Calendar mode="single" selected={selectedDate} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
+                                </div>
+                              </DrawerContent>
+                            </Drawer>
+                            <p id="date-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Past dates are unavailable.</p>
                           </div>
                           <div>
-                            <label htmlFor="time" className="field-label">Preferred time</label>
-                            <input id="time" type="time" value={time} onChange={(event) => setTime(event.target.value)} className="field-control" required />
+                            <label id="time-picker-label" className="field-label">Preferred time</label>
+                            <Drawer open={timePickerOpen} onOpenChange={setTimePickerOpen}>
+                              <DrawerTrigger asChild>
+                                <button type="button" className={`service-picker-trigger ${time ? "service-picker-selected" : ""}`} aria-labelledby="time-picker-label" aria-describedby="time-picker-help">
+                                  <span className="min-w-0 text-left">
+                                    <span className="block truncate text-sm font-extrabold">{selectedTime?.label || "Choose preferred time"}</span>
+                                    <span className="mt-1 block text-xs font-bold text-white/52">{selectedTime?.description || "Select from our daytime time slots"}</span>
+                                  </span>
+                                  <Clock3 className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
+                                </button>
+                              </DrawerTrigger>
+                              <DrawerContent className="service-picker-drawer border-0 bg-[#f8f6ef] text-[#173137]">
+                                <DrawerHeader className="border-b border-[#173137]/10 px-5 pb-4 pt-2 text-left sm:px-7">
+                                  <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred time</DrawerTitle>
+                                  <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">We will confirm availability with you before the visit is booked.</DrawerDescription>
+                                </DrawerHeader>
+                                <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
+                                  {timeSlots.map((item) => {
+                                    const selected = time === item.value;
+                                    return (
+                                      <button key={item.value} type="button" className={`service-picker-option ${selected ? "service-picker-option-active" : ""}`} onClick={() => { setTime(item.value); setFormError(""); setTimePickerOpen(false); }}>
+                                        <span className="min-w-0 text-left"><strong>{item.label}</strong><small>{item.description}</small></span>
+                                        <span className="service-picker-check" aria-hidden="true">{selected && <Check className="h-4 w-4" />}</span>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </DrawerContent>
+                            </Drawer>
+                            <p id="time-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">The team will confirm the final arrival time with you.</p>
                           </div>
                         </div>
                       </div>
