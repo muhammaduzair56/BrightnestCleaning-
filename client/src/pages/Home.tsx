@@ -402,15 +402,15 @@ export default function Home() {
       </header>
 
       <main id="top">
-        <section className="relative isolate overflow-hidden px-5 pb-16 pt-7 lg:px-10 lg:pb-24 lg:pt-10">
+        <section className="relative isolate overflow-hidden px-5 pb-10 pt-5 sm:pb-16 sm:pt-7 lg:px-10 lg:pb-24 lg:pt-10">
           <div className="hero-grain absolute inset-0 -z-10" />
-          <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(470px,1.04fr)] lg:items-stretch">
-            <div className="flex min-h-[500px] flex-col justify-between rounded-[32px] border border-[#173137]/10 bg-[#edf3ed] p-7 sm:p-10 lg:min-h-[640px] lg:rounded-[42px] lg:p-14">
+          <div className="mx-auto grid max-w-[1440px] gap-5 sm:gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(470px,1.04fr)] lg:items-stretch">
+            <div className="flex min-h-[430px] flex-col justify-between rounded-[28px] border border-[#173137]/10 bg-[#edf3ed] p-6 sm:min-h-[500px] sm:rounded-[32px] sm:p-10 lg:min-h-[640px] lg:rounded-[42px] lg:p-14">
               <div className="flex items-center gap-3 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2f9f91] sm:text-xs">
                 <span className="nestline" aria-hidden="true" />
                 <span>Clean homes. Healthier spaces. Happier lives.</span>
               </div>
-              <div className="max-w-[660px] py-10 lg:py-16">
+              <div className="max-w-[660px] py-7 sm:py-10 lg:py-16">
                 <h1 className="font-display max-w-[620px] text-[50px] leading-[0.93] tracking-[-0.065em] text-[#173137] sm:text-[68px] xl:text-[86px]">
                   Make room for <em className="font-normal text-[#2f9f91]">what matters.</em>
                 </h1>
@@ -418,7 +418,7 @@ export default function Home() {
                   Thoughtful domestic and specialist cleaning that brings a calm, cared-for feeling back to your home.
                 </p>
               </div>
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-7">
                 <button className="btn-primary justify-center sm:justify-start" onClick={() => bookService()}>
                   Plan your clean <ArrowRight className="h-4 w-4" />
                 </button>
@@ -434,11 +434,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative min-h-[480px] overflow-hidden rounded-[32px] bg-[#d8e9df] lg:min-h-[640px] lg:rounded-[42px]">
+            <div className="relative min-h-[340px] overflow-hidden rounded-[28px] bg-[#d8e9df] sm:min-h-[480px] sm:rounded-[32px] lg:min-h-[640px] lg:rounded-[42px]">
               <img
                 src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/RXLTTcAvxXHzkGtC.webp"
                 alt="A BrightNest cleaner carefully preparing a living room"
-                className="h-full min-h-[480px] w-full object-cover object-[72%_center] lg:min-h-[640px]"
+                className="h-full min-h-[340px] w-full object-cover object-[72%_center] sm:min-h-[480px] lg:min-h-[640px]"
                 fetchPriority="high"
               />
               <div className="absolute inset-x-5 top-5 flex items-start justify-between sm:inset-x-7 sm:top-7">
@@ -465,9 +465,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="services" className="scroll-mt-24 px-5 py-24 lg:px-10 lg:py-32">
+        <section id="services" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
           <div className="mx-auto max-w-[1440px]">
-            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <div className="grid gap-6 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
               <div>
                 <p className="eyebrow">A better kind of reset</p>
                 <h2 className="font-display mt-5 max-w-[510px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[58px]">A clean that fits the way you live.</h2>
@@ -477,16 +477,16 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-14 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-9 grid gap-3 sm:mt-14 sm:grid-cols-2 xl:grid-cols-3">
               {services.map((item, index) => (
-                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[260px] flex-col overflow-hidden p-5 sm:min-h-[320px] sm:p-7`}>
+                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[228px] flex-col overflow-hidden p-4 sm:min-h-[320px] sm:p-7`}>
                   <div className="flex shrink-0 items-start justify-between">
                     <span className="service-number">{String(index + 1).padStart(2, "0")}</span>
                     <span className="grid h-10 w-10 place-items-center rounded-full border border-current/20 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110">
                       <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
-                  <div className="service-card-content mt-6 min-w-0 sm:mt-auto sm:pt-9">
+                  <div className="service-card-content mt-4 min-w-0 sm:mt-auto sm:pt-9">
                     <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] opacity-65">{item.eyebrow}</p>
                     <h3 className="font-display mt-2 text-[31px] leading-[0.98] tracking-[-0.045em]">{item.title}</h3>
                     <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-[#2f9f91]">{item.price}</p>
@@ -501,12 +501,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-24 bg-[#173137] px-5 py-24 text-[#f8f6ef] lg:px-10 lg:py-32">
-          <div className="mx-auto grid max-w-[1440px] gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+        <section id="how-it-works" className="scroll-mt-24 bg-[#173137] px-5 py-16 text-[#f8f6ef] sm:py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-[1440px] gap-8 sm:gap-14 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <p className="eyebrow text-[#9ee0d2]">Simple by design</p>
               <h2 className="font-display mt-5 max-w-[490px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[60px]">Your clean, in three considered steps.</h2>
-              <button className="btn-light mt-9" onClick={() => bookService()}>
+              <button className="btn-light mt-7 sm:mt-9" onClick={() => bookService()}>
                 Start a request <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -516,7 +516,7 @@ export default function Home() {
                 ["02", "Share a few useful details", "Add your contact information and postcode so your request has the context it needs."],
                 ["03", "Confirm with clarity", "Review the plan in one place, then BrightNest can confirm the final service scope and preferred visit with you."],
               ].map(([number, title, description]) => (
-                <div key={number} className="grid gap-4 py-7 sm:grid-cols-[62px_1fr] sm:gap-8 sm:py-9">
+                <div key={number} className="grid gap-3 py-5 sm:grid-cols-[62px_1fr] sm:gap-8 sm:py-9">
                   <span className="font-display text-2xl text-[#9ee0d2]">{number}</span>
                   <div>
                     <h3 className="text-xl font-extrabold tracking-[-0.03em] sm:text-2xl">{title}</h3>
@@ -528,12 +528,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="difference" className="scroll-mt-24 px-5 py-24 lg:px-10 lg:py-32">
-          <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[0.95fr_0.7fr_0.82fr] lg:items-stretch">
-            <div className="rounded-[30px] bg-[#e7ede7] p-7 sm:p-10 lg:rounded-[38px]">
+        <section id="difference" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-[1440px] gap-5 sm:gap-8 lg:grid-cols-[0.95fr_0.7fr_0.82fr] lg:items-stretch">
+            <div className="rounded-[26px] bg-[#e7ede7] p-6 sm:rounded-[30px] sm:p-10 lg:rounded-[38px]">
               <p className="eyebrow">The BrightNest approach</p>
               <h2 className="font-display mt-5 max-w-[470px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[56px]">Care you can feel in the small things.</h2>
-              <div className="mt-10 grid gap-5">
+              <div className="mt-7 grid gap-4 sm:mt-10 sm:gap-5">
                 {[
                   "A clear journey from service selection to booking request.",
                   "Thoughtful domestic and specialist cleaning options in one place.",
@@ -546,13 +546,13 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <figure className="relative min-h-[460px] overflow-hidden rounded-[30px] bg-[#d7e2d9] lg:rounded-[38px]">
+            <figure className="relative min-h-[300px] overflow-hidden rounded-[26px] bg-[#d7e2d9] sm:min-h-[460px] sm:rounded-[30px] lg:rounded-[38px]">
               <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pGjWztItugFawuDC.webp" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
               <figcaption className="absolute bottom-5 left-5 right-5 rounded-[19px] bg-[#173137]/88 p-4 text-sm font-bold leading-5 text-white backdrop-blur-md">
                 Detail matters — especially in the spaces that hold your day together.
               </figcaption>
             </figure>
-            <div className="flex min-h-[460px] flex-col justify-between rounded-[30px] bg-[#f1c9ad] p-7 text-[#173137] sm:p-9 lg:rounded-[38px]">
+            <div className="flex min-h-[300px] flex-col justify-between rounded-[26px] bg-[#f1c9ad] p-6 text-[#173137] sm:min-h-[460px] sm:rounded-[30px] sm:p-9 lg:rounded-[38px]">
               <span className="grid h-12 w-12 place-items-center rounded-full bg-[#173137] text-[#f8f6ef]"><Clock3 className="h-5 w-5" /></span>
               <div>
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#173137]/65">Designed around you</p>
@@ -565,12 +565,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-24 text-[#f8f6ef] lg:px-10 lg:py-32">
-          <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center lg:gap-20">
+        <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-16 text-[#f8f6ef] sm:py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-[1440px] gap-7 sm:gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center lg:gap-20">
             <div className="max-w-[610px]">
               <p className="eyebrow text-[#9ee0d2]">Customer feedback</p>
               <h2 className="font-display mt-5 text-[46px] leading-[0.97] tracking-[-0.06em] sm:text-[64px]">Care you can see. Relief you can feel.</h2>
-              <blockquote className="testimonial-quote mt-10">
+              <blockquote className="testimonial-quote mt-7 sm:mt-10">
                 <span aria-hidden="true">“</span>
                 <p>It looks amazing, we are beyond grateful!</p>
               </blockquote>
@@ -585,35 +585,35 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-5 pb-24 lg:px-10 lg:pb-32">
+        <section className="px-5 pb-16 sm:pb-24 lg:px-10 lg:pb-32">
           <div className="mx-auto grid max-w-[1440px] overflow-hidden rounded-[32px] bg-[#dbece4] lg:grid-cols-[0.95fr_1.05fr] lg:rounded-[42px]">
-            <div className="order-2 px-7 py-10 sm:px-10 sm:py-14 lg:order-1 lg:px-16 lg:py-20">
+            <div className="order-2 px-6 py-7 sm:px-10 sm:py-14 lg:order-1 lg:px-16 lg:py-20">
               <p className="eyebrow">Guest-ready details</p>
               <h2 className="font-display mt-5 max-w-[510px] text-[42px] leading-[0.98] tracking-[-0.055em] sm:text-[58px]">For homes that welcome people in.</h2>
               <p className="mt-6 max-w-[540px] text-base leading-7 text-[#173137]/70">Add the details that make the difference for move-out, short-let and special-occasion cleans.</p>
-              <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-3 sm:mt-9 sm:gap-x-6 sm:gap-y-4">
                 {["Linen change", "Fridge interior", "Oven detail", "Cupboard interiors", "Carpet care", "After-builders reset"].map((item) => (
                   <span key={item} className="flex items-center gap-2 text-sm font-extrabold"><Sparkles className="h-4 w-4 text-[#2f9f91]" /> {item}</span>
                 ))}
               </div>
-              <button className="btn-primary mt-10" onClick={() => bookService("Airbnb turnovers")}>
+              <button className="btn-primary mt-7 sm:mt-10" onClick={() => bookService("Airbnb turnovers")}>
                 Plan a guest-ready clean <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-            <div className="order-1 min-h-[380px] lg:order-2 lg:min-h-full">
-              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/EAtTQFMEJYeEyRwQ.webp" alt="A fresh guest-ready apartment bedroom" className="h-full min-h-[380px] w-full object-cover" loading="lazy" />
+            <div className="order-1 min-h-[260px] sm:min-h-[380px] lg:order-2 lg:min-h-full">
+              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/EAtTQFMEJYeEyRwQ.webp" alt="A fresh guest-ready apartment bedroom" className="h-full min-h-[260px] w-full object-cover sm:min-h-[380px]" loading="lazy" />
             </div>
           </div>
         </section>
 
-        <section id="booking" className="scroll-mt-24 bg-[#f2efe4] px-5 py-24 lg:px-10 lg:py-32">
+        <section id="booking" className="scroll-mt-24 bg-[#f2efe4] px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
           <div className="mx-auto max-w-[1440px]">
-            <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
+            <div className="grid gap-7 sm:gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
               <div className="lg:pt-6">
                 <p className="eyebrow">Booking request</p>
                 <h2 className="font-display mt-5 max-w-[490px] text-[45px] leading-[0.96] tracking-[-0.06em] sm:text-[63px]">A few details, then a cleaner plan.</h2>
                 <p className="mt-7 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. Starting rates are shown in the service guide; specialist requests are quoted around your space and scope.</p>
-                <div className="mt-10 flex gap-4 border-t border-[#173137]/15 pt-6 text-sm font-bold leading-6 text-[#173137]/70">
+                <div className="mt-7 flex gap-4 border-t border-[#173137]/15 pt-5 text-sm font-bold leading-6 text-[#173137]/70 sm:mt-10 sm:pt-6">
                   <ShieldCheck className="h-5 w-5 shrink-0 text-[#2f9f91]" />
                   A preferred time, postcode and a few home details help shape the right cleaning request.
                 </div>
@@ -623,7 +623,7 @@ export default function Home() {
                 {!submitted ? (
                   <form onSubmit={advanceBooking} aria-busy={isSubmitting}>
                     <fieldset className="booking-fieldset" disabled={isSubmitting}>
-                    <div className="mb-9 grid grid-cols-3 gap-2 sm:gap-4">
+                    <div className="mb-6 grid grid-cols-3 gap-2 sm:mb-9 sm:gap-4">
                       {[
                         [1, "Service & visit"],
                         [2, "Your details"],
@@ -859,7 +859,7 @@ export default function Home() {
                     </div>
                   </form>
                 ) : (
-                  <div className="booking-success flex min-h-[500px] flex-col items-center justify-center px-3 text-center sm:px-10" role="status" aria-live="polite">
+                  <div className="booking-success flex min-h-[420px] flex-col items-center justify-center px-3 text-center sm:min-h-[500px] sm:px-10" role="status" aria-live="polite">
                     <div className="booking-success-seal"><span className="booking-success-orbit booking-success-orbit-one" /><span className="booking-success-orbit booking-success-orbit-two" /><span className="relative z-10 grid h-16 w-16 place-items-center rounded-full bg-[#2f9f91] text-white shadow-lg shadow-[#2f9f91]/30"><Check className="h-7 w-7" /></span></div>
                     <p className="eyebrow mt-9 text-[#9ee0d2]">Request received</p>
                     <h3 className="font-display mt-4 max-w-[480px] text-[46px] leading-[0.96] tracking-[-0.055em] sm:text-[58px]">Your clean is now in the right hands.</h3>
@@ -882,8 +882,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="faqs" className="scroll-mt-24 px-5 py-24 lg:px-10 lg:py-32">
-          <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
+        <section id="faqs" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto grid max-w-[1440px] gap-7 sm:gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
             <div>
               <p className="eyebrow">Helpful answers</p>
               <h2 className="font-display mt-5 max-w-[440px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[57px]">A little more clarity, before you book.</h2>
@@ -903,8 +903,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-5 pb-16 lg:px-10 lg:pb-20">
-          <div className="mx-auto max-w-[1440px] rounded-[30px] bg-[#2f9f91] px-7 py-12 text-white sm:px-10 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10 lg:rounded-[40px] lg:px-16 lg:py-16">
+        <section className="px-5 pb-10 sm:pb-16 lg:px-10 lg:pb-20">
+          <div className="mx-auto max-w-[1440px] rounded-[26px] bg-[#2f9f91] px-6 py-9 text-white sm:rounded-[30px] sm:px-10 sm:py-12 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10 lg:rounded-[40px] lg:px-16 lg:py-16">
             <div>
               <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-white/70">A fresh start is close</p>
               <h2 className="font-display mt-4 max-w-[670px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[60px]">Your home already has the potential. Let’s uncover it.</h2>
@@ -916,8 +916,8 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-[#173137] px-5 pb-8 pt-14 text-[#f8f6ef] lg:px-10 lg:pt-18">
-        <div className="mx-auto grid max-w-[1440px] gap-10 border-b border-white/15 pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
+      <footer className="bg-[#173137] px-5 pb-7 pt-10 text-[#f8f6ef] sm:pt-14 lg:px-10 lg:pt-18">
+        <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
             <div className="flex items-center gap-3">
               <span className="brand-mark block h-[54px] w-[54px] rounded-[20px] bg-[#d9f0e8] p-1.5"><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/epmAnxWTqVplpnUt.webp" alt="BrightNest Cleaning mark" className="h-full w-full object-contain" /></span>

@@ -62,6 +62,12 @@
 - [x] Replace the native mobile service dropdown with a branded accessible service picker.
 - [x] Replace the native Visit rhythm dropdown with a matching branded picker.
 - [x] Replace the native date and time controls with branded custom booking pickers.
+- [x] Audit and reduce excessive mobile spacing across the homepage.
+
+## Mobile spacing findings
+
+- The main mobile excess came from desktop-scale section padding, repeated 460–500px media blocks, and service-card minimum heights.
+- Mobile-only spacing now uses tighter 64px section rhythm, shorter media blocks, reduced editorial grid gaps, denser service cards, and a more compact booking, FAQ, CTA, and footer flow while preserving readable controls.
 
 ## Current date and time picker validation
 
