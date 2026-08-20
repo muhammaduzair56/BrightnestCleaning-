@@ -46,3 +46,12 @@
 - [x] Remove horizontal overflow in the mobile layout and verify the corrected deployment.
 - [x] Create a refreshed downloadable ZIP archive of the latest source code.
 - [x] Diagnose and fix the Open Graph preview image on the live website.
+- [x] Create and deliver a refreshed source-code ZIP after the Open Graph update.
+- [ ] Create a new social-preview image and update metadata for brightnestcleaning.vercel.app.
+- [ ] Fix service-card numbering after 10 and eliminate mobile text overlaps.
+- [ ] Verify the new domain deployment and deliver a refreshed source ZIP.
+
+## Current repair findings
+
+- `brightnestcleaning.vercel.app` was still publishing canonical and social-preview URLs for the old `brightnest-cleaning-ashy.vercel.app` domain.
+- A new BrightNest social card has been created, reviewed, and packaged as a first-party 1200×630 JPEG for the new domain.

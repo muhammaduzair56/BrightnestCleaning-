@@ -183,6 +183,7 @@ button:disabled { cursor: not-allowed; }
 .service-card {
   border-radius: 26px;
   isolation: isolate;
+  min-width: 0;
   transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .service-card::after {
@@ -205,6 +206,8 @@ button:disabled { cursor: not-allowed; }
 .service-sage { background: #e6efea; color: #173137; }
 .service-linen { background: #f8f6ef; color: #173137; }
 .service-number { font-family: "DM Serif Display", Georgia, serif; font-size: 1.5rem; letter-spacing: -0.06em; opacity: 0.58; }
+.service-card-content { min-width: 0; }
+.service-card-content h3 { overflow-wrap: anywhere; }
 
 .booking-step {
   display: flex;
@@ -277,6 +280,9 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 @media (max-width: 520px) {
   .booking-step { padding: 0.55rem 0.4rem; gap: 0.35rem; }
   .booking-step small { font-size: 0.57rem; }
+  .service-card-content { padding-top: 2rem; }
+  .service-card-content h3 { font-size: 1.82rem; }
+  .service-card-content button { align-items: flex-start; line-height: 1.45; text-align: left; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
