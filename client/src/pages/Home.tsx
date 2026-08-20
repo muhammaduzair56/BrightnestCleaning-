@@ -18,6 +18,7 @@ import {
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { ApiError, bookingApi } from "@/lib/api";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
 
 type BookingStep = 1 | 2 | 3;
@@ -199,12 +200,14 @@ export default function Home() {
   const [privacyTouched, setPrivacyTouched] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingReference, setBookingReference] = useState("");
+  const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const minimumDate = new Date().toISOString().slice(0, 10);
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const phoneDigits = phone.replace(/\D/g, "");
   const phoneIsValid = /^(?:0\d{9,10}|44\d{9,10})$/.test(phoneDigits);
   const emailError = emailTouched ? (!email.trim() ? "Please enter an email address." : !emailIsValid ? "Enter a valid email address, for example you@example.com." : "") : "";
   const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
+  const selectedService = services.find((item) => item.title === service);
 
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
@@ -605,12 +608,40 @@ export default function Home() {
                     {step === 1 && (
                       <div className="booking-panel">
                         <div>
-                          <label htmlFor="service" className="field-label">Which service feels right?</label>
-                          <select id="service" value={service} onChange={(event) => setService(event.target.value)} className="field-control" required>
-                            <option value="">Choose a service</option>
-                            {services.map((item) => <option key={item.title} value={item.title}>{item.title} — {item.price}</option>)}
-                            <option value="Tailored / other request">Tailored / other request</option>
-                          </select>
+                          <label id="service-picker-label" className="field-label">Which service feels right?</label>
+                          <Drawer open={servicePickerOpen} onOpenChange={setServicePickerOpen}>
+                            <DrawerTrigger asChild>
+                              <button type="button" className={`service-picker-trigger ${service ? "service-picker-selected" : ""}`} aria-labelledby="service-picker-label" aria-describedby="service-picker-help">
+                                <span className="min-w-0 text-left">
+                                  <span className="block truncate text-sm font-extrabold">{service || "Choose your cleaning service"}</span>
+                                  <span className="mt-1 block text-xs font-bold text-white/52">{selectedService?.price || (service ? "Tailored quote available" : "See clear rates and quote-based options")}</span>
+                                </span>
+                                <ChevronDown className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
+                              </button>
+                            </DrawerTrigger>
+                            <DrawerContent className="service-picker-drawer border-0 bg-[#f8f6ef] text-[#173137]">
+                              <DrawerHeader className="border-b border-[#173137]/10 px-5 pb-4 pt-2 text-left sm:px-7">
+                                <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose your service</DrawerTitle>
+                                <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Select the closest match. Specialist services receive a tailored quote.</DrawerDescription>
+                              </DrawerHeader>
+                              <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
+                                {services.map((item) => {
+                                  const selected = service === item.title;
+                                  return (
+                                    <button key={item.title} type="button" className={`service-picker-option ${selected ? "service-picker-option-active" : ""}`} onClick={() => { setService(item.title); setFormError(""); setServicePickerOpen(false); }}>
+                                      <span className="min-w-0 text-left"><strong>{item.title}</strong><small>{item.price}</small></span>
+                                      <span className="service-picker-check" aria-hidden="true">{selected && <Check className="h-4 w-4" />}</span>
+                                    </button>
+                                  );
+                                })}
+                                <button type="button" className={`service-picker-option ${service === "Tailored / other request" ? "service-picker-option-active" : ""}`} onClick={() => { setService("Tailored / other request"); setFormError(""); setServicePickerOpen(false); }}>
+                                  <span className="min-w-0 text-left"><strong>Tailored / other request</strong><small>Tell us what you need</small></span>
+                                  <span className="service-picker-check" aria-hidden="true">{service === "Tailored / other request" && <Check className="h-4 w-4" />}</span>
+                                </button>
+                              </div>
+                            </DrawerContent>
+                          </Drawer>
+                          <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
                         </div>
                         <div>
                           <label htmlFor="frequency" className="field-label">Visit rhythm</label>

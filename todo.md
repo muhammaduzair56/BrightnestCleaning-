@@ -59,6 +59,14 @@
 - [ ] Evaluate Railway as the preferred deployment path for the FastAPI backend.
 - [x] Add and verify Railway deployment configuration for the FastAPI backend.
 - [x] Review and enhance booking-form loading and successful-submission feedback.
+- [x] Replace the native mobile service dropdown with a branded accessible service picker.
+
+## Current booking-picker validation
+
+- The live local booking form now exposes a single branded service-picker trigger with clear rate guidance; the old native service `<select>` is no longer present.
+- The revised booking layout remains contained at the booking section with the custom trigger, visit rhythm, date, time, and continue controls clearly separated.
+- The custom drawer opens above the booking page with all 15 service choices, concise price labels, and individual selection indicators, replacing the browser-native option sheet.
+- Selecting a service closes the drawer and updates the branded trigger with the chosen service and its starting price.
 
 ## Current repair findings
 

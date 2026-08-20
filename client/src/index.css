@@ -228,6 +228,21 @@ button:disabled { cursor: not-allowed; }
 .booking-panel { display: grid; gap: 1.25rem; }
 .booking-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
 .booking-fieldset:disabled { opacity: 0.72; }
+.service-picker-trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 0.85rem; border: 1px solid rgba(255,255,255,0.16); border-radius: 15px; background: rgba(255,255,255,0.08); padding: 0.82rem 0.9rem; color: white; transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+.service-picker-trigger:hover, .service-picker-trigger:focus-visible { border-color: #9ee0d2; background: rgba(255,255,255,0.12); outline: none; }
+.service-picker-trigger:active { transform: scale(0.99); }
+.service-picker-selected { border-color: rgba(158,224,210,0.62); background: rgba(47,159,145,0.19); }
+.service-picker-drawer { border-radius: 28px 28px 0 0 !important; box-shadow: 0 -18px 55px rgba(23,49,55,0.24); }
+.service-picker-list { scrollbar-color: #9ee0d2 transparent; }
+.service-picker-option { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid rgba(23,49,55,0.1); padding: 0.95rem 0.7rem; color: #173137; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), padding 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.service-picker-option:first-child { border-top: 1px solid rgba(23,49,55,0.1); }
+.service-picker-option:hover, .service-picker-option:focus-visible { background: #e7f4ef; outline: none; padding-left: 1rem; padding-right: 1rem; }
+.service-picker-option strong, .service-picker-option small { display: block; }
+.service-picker-option strong { font-size: 0.9rem; font-weight: 800; line-height: 1.25; }
+.service-picker-option small { margin-top: 0.2rem; font-size: 0.72rem; font-weight: 800; color: #2f9f91; }
+.service-picker-check { display: grid; width: 1.75rem; height: 1.75rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(23,49,55,0.2); border-radius: 999px; color: #173137; }
+.service-picker-option-active { background: #d9f0e8; }
+.service-picker-option-active .service-picker-check { border-color: #2f9f91; background: #2f9f91; color: white; }
 .field-validation-wrap { position: relative; }
 .field-validation-wrap .field-control { padding-right: 2.9rem; }
 .field-control-error { border-color: #f1c9ad !important; box-shadow: 0 0 0 3px rgba(241,201,173,0.14); }
