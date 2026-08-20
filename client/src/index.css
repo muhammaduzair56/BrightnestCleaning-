@@ -84,16 +84,24 @@
 
 * { border-color: var(--border); }
 
-html { scroll-behavior: smooth; }
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   background: #f8f6ef;
   color: #173137;
   font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+#root { max-width: 100%; overflow-x: clip; }
 
 button, input, select, textarea { font: inherit; }
 button:not(:disabled), a[href], summary { cursor: pointer; }
@@ -246,7 +254,7 @@ button:disabled { cursor: not-allowed; }
 .testimonial-quote { position: relative; border-left: 2px solid #9ee0d2; padding: 0.35rem 0 0.35rem 1.4rem; }
 .testimonial-quote span { position: absolute; top: -1.4rem; left: 1.1rem; font-family: "DM Serif Display", Georgia, serif; font-size: 5.8rem; line-height: 1; color: rgba(158,224,210,0.24); }
 .testimonial-quote p { position: relative; max-width: 530px; font-family: "DM Serif Display", Georgia, serif; font-size: clamp(2rem, 3.4vw, 3.25rem); line-height: 1.03; letter-spacing: -0.045em; color: white; }
-.testimonial-proof-card { position: relative; justify-self: center; width: min(100%, 360px); padding: 0.7rem; border: 1px solid rgba(255,255,255,0.12); border-radius: 30px; background: linear-gradient(145deg, rgba(158,224,210,0.18), rgba(255,255,255,0.05)); }
+.testimonial-proof-card { position: relative; justify-self: center; width: min(100%, 360px); overflow: hidden; padding: 0.7rem; border: 1px solid rgba(255,255,255,0.12); border-radius: 30px; background: linear-gradient(145deg, rgba(158,224,210,0.18), rgba(255,255,255,0.05)); }
 .testimonial-proof-glow { position: absolute; top: 9%; right: -10%; width: 72%; height: 35%; border-radius: 999px; background: rgba(47,159,145,0.4); filter: blur(55px); }
 .field-label { display: block; margin: 0 0 0.5rem; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
 .field-control {

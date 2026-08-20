@@ -287,7 +287,7 @@ export default function Home() {
           >
             <span className="brand-mark relative block h-[54px] w-[54px] overflow-hidden rounded-[20px] bg-[#d9f0e8] p-1.5 transition-transform duration-200 group-hover:-rotate-3 group-active:scale-95">
               <img
-                src="/manus-storage/brightnest-logo_f888d03d.png"
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/epmAnxWTqVplpnUt.webp"
                 alt="BrightNest Cleaning mark"
                 className="h-full w-full object-contain"
               />
@@ -393,9 +393,10 @@ export default function Home() {
 
             <div className="relative min-h-[480px] overflow-hidden rounded-[32px] bg-[#d8e9df] lg:min-h-[640px] lg:rounded-[42px]">
               <img
-                src="/manus-storage/brightnest-hero_530f68c1.jpg"
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/RXLTTcAvxXHzkGtC.webp"
                 alt="A BrightNest cleaner carefully preparing a living room"
                 className="h-full min-h-[480px] w-full object-cover object-[72%_center] lg:min-h-[640px]"
+                fetchPriority="high"
               />
               <div className="absolute inset-x-5 top-5 flex items-start justify-between sm:inset-x-7 sm:top-7">
                 <div className="rounded-full border border-white/60 bg-white/80 px-3.5 py-2 backdrop-blur-md">
@@ -503,7 +504,7 @@ export default function Home() {
               </div>
             </div>
             <figure className="relative min-h-[460px] overflow-hidden rounded-[30px] bg-[#d7e2d9] lg:rounded-[38px]">
-              <img src="/manus-storage/brightnest-deep-clean_63165972.jpg" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pGjWztItugFawuDC.webp" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
               <figcaption className="absolute bottom-5 left-5 right-5 rounded-[19px] bg-[#173137]/88 p-4 text-sm font-bold leading-5 text-white backdrop-blur-md">
                 Detail matters — especially in the spaces that hold your day together.
               </figcaption>
@@ -535,7 +536,7 @@ export default function Home() {
             </div>
             <figure className="testimonial-proof-card">
               <div className="testimonial-proof-glow" aria-hidden="true" />
-              <img src="/manus-storage/brightnest-client-feedback_2fd077cc.png" alt="BrightNest client feedback showing an authentic customer message after a cleaning visit" className="relative z-10 w-full rounded-[22px] border border-white/15 shadow-[0_26px_70px_rgba(0,0,0,0.36)]" />
+              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/jYOLwFnaAHwMPJbe.webp" alt="BrightNest client feedback showing an authentic customer message after a cleaning visit" className="relative z-10 w-full rounded-[22px] border border-white/15 shadow-[0_26px_70px_rgba(0,0,0,0.36)]" loading="lazy" />
               <figcaption className="relative z-10 mt-4 flex items-center justify-between gap-4 px-1 text-xs font-bold text-white/55"><span>Authentic customer feedback</span><span>Shared after service</span></figcaption>
             </figure>
           </div>
@@ -557,7 +558,7 @@ export default function Home() {
               </button>
             </div>
             <div className="order-1 min-h-[380px] lg:order-2 lg:min-h-full">
-              <img src="/manus-storage/brightnest-airbnb_03620299.jpg" alt="A fresh guest-ready apartment bedroom" className="h-full min-h-[380px] w-full object-cover" />
+              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/EAtTQFMEJYeEyRwQ.webp" alt="A fresh guest-ready apartment bedroom" className="h-full min-h-[380px] w-full object-cover" loading="lazy" />
             </div>
           </div>
         </section>
