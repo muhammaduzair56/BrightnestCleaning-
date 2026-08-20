@@ -41,4 +41,4 @@
 - [x] Add branded Open Graph image, title, and description metadata for social sharing.
 - [x] Verify the deployed social metadata and push the update to GitHub.
 - [x] Capture and fix the deployed frontend runtime error causing the blank page.
-- [ ] Publish and verify the repaired Vercel frontend.
+- [x] Publish and verify the repaired Vercel frontend.
