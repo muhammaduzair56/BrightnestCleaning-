@@ -36,3 +36,7 @@
 - [x] Prepare and deliver the detailed BrightNest technical report.
 - [x] Implement route-level lazy loading to split non-home JavaScript.
 - [x] Measure the production bundle and push the optimization to GitHub.
+- [x] Run Lighthouse against the optimized homepage and summarize Core Web Vitals findings.
+- [x] Produce a production optimization guide targeting a homepage transfer weight below 2 MB.
+- [x] Add branded Open Graph image, title, and description metadata for social sharing.
+- [ ] Verify the deployed social metadata and push the update to GitHub.
