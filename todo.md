@@ -43,4 +43,4 @@
 - [x] Capture and fix the deployed frontend runtime error causing the blank page.
 - [x] Publish and verify the repaired Vercel frontend.
 - [x] Replace deployed image paths that return 404 on Vercel.
-- [ ] Remove horizontal overflow in the mobile layout and verify the corrected deployment.
+- [x] Remove horizontal overflow in the mobile layout and verify the corrected deployment.
