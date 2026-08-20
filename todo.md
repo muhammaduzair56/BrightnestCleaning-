@@ -30,4 +30,4 @@
 - [x] Push the completed policy update to GitHub and refresh the complete ZIP archive.
 - [x] Add an accessible homepage FAQ section covering booking and cancellations.
 - [x] Verify the latest frontend-to-backend integration contract and tests.
-- [ ] Push the FAQ-enhanced project to GitHub and refresh the complete ZIP archive.
+- [x] Push the FAQ-enhanced project to GitHub and refresh the complete ZIP archive.
