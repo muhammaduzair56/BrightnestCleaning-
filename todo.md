@@ -40,3 +40,5 @@
 - [x] Produce a production optimization guide targeting a homepage transfer weight below 2 MB.
 - [x] Add branded Open Graph image, title, and description metadata for social sharing.
 - [x] Verify the deployed social metadata and push the update to GitHub.
+- [x] Capture and fix the deployed frontend runtime error causing the blank page.
+- [ ] Publish and verify the repaired Vercel frontend.
