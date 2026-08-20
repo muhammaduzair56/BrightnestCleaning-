@@ -64,6 +64,14 @@
 - [x] Replace the native date and time controls with branded custom booking pickers.
 - [x] Audit and reduce excessive mobile spacing across the homepage.
 - [x] Identify and eliminate the remaining mobile horizontal overflow/right-edge gap.
+- [x] Add the supplied authentic client feedback to the website trust section.
+- [x] Replace the current logo with the supplied BrightNest Cleaning UK logo asset.
+
+## Client-feedback asset validation
+
+- The supplied full BrightNest Cleaning UK logo now renders in both the header and footer, and its PNG is set as the favicon.
+- The trust section now labels the bathroom and kitchen proof as authentic client-shared before-and-after work alongside the exact client feedback quote.
+- The desktop trust layout presents both supplied proof cards in a balanced two-up format, with the original quote and source-context copy remaining readable.
 
 ## Mobile spacing findings
 

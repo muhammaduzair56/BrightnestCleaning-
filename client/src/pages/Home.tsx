@@ -324,21 +324,15 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-[#173137]/10 bg-[#f8f6ef]/92 backdrop-blur-xl">
         <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 lg:px-10">
           <button
-            className="group flex items-center gap-3 text-left"
+            className="group flex items-center text-left"
             onClick={() => scrollToSection("top")}
             aria-label="Back to top"
           >
-            <span className="brand-mark relative block h-[54px] w-[54px] overflow-hidden rounded-[20px] bg-[#d9f0e8] p-1.5 transition-transform duration-200 group-hover:-rotate-3 group-active:scale-95">
-              <img
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/epmAnxWTqVplpnUt.webp"
-                alt="BrightNest Cleaning mark"
-                className="h-full w-full object-contain"
-              />
-            </span>
-            <span className="leading-none">
-              <span className="font-display block text-[27px] tracking-[-0.06em] text-[#173137]">BrightNest</span>
-              <span className="block pt-1 text-[9px] font-extrabold uppercase tracking-[0.21em] text-[#2f9f91]">Cleaning UK</span>
-            </span>
+            <img
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/nGxiaCTVOHaPBQzw.png"
+              alt="BrightNest Cleaning UK logo"
+              className="h-[64px] w-[170px] origin-left scale-[1.14] object-contain object-left transition-transform duration-200 group-hover:scale-[1.18] group-active:scale-95 sm:h-[68px] sm:w-[184px]"
+            />
           </button>
 
           <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Primary navigation">
@@ -579,8 +573,17 @@ export default function Home() {
             </div>
             <figure className="testimonial-proof-card">
               <div className="testimonial-proof-glow" aria-hidden="true" />
-              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/jYOLwFnaAHwMPJbe.webp" alt="BrightNest client feedback showing an authentic customer message after a cleaning visit" className="relative z-10 w-full rounded-[22px] border border-white/15 shadow-[0_26px_70px_rgba(0,0,0,0.36)]" loading="lazy" />
-              <figcaption className="relative z-10 mt-4 flex items-center justify-between gap-4 px-1 text-xs font-bold text-white/55"><span>Authentic customer feedback</span><span>Shared after service</span></figcaption>
+              <div className="relative z-10 grid grid-cols-2 gap-3">
+                <div className="overflow-hidden rounded-[19px] border border-white/15 bg-[#173137] shadow-[0_18px_38px_rgba(0,0,0,0.24)]">
+                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/DrbbDlnsNYdhAMAp.png" alt="Client-shared bathroom before-and-after cleaning result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" />
+                  <p className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]">Bathroom reset</p>
+                </div>
+                <div className="overflow-hidden rounded-[19px] border border-white/15 bg-[#173137] shadow-[0_18px_38px_rgba(0,0,0,0.24)]">
+                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/aHyNdgPapqrkKyii.png" alt="Client-shared kitchen cleaning before-and-after result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" />
+                  <p className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]">Kitchen detail</p>
+                </div>
+              </div>
+              <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/60">Authentic client feedback and before-and-after work shared with BrightNest.</figcaption>
             </figure>
           </div>
         </section>
@@ -919,10 +922,7 @@ export default function Home() {
       <footer className="bg-[#173137] px-5 pb-7 pt-10 text-[#f8f6ef] sm:pt-14 lg:px-10 lg:pt-18">
         <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="brand-mark block h-[54px] w-[54px] rounded-[20px] bg-[#d9f0e8] p-1.5"><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/epmAnxWTqVplpnUt.webp" alt="BrightNest Cleaning mark" className="h-full w-full object-contain" /></span>
-              <span className="font-display text-[28px] tracking-[-0.05em]">BrightNest</span>
-            </div>
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/nGxiaCTVOHaPBQzw.png" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
             <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/60">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>
           </div>
           <div>
