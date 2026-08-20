@@ -125,9 +125,38 @@ const services = [
 
 const faqs = [
   {
+    question: "What happens after I submit a booking request?",
+    answer:
+      "Your request is sent securely to BrightNest with your preferred service, time and home details. It is not a confirmed appointment yet. The team will review availability, clarify the scope where needed, and confirm the next step with you.",
+  },
+  {
     question: "What can I request through the booking form?",
     answer:
       "You can request regular, deep, moving, post-renovation, Airbnb, office and specialist cleaning. Starting rates are shown for routine services; windows, ovens, carpets, rugs, upholstery, waste removal and one-off jobs receive a quote based on the work required.",
+  },
+  {
+    question: "Can I change or cancel a confirmed visit?",
+    answer:
+      "Yes. Please contact BrightNest as early as possible. With 48 hours or more notice, you can change or cancel without a BrightNest cancellation charge. Between 24 and 48 hours, BrightNest will first try to find a suitable rescheduled visit.",
+    link: { href: "/terms-of-service", label: "Read cancellation and refund policy" },
+  },
+  {
+    question: "What happens if I cancel with less than 24 hours’ notice?",
+    answer:
+      "BrightNest will consider the circumstances and may apply a reasonable charge only where the allocated time cannot be rebooked. Any amount retained or charged is intended to reflect a direct loss, not act as a penalty.",
+    link: { href: "/terms-of-service", label: "See the full cancellation policy" },
+  },
+  {
+    question: "Can I receive a refund?",
+    answer:
+      "For eligible advance payments, BrightNest will refund the unused amount or apply it to an agreed rescheduled visit. If you ask BrightNest to begin an online or distance-booked service during a statutory cooling-off period, a proportionate amount for work already supplied may be payable.",
+    link: { href: "/terms-of-service", label: "Read the refund terms" },
+  },
+  {
+    question: "What if I am unhappy with the service?",
+    answer:
+      "Please contact BrightNest as soon as reasonably possible, ideally within 48 hours, with any relevant details. BrightNest will review the concern and, where appropriate, offer repeat performance within a reasonable time or discuss an appropriate price reduction or refund.",
+    link: { href: "/terms-of-service", label: "See service-concern support" },
   },
   {
     question: "Do you cover my area?",
@@ -707,8 +736,8 @@ export default function Home() {
           <div className="mx-auto grid max-w-[1440px] gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
             <div>
               <p className="eyebrow">Helpful answers</p>
-              <h2 className="font-display mt-5 max-w-[420px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[57px]">A little more clarity.</h2>
-              <p className="mt-6 max-w-[390px] text-base leading-7 text-[#173137]/70">Everything you need to know before choosing a service for your Birmingham home, rental or guest-ready space.</p>
+              <h2 className="font-display mt-5 max-w-[440px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[57px]">A little more clarity, before you book.</h2>
+              <p className="mt-6 max-w-[400px] text-base leading-7 text-[#173137]/70">Clear answers about requesting a clean, confirming a visit, changing plans and getting support if something needs attention.</p>
             </div>
             <div className="border-t border-[#173137]/15">
               {faqs.map((item) => (
@@ -717,7 +746,7 @@ export default function Home() {
                     {item.question}
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#173137]/15 text-[#2f9f91] transition-transform duration-200 group-open:rotate-180"><ChevronDown className="h-4 w-4" /></span>
                   </summary>
-                  <p className="max-w-[720px] pb-6 pr-10 text-sm leading-7 text-[#173137]/70 sm:text-base">{item.answer}</p>
+                  <div className="max-w-[720px] pb-6 pr-10"><p className="text-sm leading-7 text-[#173137]/70 sm:text-base">{item.answer}</p>{item.link && <Link href={item.link.href} className="mt-3 inline-flex text-xs font-extrabold uppercase tracking-[0.1em] text-[#2f9f91] underline decoration-[#2f9f91]/40 underline-offset-4">{item.link.label} <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link>}</div>
                 </details>
               ))}
             </div>

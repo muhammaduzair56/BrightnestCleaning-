@@ -28,3 +28,4 @@
 - [x] Research and draft the cancellation and refund policy section.
 - [x] Validate frontend, backend, and migration behaviour after the policy update.
 - [x] Push the completed policy update to GitHub and refresh the complete ZIP archive.
+- [x] Add an accessible homepage FAQ section covering booking and cancellations.
