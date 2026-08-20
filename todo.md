@@ -31,3 +31,8 @@
 - [x] Add an accessible homepage FAQ section covering booking and cancellations.
 - [x] Verify the latest frontend-to-backend integration contract and tests.
 - [x] Push the FAQ-enhanced project to GitHub and refresh the complete ZIP archive.
+- [x] Audit frontend, backend, deployment configuration, and Git history.
+- [x] Verify test outcomes, backend health, and secret-exposure safeguards.
+- [x] Prepare and deliver the detailed BrightNest technical report.
+- [x] Implement route-level lazy loading to split non-home JavaScript.
+- [x] Measure the production bundle and push the optimization to GitHub.

@@ -219,6 +219,18 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        // Keep framework and page-adjacent libraries independently cacheable instead of emitting one large entry chunk.
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("lucide-react")) return "icon-library";
+          if (id.includes("@radix-ui") || id.includes("sonner")) return "ui-library";
+          if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("/scheduler/") || id.includes("wouter")) return "react-core";
+          return "vendor";
+        },
+      },
+    },
   },
   server: {
     port: 3000,

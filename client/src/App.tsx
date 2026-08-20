@@ -1,26 +1,39 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
+import { lazy, Suspense } from "react";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Admin from "./pages/Admin";
-import Home from "./pages/Home";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
+
+// Keep the shared app shell light; each page becomes a cacheable, on-demand route chunk.
+const Admin = lazy(() => import("./pages/Admin"));
+const Home = lazy(() => import("./pages/Home"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+
+function RouteLoadingFallback() {
+  return (
+    <main className="grid min-h-screen place-items-center bg-[#f8f6ef] text-[#173137]" aria-live="polite" aria-busy="true">
+      <div className="flex items-center gap-3 text-sm font-extrabold"><span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#2f9f91]" /> Loading BrightNest</div>
+    </main>
+  );
+}
 
 
 function Router() {
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/admin"} component={Admin} />
-      <Route path={"/privacy-policy"} component={PrivacyPolicy} />
-      <Route path={"/terms-of-service"} component={TermsOfService} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<RouteLoadingFallback />}>
+      <Switch>
+        <Route path={"/"} component={Home} />
+        <Route path={"/admin"} component={Admin} />
+        <Route path={"/privacy-policy"} component={PrivacyPolicy} />
+        <Route path={"/terms-of-service"} component={TermsOfService} />
+        <Route path={"/404"} component={NotFound} />
+        {/* Final fallback route */}
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
