@@ -47,11 +47,13 @@
 - [x] Create a refreshed downloadable ZIP archive of the latest source code.
 - [x] Diagnose and fix the Open Graph preview image on the live website.
 - [x] Create and deliver a refreshed source-code ZIP after the Open Graph update.
-- [ ] Create a new social-preview image and update metadata for brightnestcleaning.vercel.app.
-- [ ] Fix service-card numbering after 10 and eliminate mobile text overlaps.
+- [x] Create a new social-preview image and update metadata for brightnestcleaning.vercel.app.
+- [x] Fix service-card numbering after 10 and eliminate mobile text overlaps.
 - [ ] Verify the new domain deployment and deliver a refreshed source ZIP.
 
 ## Current repair findings
 
 - `brightnestcleaning.vercel.app` was still publishing canonical and social-preview URLs for the old `brightnest-cleaning-ashy.vercel.app` domain.
 - A new BrightNest social card has been created, reviewed, and packaged as a first-party 1200×630 JPEG for the new domain.
+- The new domain now serves its own canonical URL and social-card image; its desktop services grid shows distinct 01–09 labels with the service content held below each card header.
+- At the 375-pixel mobile breakpoint, all 14 cards stay within the page width; labels 01–14 sit above their content and every content block fits its card.
