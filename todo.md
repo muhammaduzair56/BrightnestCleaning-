@@ -77,6 +77,9 @@
 - [x] Add dashboard controls, confirmation states, and backend tests for booking change requests.
 - [x] Add secure PDF receipt generation for completed customer bookings.
 - [x] Add customer-scoped receipt download controls and PDF output tests.
+- [x] Define safe pricing, tax, and payment-status fields without storing card or bank credentials.
+- [x] Add pricing/payment migration, admin editing, and customer receipt display.
+- [x] Test amount calculations, payment authorization, and invoice PDF output.
 
 ## Client-feedback asset validation
 

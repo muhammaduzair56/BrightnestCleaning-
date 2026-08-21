@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
 
-from app.models import BookingStatus, CustomerChangeRequestStatus, CustomerChangeRequestType
+from app.models import BookingStatus, CustomerChangeRequestStatus, CustomerChangeRequestType, PaymentStatus
 
 SERVICE_TYPES = {
     "Regular home cleaning",
@@ -65,6 +65,25 @@ class BookingCreate(BaseModel):
 class BookingUpdate(BaseModel):
     status: BookingStatus | None = None
     admin_notes: str | None = Field(default=None, max_length=4000)
+    currency: str | None = Field(default=None, min_length=3, max_length=3, pattern="^[A-Z]{3}$")
+    subtotal_pence: int | None = Field(default=None, ge=0)
+    tax_rate_basis_points: int | None = Field(default=None, ge=0, le=10000)
+    tax_pence: int | None = Field(default=None, ge=0)
+    total_pence: int | None = Field(default=None, ge=0)
+    payment_status: PaymentStatus | None = None
+    payment_provider: str | None = Field(default=None, max_length=32)
+    payment_reference: str | None = Field(default=None, max_length=128)
+    paid_at: datetime | None = None
+
+    @model_validator(mode="after")
+    def validate_financial_totals(self) -> "BookingUpdate":
+        money_fields = (self.subtotal_pence, self.tax_pence, self.total_pence)
+        if any(value is not None for value in money_fields):
+            if any(value is None for value in money_fields):
+                raise ValueError("Subtotal, tax, and total are required together")
+            if self.total_pence != self.subtotal_pence + self.tax_pence:
+                raise ValueError("Total must equal subtotal plus tax")
+        return self
 
     @field_validator("admin_notes", mode="before")
     @classmethod
@@ -88,6 +107,15 @@ class BookingRead(BaseModel):
     status: BookingStatus
     admin_notes: str | None
     email_status: str
+    currency: str
+    subtotal_pence: int | None
+    tax_rate_basis_points: int | None
+    tax_pence: int | None
+    total_pence: int | None
+    payment_status: PaymentStatus
+    payment_provider: str | None
+    payment_reference: str | None
+    paid_at: datetime | None
     privacy_consent_at: datetime
     created_at: datetime
     updated_at: datetime
@@ -164,6 +192,13 @@ class CustomerBookingRead(BaseModel):
     preferred_time: time
     status: BookingStatus
     created_at: datetime
+    currency: str
+    subtotal_pence: int | None
+    tax_rate_basis_points: int | None
+    tax_pence: int | None
+    total_pence: int | None
+    payment_status: PaymentStatus
+    paid_at: datetime | None
     change_request: CustomerChangeRequestRead | None = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -1,7 +1,6 @@
 """PDF service receipts for completed BrightNest bookings.
 
-Receipts intentionally contain service-record details only. No amount, tax, or payment
-status is inferred because the booking table does not store financial transactions.
+Receipts show only financial values explicitly stored on the booking. Payment credentials such as card numbers, bank details, CVV, and secrets are never accepted or rendered.
 """
 from __future__ import annotations
 
@@ -26,6 +25,16 @@ MUTED = colors.HexColor("#607276")
 
 def _paragraph(text: str, style: ParagraphStyle) -> Paragraph:
     return Paragraph(escape(text).replace("\n", "<br/>"), style)
+
+
+def _money(currency: str, pence: int | None) -> str:
+    if pence is None:
+        return "Not recorded"
+    return f"{currency} {pence / 100:,.2f}"
+
+
+def _payment_label(value: str) -> str:
+    return value.replace("_", " ").title()
 
 
 def build_completed_receipt_pdf(booking: Booking) -> bytes:
@@ -80,9 +89,33 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
         ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
     ]))
     story.append(service_table)
+    finance_rows = [
+        [_paragraph("Subtotal", label), _paragraph(_money(booking.currency, booking.subtotal_pence), value)],
+        [_paragraph(f"Tax ({booking.tax_rate_basis_points / 100:.2f}% rate)" if booking.tax_rate_basis_points is not None else "Tax", label), _paragraph(_money(booking.currency, booking.tax_pence), value)],
+        [_paragraph("Total", label), _paragraph(_money(booking.currency, booking.total_pence), value)],
+        [_paragraph("Payment status", label), _paragraph(_payment_label(booking.payment_status.value), value)],
+    ]
+    if booking.payment_provider:
+        finance_rows.append([_paragraph("Payment provider", label), _paragraph(booking.payment_provider, value)])
+    if booking.payment_reference:
+        finance_rows.append([_paragraph("Payment reference", label), _paragraph(booking.payment_reference, value)])
+    if booking.paid_at:
+        finance_rows.append([_paragraph("Paid at", label), _paragraph(booking.paid_at.strftime("%Y-%m-%d %H:%M UTC"), value)])
+    finance_table = Table(finance_rows, colWidths=[47 * mm, 105 * mm], hAlign="LEFT")
+    finance_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), colors.white),
+        ("BOX", (0, 0), (-1, -1), 0.5, colors.HexColor("#D9E3DF")),
+        ("INNERGRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#E8EEEA")),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 9),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 9),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+    ]))
     story.extend([
-        _paragraph("PAYMENT NOTE", section),
-        _paragraph("This service receipt confirms the completed booking record. Payment amounts and tax details are not stored in the BrightNest booking system and are therefore not shown here.", body),
+        _paragraph("AMOUNT & PAYMENT", section),
+        finance_table,
+        _paragraph("Amounts are shown exactly as stored by BrightNest. This receipt is not a VAT invoice unless the business and tax details have been separately confirmed.", small),
         _paragraph(f"Customer notes: {booking.notes or 'No additional notes recorded.'}", small),
         Spacer(1, 18 * mm),
         _paragraph("BrightNest Cleaning UK", body),

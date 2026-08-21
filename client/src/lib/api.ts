@@ -3,6 +3,7 @@
  * credentials, database access and email keys remain exclusively server-side.
  */
 export type BookingStatus = "new" | "contacted" | "confirmed" | "cancelled" | "completed";
+export type PaymentStatus = "unpaid" | "paid" | "partially_refunded" | "refunded" | "failed";
 
 export type BookingPayload = {
   customer_name: string;
@@ -25,6 +26,15 @@ export type Booking = BookingPayload & {
   created_at: string;
   updated_at: string;
   customer_phone: string | null;
+  currency: string;
+  subtotal_pence: number | null;
+  tax_rate_basis_points: number | null;
+  tax_pence: number | null;
+  total_pence: number | null;
+  payment_status: PaymentStatus;
+  payment_provider: string | null;
+  payment_reference: string | null;
+  paid_at: string | null;
 };
 
 export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
@@ -39,7 +49,7 @@ export type CustomerChangeRequest = {
   status: "requested" | "reviewed" | "resolved";
   created_at: string;
 };
-export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" | "preferred_date" | "preferred_time" | "status" | "created_at"> & { change_request: CustomerChangeRequest | null };
+export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" | "preferred_date" | "preferred_time" | "status" | "created_at" | "currency" | "subtotal_pence" | "tax_rate_basis_points" | "tax_pence" | "total_pence" | "payment_status" | "paid_at"> & { change_request: CustomerChangeRequest | null };
 export type CustomerDashboard = { customer_email: string; upcoming: CustomerBooking[]; past: CustomerBooking[] };
 export type CustomerAccessToken = { access_token: string; token_type: "bearer"; expires_in: number };
 export type CustomerChangePayload = { request_type: "reschedule" | "cancel"; requested_date?: string; requested_time?: string; message?: string };
@@ -88,7 +98,7 @@ export const bookingApi = {
   login: (email: string, password: string) => request<Tokens>("/admin/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   dashboard: (token: string) => request<Dashboard>("/admin/dashboard", {}, token),
   list: (token: string, filter: BookingStatus | "all" = "all") => request<BookingList>(`/admin/bookings${filter === "all" ? "" : `?status=${filter}`}`, {}, token),
-  update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string }) =>
+  update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string; currency?: string; subtotal_pence?: number; tax_rate_basis_points?: number; tax_pence?: number; total_pence?: number; payment_status?: PaymentStatus; payment_provider?: string; payment_reference?: string; paid_at?: string }) =>
     request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
 };
 

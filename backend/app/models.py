@@ -27,6 +27,14 @@ class BookingStatus(str, enum.Enum):
     COMPLETED = "completed"
 
 
+class PaymentStatus(str, enum.Enum):
+    UNPAID = "unpaid"
+    PAID = "paid"
+    PARTIALLY_REFUNDED = "partially_refunded"
+    REFUNDED = "refunded"
+    FAILED = "failed"
+
+
 class AdminUser(Base):
     __tablename__ = "admin_users"
 
@@ -66,6 +74,15 @@ class Booking(Base):
     admin_notes: Mapped[str | None] = mapped_column(Text)
     assigned_admin_id: Mapped[str | None] = mapped_column(ForeignKey("admin_users.id", ondelete="SET NULL"), index=True)
     email_status: Mapped[str] = mapped_column(String(24), nullable=False, default="pending")
+    currency: Mapped[str] = mapped_column(String(3), nullable=False, default="GBP")
+    subtotal_pence: Mapped[int | None] = mapped_column()
+    tax_rate_basis_points: Mapped[int | None] = mapped_column()
+    tax_pence: Mapped[int | None] = mapped_column()
+    total_pence: Mapped[int | None] = mapped_column()
+    payment_status: Mapped[PaymentStatus] = mapped_column(Enum(PaymentStatus, name="payment_status"), nullable=False, default=PaymentStatus.UNPAID, index=True)
+    payment_provider: Mapped[str | None] = mapped_column(String(32))
+    payment_reference: Mapped[str | None] = mapped_column(String(128))
+    paid_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     privacy_consent_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())

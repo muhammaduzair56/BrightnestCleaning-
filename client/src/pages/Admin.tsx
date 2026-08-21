@@ -2,7 +2,7 @@
  * BrightNest design reminder — the private admin uses the same calm ink/mint system as the
  * public site, with operational density, direct status clarity and no customer-facing clutter.
  */
-import { Booking, BookingStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
+import { Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
 import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
@@ -37,6 +37,15 @@ export default function Admin() {
   const [filter, setFilter] = useState<BookingStatus | "all">("all");
   const [selected, setSelected] = useState<Booking | null>(null);
   const [adminNotes, setAdminNotes] = useState("");
+  const [currency, setCurrency] = useState("GBP");
+  const [subtotalPence, setSubtotalPence] = useState("");
+  const [taxRatePercent, setTaxRatePercent] = useState("");
+  const [taxPence, setTaxPence] = useState("");
+  const [totalPence, setTotalPence] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("unpaid");
+  const [paymentProvider, setPaymentProvider] = useState("");
+  const [paymentReference, setPaymentReference] = useState("");
+  const [paidAt, setPaidAt] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -91,10 +100,26 @@ export default function Admin() {
 
   const updateBooking = async (status: BookingStatus) => {
     if (!selected) return;
+    const moneyInputs = [subtotalPence, taxPence, totalPence];
+    if (moneyInputs.some(Boolean) && moneyInputs.some((value) => !value)) {
+      setError("Enter subtotal, tax and total together, or leave all three blank.");
+      return;
+    }
+    if (moneyInputs.every(Boolean) && Number(totalPence) !== Number(subtotalPence) + Number(taxPence)) {
+      setError("Total must equal subtotal plus tax.");
+      return;
+    }
     setSaving(true);
     setError("");
+    const payload: Parameters<typeof bookingApi.update>[2] = { status, admin_notes: adminNotes, currency, payment_status: paymentStatus, payment_provider: paymentProvider || undefined, payment_reference: paymentReference || undefined, paid_at: paidAt || undefined };
+    if (moneyInputs.every(Boolean)) {
+      payload.subtotal_pence = Number(subtotalPence);
+      payload.tax_pence = Number(taxPence);
+      payload.total_pence = Number(totalPence);
+      payload.tax_rate_basis_points = taxRatePercent ? Math.round(Number(taxRatePercent) * 100) : undefined;
+    }
     try {
-      const updated = await bookingApi.update(token, selected.id, { status, admin_notes: adminNotes });
+      const updated = await bookingApi.update(token, selected.id, payload);
       setSelected(updated);
       setAdminNotes(updated.admin_notes ?? "");
       await loadData(token, filter);
@@ -167,10 +192,11 @@ export default function Admin() {
         </div>
         <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_390px]">
           <section className="overflow-hidden rounded-[24px] border border-[#173137]/10 bg-white">
-            {loading ? <p className="p-7 text-sm font-bold text-[#173137]/55">Loading booking requests…</p> : bookings.length === 0 ? <p className="p-7 text-sm font-bold text-[#173137]/55">No requests in this view yet.</p> : <div className="divide-y divide-[#173137]/10">{bookings.map((booking) => <button key={booking.id} onClick={() => { setSelected(booking); setAdminNotes(booking.admin_notes ?? ""); }} className={`admin-booking-row ${selected?.id === booking.id ? "admin-booking-selected" : ""}`}><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><p className="truncate text-sm font-extrabold">{booking.customer_name}</p><span className={`admin-status ${statusTone[booking.status]}`}>{statusLabels[booking.status]}</span></div><p className="mt-1 truncate text-sm text-[#173137]/60">{booking.service_type} · {booking.postcode}</p><p className="mt-1 text-xs font-bold text-[#2f9f91]">{booking.preferred_date} at {booking.preferred_time.slice(0, 5)}</p></div><ChevronRight className="h-4 w-4 shrink-0 text-[#173137]/35" /></button>)}</div>}
+            {loading ? <p className="p-7 text-sm font-bold text-[#173137]/55">Loading booking requests…</p> : bookings.length === 0 ? <p className="p-7 text-sm font-bold text-[#173137]/55">No requests in this view yet.</p> : <div className="divide-y divide-[#173137]/10">{bookings.map((booking) => <button key={booking.id} onClick={() => { setSelected(booking); setAdminNotes(booking.admin_notes ?? ""); setCurrency(booking.currency); setSubtotalPence(booking.subtotal_pence == null ? "" : String(booking.subtotal_pence)); setTaxRatePercent(booking.tax_rate_basis_points == null ? "" : String(booking.tax_rate_basis_points / 100)); setTaxPence(booking.tax_pence == null ? "" : String(booking.tax_pence)); setTotalPence(booking.total_pence == null ? "" : String(booking.total_pence)); setPaymentStatus(booking.payment_status); setPaymentProvider(booking.payment_provider ?? ""); setPaymentReference(booking.payment_reference ?? ""); setPaidAt(booking.paid_at ? booking.paid_at.slice(0, 16) : ""); }} className={`admin-booking-row ${selected?.id === booking.id ? "admin-booking-selected" : ""}`}>
+<div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><p className="truncate text-sm font-extrabold">{booking.customer_name}</p><span className={`admin-status ${statusTone[booking.status]}`}>{statusLabels[booking.status]}</span></div><p className="mt-1 truncate text-sm text-[#173137]/60">{booking.service_type} · {booking.postcode}</p><p className="mt-1 text-xs font-bold text-[#2f9f91]">{booking.preferred_date} at {booking.preferred_time.slice(0, 5)}</p></div><ChevronRight className="h-4 w-4 shrink-0 text-[#173137]/35" /></button>)}</div>}
           </section>
           <aside className="rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-6">
-            {selected ? <><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">Request details</p><h2 className="font-display mt-3 text-3xl tracking-[-0.05em]">{selected.customer_name}</h2></div><span className={`admin-status ${statusTone[selected.status]}`}>{statusLabels[selected.status]}</span></div><div className="mt-7 space-y-4 text-sm"><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Service</strong>{selected.service_type} · {selected.frequency}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Preferred visit</strong>{selected.preferred_date} at {selected.preferred_time.slice(0, 5)}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Contact</strong>{selected.customer_email}<br />{selected.postcode}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Customer note</strong>{selected.notes || "No additional note"}</p></div><label className="admin-label mt-7" htmlFor="admin-notes">Internal note</label><textarea id="admin-notes" className="admin-input min-h-28 resize-y" value={adminNotes} onChange={(event) => setAdminNotes(event.target.value)} placeholder="Next action, quote or contact note" /><div className="mt-5 grid grid-cols-2 gap-2">{(["contacted", "confirmed", "completed", "cancelled"] as BookingStatus[]).map((nextStatus) => <button key={nextStatus} disabled={saving} onClick={() => void updateBooking(nextStatus)} className="admin-action-button">{nextStatus === selected.status ? <Check className="h-3.5 w-3.5" /> : null}{statusLabels[nextStatus]}</button>)}</div></> : <div className="grid min-h-[340px] place-items-center text-center"><div><span className="admin-icon mx-auto"><ClipboardList className="h-6 w-6" /></span><p className="mt-5 text-sm font-bold text-[#173137]/60">Select a request to see the full details and next action.</p></div></div>}
+            {selected ? <><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">Request details</p><h2 className="font-display mt-3 text-3xl tracking-[-0.05em]">{selected.customer_name}</h2></div><span className={`admin-status ${statusTone[selected.status]}`}>{statusLabels[selected.status]}</span></div><div className="mt-7 space-y-4 text-sm"><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Service</strong>{selected.service_type} · {selected.frequency}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Preferred visit</strong>{selected.preferred_date} at {selected.preferred_time.slice(0, 5)}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Contact</strong>{selected.customer_email}<br />{selected.postcode}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Customer note</strong>{selected.notes || "No additional note"}</p></div><div className="mt-7 border-t border-[#173137]/10 pt-6"><p className="eyebrow">Pricing & payment</p><div className="mt-4 grid grid-cols-2 gap-3"><label className="admin-label">Currency<input className="admin-input" value={currency} onChange={(event) => setCurrency(event.target.value.toUpperCase())} maxLength={3} /></label><label className="admin-label">Payment status<select className="admin-input" value={paymentStatus} onChange={(event) => setPaymentStatus(event.target.value as PaymentStatus)}><option value="unpaid">Unpaid</option><option value="paid">Paid</option><option value="partially_refunded">Partially refunded</option><option value="refunded">Refunded</option><option value="failed">Failed</option></select></label><label className="admin-label">Subtotal (pence)<input className="admin-input" type="number" min="0" step="1" value={subtotalPence} onChange={(event) => setSubtotalPence(event.target.value)} placeholder="e.g. 12000" /></label><label className="admin-label">Tax rate (%)<input className="admin-input" type="number" min="0" max="100" step="0.01" value={taxRatePercent} onChange={(event) => setTaxRatePercent(event.target.value)} placeholder="e.g. 20" /></label><label className="admin-label">Tax (pence)<input className="admin-input" type="number" min="0" step="1" value={taxPence} onChange={(event) => setTaxPence(event.target.value)} placeholder="e.g. 2400" /></label><label className="admin-label">Total (pence)<input className="admin-input" type="number" min="0" step="1" value={totalPence} onChange={(event) => setTotalPence(event.target.value)} placeholder="e.g. 14400" /></label></div><label className="admin-label mt-3">Payment provider<input className="admin-input" value={paymentProvider} onChange={(event) => setPaymentProvider(event.target.value)} placeholder="e.g. Stripe" /></label><label className="admin-label mt-3">Payment reference<input className="admin-input" value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="Provider reference only — no card details" /></label><label className="admin-label mt-3">Paid at<input className="admin-input" type="datetime-local" value={paidAt} onChange={(event) => setPaidAt(event.target.value)} /></label><p className="mt-3 text-xs leading-5 text-[#173137]/50">Amounts are stored as whole pence. Never enter card numbers, bank details or security codes.</p></div><label className="admin-label mt-7" htmlFor="admin-notes">Internal note</label><textarea id="admin-notes" className="admin-input min-h-28 resize-y" value={adminNotes} onChange={(event) => setAdminNotes(event.target.value)} placeholder="Next action, quote or contact note" /><button disabled={saving} onClick={() => void updateBooking(selected.status)} className="admin-action-button mt-4 w-full justify-center">{saving ? "Saving…" : "Save pricing & payment"}</button><div className="mt-5 grid grid-cols-2 gap-2">{(["contacted", "confirmed", "completed", "cancelled"] as BookingStatus[]).map((nextStatus) => <button key={nextStatus} disabled={saving} onClick={() => void updateBooking(nextStatus)} className="admin-action-button">{nextStatus === selected.status ? <Check className="h-3.5 w-3.5" /> : null}{statusLabels[nextStatus]}</button>)}</div></> : <div className="grid min-h-[340px] place-items-center text-center"><div><span className="admin-icon mx-auto"><ClipboardList className="h-6 w-6" /></span><p className="mt-5 text-sm font-bold text-[#173137]/60">Select a request to see the full details and next action.</p></div></div>}
           </aside>
         </div>
       </main>

@@ -1,4 +1,9 @@
 import os
+from datetime import datetime, timezone
+from io import BytesIO
+
+import pytest
+from pypdf import PdfReader
 
 os.environ["DATABASE_URL"] = "postgresql://test:test@localhost/test?sslmode=require"
 os.environ["JWT_SECRET"] = "test-secret-that-is-long-enough-for-local-validation-only"
@@ -14,8 +19,8 @@ from sqlalchemy.orm import sessionmaker
 from app.cache import cache
 from app.database import Base, get_db
 from app.main import app
-from app.models import AdminUser, Booking, BookingStatus
-from app.schemas import BookingCreate
+from app.models import AdminUser, Booking, BookingStatus, PaymentStatus
+from app.schemas import BookingCreate, BookingUpdate
 from app.security import create_access_token, decode_token, hash_password
 
 
@@ -243,6 +248,15 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         with TestSession() as session:
             completed_booking = session.get(Booking, first_booking_id)
             completed_booking.status = BookingStatus.COMPLETED
+            completed_booking.currency = "GBP"
+            completed_booking.subtotal_pence = 12000
+            completed_booking.tax_rate_basis_points = 2000
+            completed_booking.tax_pence = 2400
+            completed_booking.total_pence = 14400
+            completed_booking.payment_status = PaymentStatus.PAID
+            completed_booking.payment_provider = "Stripe"
+            completed_booking.payment_reference = "pi_test_123"
+            completed_booking.paid_at = datetime(2030, 1, 3, 12, 0, tzinfo=timezone.utc)
             session.commit()
 
         receipt_response = client.get(f"/api/v1/customer/bookings/{first_booking_id}/receipt", headers=headers)
@@ -250,13 +264,27 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         assert receipt_response.headers["content-type"].startswith("application/pdf")
         assert "attachment" in receipt_response.headers["content-disposition"]
         assert receipt_response.content.startswith(b"%PDF")
-        assert b"BrightNest" in receipt_response.content
+        receipt_text = "\n".join(page.extract_text() or "" for page in PdfReader(BytesIO(receipt_response.content)).pages)
+        assert "BrightNest" in receipt_text
+        assert "GBP 144.00" in receipt_text
+        assert "Stripe" in receipt_text
+        assert "pi_test_123" in receipt_text
 
         unavailable_receipt_response = client.get(f"/api/v1/customer/bookings/{second_booking_id}/receipt", headers=headers)
         assert unavailable_receipt_response.status_code == 409
     finally:
         app.dependency_overrides.clear()
         engine.dispose()
+
+
+def test_booking_update_rejects_inconsistent_financial_totals():
+    with pytest.raises(ValueError, match="Total must equal subtotal plus tax"):
+        BookingUpdate(subtotal_pence=1000, tax_pence=200, total_pence=1500)
+
+
+def test_booking_update_rejects_partial_financial_totals():
+    with pytest.raises(ValueError, match="required together"):
+        BookingUpdate(total_pence=1500)
 
 
 def test_customer_access_request_does_not_disclose_unknown_email(monkeypatch, tmp_path):

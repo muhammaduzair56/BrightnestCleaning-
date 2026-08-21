@@ -20,7 +20,7 @@ The deployment start command is already configured as:
 sh scripts/start.sh
 ```
 
-The script runs the idempotent database migration and optional initial-admin bootstrap before starting Uvicorn on Railway's `PORT`.
+The script runs the idempotent database migration and optional initial-admin bootstrap before starting Uvicorn on Railway's `PORT`. The latest migration adds booking currency, integer-pence subtotal/tax/total fields, tax-rate basis points, payment status, provider, reference, and paid timestamp.
 
 ## Required Railway variables
 
@@ -44,7 +44,7 @@ Create these under **Service → Variables**. Set sensitive values as masked/sec
 | `LOG_LEVEL` | `INFO` | Recommended |
 | `REDIS_URL` | Managed TLS Redis URL, if added later | Optional |
 
-Railway supplies the `PORT` variable automatically. Do not add it manually unless troubleshooting tells you to do so. The backend `requirements.txt` includes ReportLab for generating receipts in memory; no PDF files are stored on disk.
+Railway supplies the `PORT` variable automatically. Do not add it manually unless troubleshooting tells you to do so. The backend `requirements.txt` includes ReportLab for generating receipts in memory; no PDF files are stored on disk. Store only payment metadata and processor references in BrightNest. Never store card numbers, CVV, bank details, PANs, or payment secrets; use a payment provider for those credentials.
 
 ## Verification checklist
 
@@ -66,7 +66,8 @@ Then add this value in the Vercel frontend project and redeploy the website:
 VITE_API_BASE_URL=https://YOUR-RAILWAY-DOMAIN.up.railway.app
 ```
 
-Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected. From an upcoming booking, submit one reschedule or cancellation request and confirm the customer sees a pending status while the BrightNest notification arrives at `ADMIN_NOTIFICATION_EMAIL`. Only one unresolved change request is accepted per booking. Mark one real booking as completed, then confirm its customer can download a PDF receipt while another customer cannot access it and an unfinished booking returns a clear not-ready response.
+Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. In Admin → Booking requests, enter amounts as whole pence and ensure subtotal plus tax equals total before marking a payment status. The customer receipt should then show the stored currency, tax rate, tax amount, total, payment status, provider, and safe processor reference.
+To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected. From an upcoming booking, submit one reschedule or cancellation request and confirm the customer sees a pending status while the BrightNest notification arrives at `ADMIN_NOTIFICATION_EMAIL`. Only one unresolved change request is accepted per booking. Mark one real booking as completed, then confirm its customer can download a PDF receipt while another customer cannot access it and an unfinished booking returns a clear not-ready response.
 
 ## Trial note
 
