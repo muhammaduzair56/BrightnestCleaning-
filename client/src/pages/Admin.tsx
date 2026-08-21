@@ -2,8 +2,8 @@
  * BrightNest design reminder — the private admin uses the same calm ink/mint system as the
  * public site, with operational density, direct status clarity and no customer-facing clutter.
  */
-import { Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
-import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck } from "lucide-react";
+import { AdminAnalytics, AdminChangeRequest, Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
+import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck, CalendarClock, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
 
@@ -34,8 +34,14 @@ export default function Admin() {
   const [password, setPassword] = useState("");
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
+  const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
   const [filter, setFilter] = useState<BookingStatus | "all">("all");
   const [selected, setSelected] = useState<Booking | null>(null);
+  const [changeRequests, setChangeRequests] = useState<AdminChangeRequest[]>([]);
+  const [selectedChangeRequest, setSelectedChangeRequest] = useState<AdminChangeRequest | null>(null);
+  const [resolutionNote, setResolutionNote] = useState("");
+  const [requestLoading, setRequestLoading] = useState(false);
+  const [requestSaving, setRequestSaving] = useState(false);
   const [adminNotes, setAdminNotes] = useState("");
   const [currency, setCurrency] = useState("GBP");
   const [subtotalPence, setSubtotalPence] = useState("");
@@ -50,17 +56,30 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const loadChangeRequests = async (activeToken = token) => {
+    if (!activeToken) return;
+    try {
+      setChangeRequests(await bookingApi.changeRequests(activeToken, "requested"));
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "Could not load customer change requests.");
+    }
+  };
+
   const loadData = async (activeToken = token, activeFilter = filter) => {
     if (!activeToken) return;
     setLoading(true);
     setError("");
     try {
-      const [dashboardResponse, bookingsResponse] = await Promise.all([
+      const [dashboardResponse, analyticsResponse, bookingsResponse, requestsResponse] = await Promise.all([
         bookingApi.dashboard(activeToken),
+        bookingApi.analytics(activeToken),
         bookingApi.list(activeToken, activeFilter),
+        bookingApi.changeRequests(activeToken, "requested"),
       ]);
       setDashboard(dashboardResponse);
+      setAnalytics(analyticsResponse);
       setBookings(bookingsResponse.items);
+      setChangeRequests(requestsResponse);
     } catch (requestError) {
       const message = requestError instanceof Error ? requestError.message : "Could not load booking requests.";
       setError(message);
@@ -90,12 +109,31 @@ export default function Admin() {
     }
   };
 
+  const resolveChangeRequest = async (resolution: "approved" | "declined") => {
+    if (!selectedChangeRequest) return;
+    setRequestSaving(true);
+    setError("");
+    try {
+      await bookingApi.updateChangeRequest(token, selectedChangeRequest.id, { status: "resolved", resolution, resolution_note: resolutionNote || undefined });
+      setSelectedChangeRequest(null);
+      setResolutionNote("");
+      await loadData(token, filter);
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "The change request could not be resolved.");
+    } finally {
+      setRequestSaving(false);
+    }
+  };
+
   const logout = () => {
     sessionStorage.removeItem("brightnest_admin_access");
     setToken("");
     setBookings([]);
     setDashboard(null);
+    setAnalytics(null);
     setSelected(null);
+    setChangeRequests([]);
+    setSelectedChangeRequest(null);
   };
 
   const updateBooking = async (status: BookingStatus) => {
@@ -187,9 +225,20 @@ export default function Admin() {
         <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
           {(["total", "new", "contacted", "confirmed", "completed", "cancelled"] as const).map((key) => <div key={key} className="admin-stat"><span>{key === "total" ? "All requests" : statusLabels[key]}</span><strong>{dashboard?.[key] ?? "—"}</strong></div>)}
         </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="admin-stat"><span>This month</span><strong>{analytics?.bookings_this_month ?? "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">bookings</small></div>
+          <div className="admin-stat"><span>Completed</span><strong>{analytics ? `£${(analytics.revenue_pence_this_month / 100).toFixed(2)}` : "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">recorded revenue</small></div>
+          <div className="admin-stat"><span>Completed visits</span><strong>{analytics?.completed_this_month ?? "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">this month</small></div>
+          <div className="admin-stat"><span>Cancellations</span><strong>{analytics?.cancelled_this_month ?? "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">this month</small></div>
+        </div>
         <div className="mt-10 flex flex-wrap gap-2 border-b border-[#173137]/10 pb-5">
           {(Object.keys(statusLabels) as (BookingStatus | "all")[]).map((item) => <button key={item} onClick={() => setFilter(item)} className={`admin-filter ${filter === item ? "admin-filter-active" : ""}`}>{statusLabels[item]}</button>)}
         </div>
+        <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-[#173137] p-5 text-white sm:p-7">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#9ee0d2]">Needs review</p><h2 className="font-display mt-2 text-3xl tracking-[-0.05em]">Customer change requests</h2><p className="mt-2 text-sm leading-6 text-white/65">Review reschedule and cancellation requests before changing the booking.</p></div><span className="rounded-full bg-[#9ee0d2] px-3 py-1 text-xs font-extrabold text-[#173137]">{changeRequests.length} pending</span></div>
+          {changeRequests.length === 0 ? <p className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/60">No pending customer change requests.</p> : <div className="mt-6 grid gap-3 lg:grid-cols-2">{changeRequests.map((request) => <button key={request.id} onClick={() => { setSelectedChangeRequest(request); setResolutionNote(""); }} className={`rounded-2xl border p-4 text-left transition-colors ${selectedChangeRequest?.id === request.id ? "border-[#9ee0d2] bg-white/10" : "border-white/10 bg-white/5 hover:bg-white/10"}`}><div className="flex items-start justify-between gap-3"><div><p className="font-extrabold">{request.customer_name}</p><p className="mt-1 text-xs text-white/55">{request.service_type} · {request.current_date} at {request.current_time.slice(0, 5)}</p></div><span className="rounded-full bg-[#f1c9ad] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#173137]">{request.request_type}</span></div><p className="mt-3 text-sm text-[#9ee0d2]">{request.request_type === "reschedule" && request.requested_date && request.requested_time ? `Requested: ${request.requested_date} at ${request.requested_time.slice(0, 5)}` : "Customer requested cancellation"}</p></button>)}</div>}
+          {selectedChangeRequest && <div className="mt-5 rounded-2xl bg-[#f8f6ef] p-5 text-[#173137]"><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">Review request</p><h3 className="font-display mt-2 text-2xl tracking-[-0.04em]">{selectedChangeRequest.customer_name}</h3></div><button aria-label="Close request review" onClick={() => setSelectedChangeRequest(null)} className="rounded-full p-2 text-[#173137]/50 hover:bg-[#173137]/10"><X className="h-4 w-4" /></button></div><div className="mt-5 grid gap-3 text-sm sm:grid-cols-2"><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Request</strong>{selectedChangeRequest.request_type}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Customer email</strong>{selectedChangeRequest.customer_email}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Current visit</strong>{selectedChangeRequest.current_date} at {selectedChangeRequest.current_time.slice(0, 5)}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Requested visit</strong>{selectedChangeRequest.requested_date && selectedChangeRequest.requested_time ? `${selectedChangeRequest.requested_date} at ${selectedChangeRequest.requested_time.slice(0, 5)}` : "Cancellation"}</p></div><p className="mt-4 rounded-xl bg-[#edf3ed] p-3 text-sm leading-6">{selectedChangeRequest.message || "No additional customer message."}</p><label className="admin-label mt-4">Resolution note<textarea className="admin-input min-h-20 resize-y" value={resolutionNote} onChange={(event) => setResolutionNote(event.target.value)} placeholder="Optional note included in the customer email" /></label><div className="mt-4 grid gap-2 sm:grid-cols-2"><button disabled={requestSaving} onClick={() => void resolveChangeRequest("approved")} className="admin-action-button justify-center bg-[#2f9f91] text-white"><Check className="h-4 w-4" />{requestSaving ? "Saving…" : "Approve & resolve"}</button><button disabled={requestSaving} onClick={() => void resolveChangeRequest("declined")} className="admin-action-button justify-center"><X className="h-4 w-4" />Decline & resolve</button></div></div>}
+        </section>
         <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_390px]">
           <section className="overflow-hidden rounded-[24px] border border-[#173137]/10 bg-white">
             {loading ? <p className="p-7 text-sm font-bold text-[#173137]/55">Loading booking requests…</p> : bookings.length === 0 ? <p className="p-7 text-sm font-bold text-[#173137]/55">No requests in this view yet.</p> : <div className="divide-y divide-[#173137]/10">{bookings.map((booking) => <button key={booking.id} onClick={() => { setSelected(booking); setAdminNotes(booking.admin_notes ?? ""); setCurrency(booking.currency); setSubtotalPence(booking.subtotal_pence == null ? "" : String(booking.subtotal_pence)); setTaxRatePercent(booking.tax_rate_basis_points == null ? "" : String(booking.tax_rate_basis_points / 100)); setTaxPence(booking.tax_pence == null ? "" : String(booking.tax_pence)); setTotalPence(booking.total_pence == null ? "" : String(booking.total_pence)); setPaymentStatus(booking.payment_status); setPaymentProvider(booking.payment_provider ?? ""); setPaymentReference(booking.payment_reference ?? ""); setPaidAt(booking.paid_at ? booking.paid_at.slice(0, 16) : ""); }} className={`admin-booking-row ${selected?.id === booking.id ? "admin-booking-selected" : ""}`}>

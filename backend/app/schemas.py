@@ -6,6 +6,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
 
+from app.config import get_settings
+from app.coverage import is_postcode_covered, normalize_postcode
 from app.models import BookingStatus, CustomerChangeRequestStatus, CustomerChangeRequestType, PaymentStatus
 
 SERVICE_TYPES = {
@@ -43,6 +45,14 @@ class BookingCreate(BaseModel):
     @classmethod
     def normalize_text(cls, value: str | None) -> str | None:
         return value.strip() if isinstance(value, str) else value
+
+    @field_validator("postcode")
+    @classmethod
+    def validate_coverage(cls, value: str) -> str:
+        normalized = normalize_postcode(value)
+        if not is_postcode_covered(normalized, get_settings().coverage_postcode_prefixes):
+            raise ValueError("This postcode is outside BrightNest's current coverage area")
+        return normalized
 
     @field_validator("customer_phone")
     @classmethod
@@ -168,14 +178,40 @@ class CustomerChangeRequestCreate(BaseModel):
 
 class CustomerChangeRequestRead(BaseModel):
     id: str
+    booking_id: str
+    customer_email: EmailStr
     request_type: CustomerChangeRequestType
     requested_date: date | None
     requested_time: time | None
     message: str | None
     status: CustomerChangeRequestStatus
     created_at: datetime
+    reviewed_at: datetime | None
+    resolved_at: datetime | None
+    resolution: Literal["approved", "declined"] | None
+    resolution_note: str | None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class AdminChangeRequestRead(CustomerChangeRequestRead):
+    customer_name: str
+    service_type: str
+    current_date: date
+    current_time: time
+    booking_status: BookingStatus
+
+
+class AdminChangeRequestUpdate(BaseModel):
+    status: Literal["reviewed", "resolved"]
+    resolution: Literal["approved", "declined"] | None = None
+    resolution_note: str | None = Field(default=None, max_length=1000)
+
+    @model_validator(mode="after")
+    def validate_resolution(self) -> "AdminChangeRequestUpdate":
+        if self.status == "resolved" and self.resolution is None:
+            raise ValueError("A resolved request needs an approved or declined decision")
+        return self
 
 
 class CustomerChangeRequestResponse(BaseModel):
@@ -242,3 +278,33 @@ class DashboardResponse(BaseModel):
     confirmed: int
     completed: int
     cancelled: int
+
+
+class AdminAnalyticsResponse(BaseModel):
+    bookings_this_month: int
+    completed_this_month: int
+    cancelled_this_month: int
+    revenue_pence_this_month: int
+    average_booking_total_pence: int | None
+
+
+class ReferralCodeCheckRequest(BaseModel):
+    code: str = Field(min_length=3, max_length=32)
+
+
+class ReferralCodeCheckResponse(BaseModel):
+    valid: bool
+    code: str
+    discount_percent: int = 0
+    message: str
+
+
+class CustomerDataRequestCreate(BaseModel):
+    request_type: Literal["export", "delete"]
+
+
+class CustomerDataRequestResponse(BaseModel):
+    id: str
+    request_type: Literal["export", "delete"]
+    status: str
+    message: str

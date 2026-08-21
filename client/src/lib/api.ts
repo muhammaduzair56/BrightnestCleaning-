@@ -39,6 +39,7 @@ export type Booking = BookingPayload & {
 
 export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
 export type Dashboard = Record<"total" | BookingStatus, number>;
+export type AdminAnalytics = { bookings_this_month: number; completed_this_month: number; cancelled_this_month: number; revenue_pence_this_month: number; average_booking_total_pence: number | null };
 export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
 export type CustomerChangeRequest = {
   id: string;
@@ -53,6 +54,20 @@ export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" 
 export type CustomerDashboard = { customer_email: string; upcoming: CustomerBooking[]; past: CustomerBooking[] };
 export type CustomerAccessToken = { access_token: string; token_type: "bearer"; expires_in: number };
 export type CustomerChangePayload = { request_type: "reschedule" | "cancel"; requested_date?: string; requested_time?: string; message?: string };
+export type CustomerDataRequestResponse = { id: string; request_type: "export" | "delete"; status: string; message: string };
+export type AdminChangeRequest = CustomerChangeRequest & {
+  booking_id: string;
+  customer_email: string;
+  customer_name: string;
+  service_type: string;
+  current_date: string;
+  current_time: string;
+  booking_status: BookingStatus;
+  reviewed_at: string | null;
+  resolved_at: string | null;
+  resolution: "approved" | "declined" | null;
+  resolution_note: string | null;
+};
 
 const configuredApiUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/$/, "");
 
@@ -97,9 +112,13 @@ export const bookingApi = {
   create: (payload: BookingPayload) => request<{ booking_id: string; message: string }>("/bookings", { method: "POST", body: JSON.stringify(payload) }),
   login: (email: string, password: string) => request<Tokens>("/admin/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   dashboard: (token: string) => request<Dashboard>("/admin/dashboard", {}, token),
+  analytics: (token: string) => request<AdminAnalytics>("/admin/analytics", {}, token),
   list: (token: string, filter: BookingStatus | "all" = "all") => request<BookingList>(`/admin/bookings${filter === "all" ? "" : `?status=${filter}`}`, {}, token),
   update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string; currency?: string; subtotal_pence?: number; tax_rate_basis_points?: number; tax_pence?: number; total_pence?: number; payment_status?: PaymentStatus; payment_provider?: string; payment_reference?: string; paid_at?: string }) =>
     request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
+  changeRequests: (token: string, status: "requested" | "reviewed" | "resolved" = "requested") => request<AdminChangeRequest[]>(`/admin/change-requests?status=${status}`, {}, token),
+  updateChangeRequest: (token: string, requestId: string, payload: { status: "reviewed" | "resolved"; resolution?: "approved" | "declined"; resolution_note?: string }) =>
+    request<AdminChangeRequest>(`/admin/change-requests/${requestId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
 };
 
 async function requestBlob(path: string, accessToken: string): Promise<Blob> {
@@ -126,6 +145,8 @@ export const customerApi = {
   requestChange: (token: string, bookingId: string, payload: CustomerChangePayload) =>
     request<{ id: string; message: string; status: CustomerChangeRequest["status"] }>(`/customer/bookings/${bookingId}/change-requests`, { method: "POST", body: JSON.stringify(payload) }, token),
   downloadReceipt: (token: string, bookingId: string) => requestBlob(`/customer/bookings/${bookingId}/receipt`, token),
+  requestData: (token: string, requestType: "export" | "delete") => request<CustomerDataRequestResponse>("/customer/data-requests", { method: "POST", body: JSON.stringify({ request_type: requestType }) }, token),
+  exportData: (token: string) => request<{ customer_email: string; bookings: CustomerBooking[] }>("/customer/data-export", {}, token),
 };
 
 export { ApiError, configuredApiUrl };

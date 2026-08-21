@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     access_token_minutes: int = 15
     refresh_token_days: int = 7
     customer_magic_link_minutes: int = 30
+    coverage_postcode_prefixes: Annotated[list[str], NoDecode] = ["B"]
     frontend_base_url: str = "http://localhost:5173"
     redis_url: str | None = None
     resend_api_key: SecretStr | None = None
@@ -35,7 +36,7 @@ class Settings(BaseSettings):
     enable_docs: bool = False
     log_level: str = "INFO"
 
-    @field_validator("allowed_origins", "trusted_hosts", mode="before")
+    @field_validator("allowed_origins", "trusted_hosts", "coverage_postcode_prefixes", mode="before")
     @classmethod
     def split_csv(cls, value: str | list[str]) -> list[str]:
         if isinstance(value, list):

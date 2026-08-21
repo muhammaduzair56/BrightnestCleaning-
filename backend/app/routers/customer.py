@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.database import get_db
-from app.models import Booking, CustomerChangeRequest, CustomerChangeRequestStatus, CustomerMagicLink
+from app.models import Booking, CustomerChangeRequest, CustomerChangeRequestStatus, CustomerDataRequest, CustomerMagicLink
 from app.notifications import notify_customer_change_request, send_customer_magic_link
 from app.receipts import build_completed_receipt_pdf
 from app.schemas import (
@@ -24,6 +24,8 @@ from app.schemas import (
     CustomerChangeRequestRead,
     CustomerChangeRequestResponse,
     CustomerDashboardResponse,
+    CustomerDataRequestCreate,
+    CustomerDataRequestResponse,
 )
 from app.security import (
     create_customer_access_token,
@@ -91,6 +93,28 @@ def exchange_customer_access(
         access_token=create_customer_access_token(link.customer_email),
         expires_in=settings.customer_magic_link_minutes * 60,
     )
+
+
+@router.post("/data-requests", response_model=CustomerDataRequestResponse, status_code=status.HTTP_201_CREATED)
+def create_customer_data_request(
+    payload: CustomerDataRequestCreate,
+    customer_email: str = Depends(get_current_customer),
+    db: Session = Depends(get_db),
+) -> CustomerDataRequestResponse:
+    existing = db.scalar(select(CustomerDataRequest).where(CustomerDataRequest.customer_email == customer_email, CustomerDataRequest.request_type == payload.request_type, CustomerDataRequest.status == "requested"))
+    if existing is not None:
+        return CustomerDataRequestResponse(id=existing.id, request_type=payload.request_type, status=existing.status, message="Your request is already being reviewed by BrightNest.")
+    request = CustomerDataRequest(customer_email=customer_email, request_type=payload.request_type)
+    db.add(request)
+    db.commit()
+    db.refresh(request)
+    return CustomerDataRequestResponse(id=request.id, request_type=payload.request_type, status=request.status, message="Your request has been securely recorded. BrightNest will contact you to complete it.")
+
+
+@router.get("/data-export")
+def export_customer_data(customer_email: str = Depends(get_current_customer), db: Session = Depends(get_db)) -> dict[str, object]:
+    bookings = db.scalars(select(Booking).where(func.lower(Booking.customer_email) == customer_email).order_by(Booking.created_at.asc())).all()
+    return {"customer_email": customer_email, "bookings": [CustomerBookingRead.model_validate(booking).model_dump(mode="json") for booking in bookings]}
 
 
 @router.get("/bookings/{booking_id}/receipt")

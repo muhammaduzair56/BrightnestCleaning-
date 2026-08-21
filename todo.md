@@ -81,6 +81,20 @@
 - [x] Add pricing/payment migration, admin editing, and customer receipt display.
 - [x] Test amount calculations, payment authorization, and invoice PDF output.
 - [x] Add visual subtotal, tax, total, and payment-status breakdowns to past customer bookings.
+- [x] Define customer-friendly cancellation windows, rescheduling rules, late-cancellation charges, and refund conditions.
+- [x] Draft and review BrightNest cancellation and refund policy for website and invoice use.
+- [x] Inspect the supplied Martilla client-policy PDF and map its useful structure to BrightNest.
+- [x] Create a BrightNest-themed client policy PDF with the supplied logo and verified draft content.
+- [x] Visually verify the final policy PDF and deliver its source and PDF files.
+- [x] Add an admin change-request review queue with approve, decline, resolve, and customer notification actions.
+- [x] Add configurable postcode coverage validation to the booking flow.
+- [x] Add live-review integration settings with static fallback and no fabricated reviews.
+- [x] Add recurring booking scheduling and future-visit generation rules.
+- [x] Add referral/discount code validation and audit-safe redemption tracking.
+- [x] Add admin booking/revenue/cancellation analytics from real database data.
+- [x] Add customer GDPR export and deletion request handling.
+- [x] Add sitemap.xml, robots.txt, structured metadata, and route-level SEO tags.
+- [x] Run full security, integration, scheduling, responsive, SEO, and regression verification.
 
 ## Client-feedback asset validation
 

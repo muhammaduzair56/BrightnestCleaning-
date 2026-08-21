@@ -1,7 +1,8 @@
 """Public booking creation and protected booking-management endpoints."""
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime, timezone, timedelta
+from calendar import monthrange
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 from sqlalchemy import func, select
@@ -10,9 +11,9 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.cache import cache
 from app.database import get_db
-from app.models import AdminUser, AuditEvent, Booking, BookingStatus
-from app.notifications import notify_new_booking
-from app.schemas import BookingAccepted, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse
+from app.models import AdminUser, AuditEvent, Booking, BookingStatus, CustomerChangeRequest, CustomerChangeRequestStatus, ReferralCode, RecurringBookingPlan
+from app.notifications import notify_customer_change_resolution, notify_new_booking
+from app.schemas import AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, BookingAccepted, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
 from app.security import get_current_admin
 
 router = APIRouter(tags=["bookings"])
@@ -26,6 +27,17 @@ async def _invalidate_booking_cache() -> None:
     await cache.bump_booking_version()
 
 
+@router.post("/referrals/check", response_model=ReferralCodeCheckResponse)
+def check_referral_code(payload: ReferralCodeCheckRequest, db: Session = Depends(get_db)) -> ReferralCodeCheckResponse:
+    code = payload.code.strip().upper()
+    referral = db.scalar(select(ReferralCode).where(func.upper(ReferralCode.code) == code, ReferralCode.active.is_(True)))
+    now = datetime.now(timezone.utc)
+    valid = referral is not None and (referral.expires_at is None or referral.expires_at > now) and (referral.max_redemptions is None or referral.redemption_count < referral.max_redemptions)
+    if not valid:
+        return ReferralCodeCheckResponse(valid=False, code=code, message="This referral code is not currently available.")
+    return ReferralCodeCheckResponse(valid=True, code=code, discount_percent=referral.discount_percent, message=f"Referral code applied: {referral.discount_percent}% off eligible services.")
+
+
 @router.post("/bookings", response_model=BookingAccepted, status_code=status.HTTP_201_CREATED)
 async def create_booking(payload: BookingCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)) -> BookingAccepted:
     if payload.preferred_date < date.today():
@@ -35,6 +47,10 @@ async def create_booking(payload: BookingCreate, background_tasks: BackgroundTas
         db.add(booking)
         db.flush()
         db.add(AuditEvent(booking_id=booking.id, action="booking_created", metadata_json={"service_type": booking.service_type, "privacy_consent": True}))
+        if booking.frequency != "One-off visit":
+            interval_days = {"Weekly": 7, "Fortnightly": 14, "Monthly": 28}.get(booking.frequency, 0)
+            if interval_days:
+                db.add(RecurringBookingPlan(source_booking_id=booking.id, customer_email=booking.customer_email, frequency=booking.frequency, next_date=booking.preferred_date + timedelta(days=interval_days)))
         db.commit()
     except SQLAlchemyError as exc:
         db.rollback()
@@ -77,6 +93,97 @@ def get_booking(booking_id: str, db: Session = Depends(get_db), admin: AdminUser
     return _booking_read(booking)
 
 
+@router.get("/admin/change-requests", response_model=list[AdminChangeRequestRead])
+def list_change_requests(
+    status_filter: CustomerChangeRequestStatus | None = Query(default=CustomerChangeRequestStatus.REQUESTED, alias="status"),
+    db: Session = Depends(get_db),
+    admin: AdminUser = Depends(get_current_admin),
+) -> list[AdminChangeRequestRead]:
+    requests = db.scalars(
+        select(CustomerChangeRequest)
+        .options(selectinload(CustomerChangeRequest.booking))
+        .where(CustomerChangeRequest.status == status_filter)
+        .order_by(CustomerChangeRequest.created_at.asc())
+    ).all()
+    return [
+        AdminChangeRequestRead(
+            id=request.id,
+            booking_id=request.booking_id,
+            customer_email=request.customer_email,
+            customer_name=request.booking.customer_name,
+            service_type=request.booking.service_type,
+            current_date=request.booking.preferred_date,
+            current_time=request.booking.preferred_time,
+            booking_status=request.booking.status,
+            request_type=request.request_type,
+            requested_date=request.requested_date,
+            requested_time=request.requested_time,
+            message=request.message,
+            status=request.status,
+            created_at=request.created_at,
+            reviewed_at=request.reviewed_at,
+            resolved_at=request.resolved_at,
+            resolution=request.resolution,
+            resolution_note=request.resolution_note,
+        )
+        for request in requests
+    ]
+
+
+@router.patch("/admin/change-requests/{request_id}", response_model=AdminChangeRequestRead)
+async def update_change_request(
+    request_id: str,
+    payload: AdminChangeRequestUpdate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    admin: AdminUser = Depends(get_current_admin),
+) -> AdminChangeRequestRead:
+    change_request = db.scalar(select(CustomerChangeRequest).options(selectinload(CustomerChangeRequest.booking)).where(CustomerChangeRequest.id == request_id))
+    if change_request is None or change_request.booking is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Change request not found")
+    if change_request.status is CustomerChangeRequestStatus.RESOLVED:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="This change request has already been resolved")
+    now = datetime.now(timezone.utc)
+    change_request.status = CustomerChangeRequestStatus.REVIEWED if payload.status == "reviewed" else CustomerChangeRequestStatus.RESOLVED
+    change_request.reviewed_at = change_request.reviewed_at or now
+    change_request.resolution = payload.resolution
+    change_request.resolution_note = payload.resolution_note
+    if payload.status == "resolved":
+        change_request.resolved_at = now
+        change_request.resolved_by_admin_id = admin.id
+        if payload.resolution == "approved":
+            if change_request.request_type.value == "cancel":
+                change_request.booking.status = BookingStatus.CANCELLED
+            elif change_request.requested_date is not None and change_request.requested_time is not None:
+                change_request.booking.preferred_date = change_request.requested_date
+                change_request.booking.preferred_time = change_request.requested_time
+    db.add(AuditEvent(admin_id=admin.id, booking_id=change_request.booking_id, action="customer_change_request_updated", metadata_json={"request_id": request_id, "status": payload.status, "resolution": payload.resolution, "note": payload.resolution_note}))
+    db.commit()
+    db.refresh(change_request)
+    background_tasks.add_task(notify_customer_change_resolution, change_request.id)
+    request = change_request
+    return AdminChangeRequestRead(
+        id=request.id,
+        booking_id=request.booking_id,
+        customer_email=request.customer_email,
+        customer_name=request.booking.customer_name,
+        service_type=request.booking.service_type,
+        current_date=request.booking.preferred_date,
+        current_time=request.booking.preferred_time,
+        booking_status=request.booking.status,
+        request_type=request.request_type,
+        requested_date=request.requested_date,
+        requested_time=request.requested_time,
+        message=request.message,
+        status=request.status,
+        created_at=request.created_at,
+        reviewed_at=request.reviewed_at,
+        resolved_at=request.resolved_at,
+        resolution=request.resolution,
+        resolution_note=request.resolution_note,
+    )
+
+
 @router.patch("/admin/bookings/{booking_id}", response_model=BookingRead)
 async def update_booking(
     booking_id: str,
@@ -96,6 +203,47 @@ async def update_booking(
     db.refresh(booking)
     await _invalidate_booking_cache()
     return _booking_read(booking)
+
+
+@router.post("/admin/recurring/run", response_model=dict[str, int])
+def run_recurring_bookings(db: Session = Depends(get_db), admin: AdminUser = Depends(get_current_admin)) -> dict[str, int]:
+    today = date.today()
+    plans = db.scalars(select(RecurringBookingPlan).where(RecurringBookingPlan.active.is_(True), RecurringBookingPlan.next_date <= today).order_by(RecurringBookingPlan.next_date.asc())).all()
+    created = 0
+    for plan in plans:
+        source = db.get(Booking, plan.source_booking_id)
+        if source is None or source.status is BookingStatus.CANCELLED:
+            plan.active = False
+            continue
+        interval_days = {"Weekly": 7, "Fortnightly": 14, "Monthly": 28}.get(plan.frequency)
+        if not interval_days:
+            plan.active = False
+            continue
+        next_booking = Booking(customer_name=source.customer_name, customer_email=source.customer_email, customer_phone=source.customer_phone, postcode=source.postcode, service_type=source.service_type, frequency=source.frequency, preferred_date=plan.next_date, preferred_time=source.preferred_time, notes=source.notes, status=BookingStatus.NEW, currency=source.currency, payment_status=source.payment_status)
+        db.add(next_booking)
+        plan.last_generated_at = datetime.now(timezone.utc)
+        plan.next_date = plan.next_date + timedelta(days=interval_days)
+        created += 1
+    db.commit()
+    return {"created": created, "plans_checked": len(plans)}
+
+
+@router.get("/admin/analytics", response_model=AdminAnalyticsResponse)
+def analytics(db: Session = Depends(get_db), admin: AdminUser = Depends(get_current_admin)) -> AdminAnalyticsResponse:
+    today = date.today()
+    month_start = today.replace(day=1)
+    month_end = today.replace(day=monthrange(today.year, today.month)[1])
+    month_bookings = db.scalars(select(Booking).where(Booking.preferred_date >= month_start, Booking.preferred_date <= month_end)).all()
+    completed = [booking for booking in month_bookings if booking.status is BookingStatus.COMPLETED]
+    cancelled = [booking for booking in month_bookings if booking.status is BookingStatus.CANCELLED]
+    totals = [booking.total_pence for booking in completed if booking.total_pence is not None]
+    return AdminAnalyticsResponse(
+        bookings_this_month=len(month_bookings),
+        completed_this_month=len(completed),
+        cancelled_this_month=len(cancelled),
+        revenue_pence_this_month=sum(totals),
+        average_booking_total_pence=round(sum(totals) / len(totals)) if totals else None,
+    )
 
 
 @router.get("/admin/dashboard", response_model=DashboardResponse)

@@ -5,7 +5,7 @@ import enum
 import uuid
 from datetime import date, datetime, time
 
-from sqlalchemy import JSON, Boolean, Date, DateTime, Enum, ForeignKey, Index, String, Text, Time, func
+from sqlalchemy import JSON, Boolean, Date, DateTime, Enum, ForeignKey, Index, Integer, String, Text, Time, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -118,8 +118,54 @@ class CustomerChangeRequest(Base):
     message: Mapped[str | None] = mapped_column(Text)
     status: Mapped[CustomerChangeRequestStatus] = mapped_column(Enum(CustomerChangeRequestStatus, name="customer_change_request_status"), nullable=False, default=CustomerChangeRequestStatus.REQUESTED, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    resolved_by_admin_id: Mapped[str | None] = mapped_column(ForeignKey("admin_users.id", ondelete="SET NULL"), index=True)
+    resolution: Mapped[str | None] = mapped_column(String(16))
+    resolution_note: Mapped[str | None] = mapped_column(Text)
 
     booking: Mapped[Booking] = relationship()
+    resolved_by_admin: Mapped[AdminUser | None] = relationship(foreign_keys=[resolved_by_admin_id])
+
+
+class ReferralCode(Base):
+    __tablename__ = "referral_codes"
+    __table_args__ = (Index("ix_referral_codes_active_expires_at", "active", "expires_at"),)
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
+    code: Mapped[str] = mapped_column(String(32), unique=True, nullable=False, index=True)
+    discount_percent: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    max_redemptions: Mapped[int | None] = mapped_column(Integer)
+    redemption_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+
+class RecurringBookingPlan(Base):
+    __tablename__ = "recurring_booking_plans"
+    __table_args__ = (Index("ix_recurring_booking_plans_due_active", "next_date", "active"),)
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
+    source_booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id", ondelete="CASCADE"), nullable=False, index=True)
+    customer_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    frequency: Mapped[str] = mapped_column(String(32), nullable=False)
+    next_date: Mapped[date] = mapped_column(Date, nullable=False, index=True)
+    active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, index=True)
+    last_generated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+
+class CustomerDataRequest(Base):
+    __tablename__ = "customer_data_requests"
+    __table_args__ = (Index("ix_customer_data_requests_email_status", "customer_email", "status"),)
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
+    customer_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    request_type: Mapped[str] = mapped_column(String(16), nullable=False)
+    status: Mapped[str] = mapped_column(String(16), nullable=False, default="requested", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class CustomerMagicLink(Base):

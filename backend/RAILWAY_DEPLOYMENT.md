@@ -46,6 +46,25 @@ Create these under **Service → Variables**. Set sensitive values as masked/sec
 
 Railway supplies the `PORT` variable automatically. Do not add it manually unless troubleshooting tells you to do so. The backend `requirements.txt` includes ReportLab for generating receipts in memory; no PDF files are stored on disk. Store only payment metadata and processor references in BrightNest. Never store card numbers, CVV, bank details, PANs, or payment secrets; use a payment provider for those credentials.
 
+## Growth and operations configuration
+
+Add these optional variables when the corresponding production destinations are confirmed:
+
+| Name | Purpose |
+| --- | --- |
+| `COVERAGE_POSTCODE_PREFIXES` | Server-authoritative comma-separated prefixes BrightNest actually serves, for example `B6,B7,B8`. Do not use a broad prefix unless the whole range is genuinely covered. |
+| `VITE_COVERAGE_POSTCODE_PREFIXES` | Matching frontend prefixes for immediate form feedback; the backend remains authoritative. |
+| `VITE_GOOGLE_REVIEWS_URL` | Public Google Business Profile review URL. The site shows a link only when configured and never fabricates reviews. |
+| `VITE_TRUSTPILOT_URL` | Public Trustpilot profile URL, also shown only when configured. |
+
+Weekly, Fortnightly, and Monthly requests create recurring plans. A protected `POST /api/v1/admin/recurring/run` endpoint materializes due visits and advances each plan idempotently. Schedule it through a trusted Railway cron/heartbeat process using admin authentication; do not expose it without authentication.
+
+Referral eligibility is checked through `POST /api/v1/referrals/check`. The endpoint only validates active, non-expired codes within their redemption limit. Connect redemption to the real quote/payment workflow before advertising a live discount.
+
+Authenticated customers can download their export and submit a deletion request from the dashboard. Deletion requests must be reviewed against legal retention obligations before an administrator completes them.
+
+The frontend now includes `robots.txt` and `sitemap.xml`. Replace the sitemap domain if the production hostname changes.
+
 ## Verification checklist
 
 After deployment completes, open:

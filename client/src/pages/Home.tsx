@@ -237,6 +237,7 @@ export default function Home() {
   const [frequencyPickerOpen, setFrequencyPickerOpen] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [timePickerOpen, setTimePickerOpen] = useState(false);
+  const coveragePrefixes = (import.meta.env.VITE_COVERAGE_POSTCODE_PREFIXES || "B").split(",").map((prefix: string) => prefix.trim().toUpperCase()).filter(Boolean);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -244,6 +245,8 @@ export default function Home() {
   const phoneIsValid = /^(?:0\d{9,10}|44\d{9,10})$/.test(phoneDigits);
   const emailError = emailTouched ? (!email.trim() ? "Please enter an email address." : !emailIsValid ? "Enter a valid email address, for example you@example.com." : "") : "";
   const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
+  const normalizedPostcode = postcode.replace(/\s+/g, "").toUpperCase();
+  const postcodeIsCovered = normalizedPostcode.length > 0 && coveragePrefixes.some((prefix: string) => normalizedPostcode.startsWith(prefix));
   const selectedService = services.find((item) => item.title === service);
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
   const selectedTime = timeSlots.find((item) => item.value === time);
@@ -268,8 +271,8 @@ export default function Home() {
       setPhoneTouched(true);
     }
 
-    if (step === 2 && (!name.trim() || !emailIsValid || !phoneIsValid || !postcode.trim())) {
-      setFormError("Please check your contact details before continuing.");
+    if (step === 2 && (!name.trim() || !emailIsValid || !phoneIsValid || !postcode.trim() || !postcodeIsCovered)) {
+      setFormError(!postcodeIsCovered ? "BrightNest is not currently showing coverage for this postcode. Please contact the team for a tailored check." : "Please check your contact details before continuing.");
       return;
     }
 
@@ -588,6 +591,7 @@ export default function Home() {
                 </div>
               </div>
               <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/60">Authentic client feedback and before-and-after work shared with BrightNest.</figcaption>
+              {(import.meta.env.VITE_GOOGLE_REVIEWS_URL || import.meta.env.VITE_TRUSTPILOT_URL) && <div className="relative z-10 mt-5 flex flex-wrap gap-2">{import.meta.env.VITE_GOOGLE_REVIEWS_URL && <a href={import.meta.env.VITE_GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Google Reviews <ArrowRight className="h-3.5 w-3.5" /></a>}{import.meta.env.VITE_TRUSTPILOT_URL && <a href={import.meta.env.VITE_TRUSTPILOT_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Trustpilot <ArrowRight className="h-3.5 w-3.5" /></a>}</div>}
             </figure>
           </div>
         </section>
@@ -792,7 +796,8 @@ export default function Home() {
                           </div>
                           <div>
                             <label htmlFor="postcode" className="field-label">Your postcode</label>
-                            <input id="postcode" value={postcode} onChange={(event) => setPostcode(event.target.value)} placeholder="e.g. B1 1AA" className="field-control" required />
+                            <input id="postcode" value={postcode} onChange={(event) => setPostcode(event.target.value)} placeholder="e.g. B1 1AA" className={`field-control ${postcode && postcodeIsCovered ? "field-control-valid" : postcode && !postcodeIsCovered ? "field-control-error" : ""}`} aria-invalid={Boolean(postcode && !postcodeIsCovered)} aria-describedby="postcode-help" required />
+                            <p id="postcode-help" className={`field-validation-message ${postcode && postcodeIsCovered ? "field-validation-message-valid" : postcode && !postcodeIsCovered ? "field-validation-message-error" : ""}`} aria-live="polite">{postcode && postcodeIsCovered ? "Coverage area found." : postcode && !postcodeIsCovered ? "Please contact us to confirm coverage for this area." : "Birmingham and selected surrounding areas."}</p>
                           </div>
                         </div>
                         <div>

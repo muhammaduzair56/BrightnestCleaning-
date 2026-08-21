@@ -80,6 +80,42 @@ async def notify_customer_change_request(change_request_id: str) -> None:
         session.close()
 
 
+async def notify_customer_change_resolution(change_request_id: str) -> None:
+    """Tell the customer how BrightNest resolved their booking-change request."""
+    session: Session = SessionLocal()
+    try:
+        change_request = session.get(CustomerChangeRequest, change_request_id)
+        if change_request is None or change_request.booking is None or settings.resend_api_key is None:
+            return
+        resend.api_key = settings.resend_api_key.get_secret_value()
+        booking = change_request.booking
+        decision = "approved" if change_request.resolution == "approved" else "declined"
+        decision_text = "approved" if decision == "approved" else "not approved"
+        next_visit = f"{booking.preferred_date} at {booking.preferred_time.strftime('%H:%M')}"
+        html = (
+            "<h2>BrightNest booking-change update</h2>"
+            f"<p>Your request to <strong>{escape(change_request.request_type.value)}</strong> booking "
+            f"<strong>{escape(booking.id[:8])}</strong> has been <strong>{decision_text}</strong>.</p>"
+            f"<p>Your current booking is scheduled for {escape(next_visit)}.</p>"
+            f"<p>{escape(change_request.resolution_note or 'Please reply to this email if you need any further help.')}</p>"
+        )
+        params: resend.Emails.SendParams = {
+            "from": settings.email_from,
+            "to": [booking.customer_email],
+            "subject": f"BrightNest booking-change request {decision_text}",
+            "html": html,
+            "tags": [{"name": "booking_id", "value": booking.id}, {"name": "event", "value": "customer_change_resolved"}],
+        }
+        options: resend.Emails.SendOptions = {"idempotency_key": f"customer-change-resolution/{change_request.id}/{change_request.resolution}"}
+        await resend.Emails.send_async(params, options)
+    except ResendError:
+        logger.exception("Customer change resolution notification failed request_id=%s", change_request_id)
+    except Exception:
+        logger.exception("Unexpected customer change resolution notification failure request_id=%s", change_request_id)
+    finally:
+        session.close()
+
+
 async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
     """Send a customer dashboard link without exposing booking data in the URL."""
     if settings.resend_api_key is None:
