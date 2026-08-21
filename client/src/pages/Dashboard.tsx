@@ -3,7 +3,7 @@
  * ink navy type, mint accents, generous but compact mobile rhythm, and no seeded data.
  */
 import { CustomerBooking, CustomerDashboard, CustomerChangePayload, configuredApiUrl, customerApi } from "@/lib/api";
-import { ArrowLeft, ArrowUpRight, CalendarDays, CheckCircle2, Clock3, Download, KeyRound, LoaderCircle, LogOut, Mail, RefreshCw, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarDays, CheckCircle2, Clock3, Download, KeyRound, LoaderCircle, LogOut, Mail, ReceiptText, RefreshCw, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
 
@@ -74,6 +74,20 @@ function ChangeRequestPanel({ booking, token, onSubmitted, onClose }: { booking:
   </div>;
 }
 
+function formatMoney(currency: string, pence: number | null) {
+  return pence === null ? "Not recorded" : `${currency} ${(pence / 100).toFixed(2)}`;
+}
+
+function PricingBreakdown({ booking }: { booking: CustomerBooking }) {
+  const hasBreakdown = booking.subtotal_pence !== null || booking.tax_pence !== null || booking.total_pence !== null;
+  if (!hasBreakdown) return <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#f8f6ef] px-4 py-3 text-sm leading-6 text-[#173137]/60"><ReceiptText className="mt-1 h-4 w-4 shrink-0 text-[#2f9f91]" /><span>Pricing details have not been recorded for this visit yet.</span></div>;
+  const total = booking.total_pence ?? 0;
+  const subtotalWidth = total > 0 && booking.subtotal_pence !== null ? Math.min(100, Math.max(0, (booking.subtotal_pence / total) * 100)) : 0;
+  const taxWidth = total > 0 && booking.tax_pence !== null ? Math.min(100, Math.max(0, (booking.tax_pence / total) * 100)) : 0;
+  const paymentLabel = booking.payment_status.replaceAll("_", " ");
+  return <div className="mt-5 rounded-[20px] border border-[#173137]/10 bg-[#f8f6ef] p-4 sm:p-5" aria-label="Pricing breakdown"><div className="flex items-start justify-between gap-4"><div><p className="eyebrow text-[#2f9f91]">Visit total</p><h4 className="font-display mt-1 text-3xl tracking-[-0.05em]">{formatMoney(booking.currency, booking.total_pence)}</h4></div><span className="rounded-full bg-[#dce8d5] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.1em] text-[#173137]">{paymentLabel}</span></div><div className="mt-5 h-3 overflow-hidden rounded-full bg-[#d9e3df]" role="img" aria-label={`Subtotal ${formatMoney(booking.currency, booking.subtotal_pence)} and tax ${formatMoney(booking.currency, booking.tax_pence)}`}><div className="flex h-full"><span className="bg-[#2f9f91]" style={{ width: `${subtotalWidth}%` }} /><span className="bg-[#f1c9ad]" style={{ width: `${taxWidth}%` }} /></div></div><div className="mt-4 grid gap-2 text-sm sm:grid-cols-2"><div className="flex items-center justify-between gap-4"><span className="flex items-center gap-2 text-[#173137]/60"><span className="h-2.5 w-2.5 rounded-full bg-[#2f9f91]" /> Subtotal</span><strong>{formatMoney(booking.currency, booking.subtotal_pence)}</strong></div><div className="flex items-center justify-between gap-4"><span className="flex items-center gap-2 text-[#173137]/60"><span className="h-2.5 w-2.5 rounded-full bg-[#f1c9ad]" /> Tax{booking.tax_rate_basis_points !== null ? ` (${(booking.tax_rate_basis_points / 100).toFixed(2)}%)` : ""}</span><strong>{formatMoney(booking.currency, booking.tax_pence)}</strong></div></div><div className="mt-4 flex items-center justify-between border-t border-[#173137]/10 pt-3 text-sm"><span className="font-bold text-[#173137]/60">Payment status</span><strong className="capitalize">{paymentLabel}</strong></div></div>;
+}
+
 function BookingCard({ booking, token, onChanged, showReceipt = false }: { booking: CustomerBooking; token?: string; onChanged?: () => void; showReceipt?: boolean }) {
   const [editing, setEditing] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -103,6 +117,7 @@ function BookingCard({ booking, token, onChanged, showReceipt = false }: { booki
     <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#2f9f91]">{formatDate(booking.preferred_date)}</p><h3 className="font-display mt-2 text-[28px] leading-none tracking-[-0.055em] text-[#173137]">{booking.service_type}</h3></div><span className={`rounded-full px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.1em] ${statusTones[booking.status]}`}>{statusLabels[booking.status]}</span></div>
     <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#173137]/10 pt-4 text-sm font-bold text-[#173137]/65"><span className="inline-flex items-center gap-2"><Clock3 className="h-4 w-4 text-[#2f9f91]" /> {booking.preferred_time.slice(0, 5)}</span><span>{booking.frequency}</span>{booking.total_pence !== null && <span>{booking.currency} {(booking.total_pence / 100).toFixed(2)} · {booking.payment_status.replace("_", " ")}</span>}</div>
     <p className="mt-4 text-xs font-bold text-[#173137]/45">Reference {booking.id.slice(0, 8).toUpperCase()}</p>
+    {showReceipt && <PricingBreakdown booking={booking} />}
     {booking.change_request ? <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#edf3ed] px-4 py-3 text-sm font-bold leading-6 text-[#173137]/70"><RefreshCw className="mt-1 h-4 w-4 shrink-0 text-[#2f9f91]" /><span>{requestStatusLabels[booking.change_request.status]}. The BrightNest team will contact you by email.</span></div> : canChange && <button type="button" onClick={() => setEditing((open) => !open)} className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#173137]/15 px-4 py-2.5 text-sm font-extrabold text-[#173137] transition-colors hover:border-[#2f9f91] hover:text-[#2f9f91]">Change this booking <ArrowUpRight className="h-4 w-4" /></button>}
     {showReceipt && token && <div className="mt-5 border-t border-[#173137]/10 pt-4"><button type="button" onClick={() => void downloadReceipt()} disabled={downloading} className="inline-flex items-center gap-2 rounded-full border border-[#173137]/15 px-4 py-2.5 text-sm font-extrabold text-[#173137] transition-colors hover:border-[#2f9f91] hover:text-[#2f9f91] disabled:cursor-wait disabled:opacity-60">{downloading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}{downloading ? "Preparing receipt…" : "Download receipt"}</button>{downloadError && <p className="mt-3 text-sm font-bold text-[#b35b3d]" role="alert">{downloadError}</p>}</div>}
     {editing && token && <ChangeRequestPanel booking={booking} token={token} onSubmitted={() => { setEditing(false); onChanged?.(); }} onClose={() => setEditing(false)} />}

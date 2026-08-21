@@ -80,6 +80,7 @@
 - [x] Define safe pricing, tax, and payment-status fields without storing card or bank credentials.
 - [x] Add pricing/payment migration, admin editing, and customer receipt display.
 - [x] Test amount calculations, payment authorization, and invoice PDF output.
+- [x] Add visual subtotal, tax, total, and payment-status breakdowns to past customer bookings.
 
 ## Client-feedback asset validation
 
