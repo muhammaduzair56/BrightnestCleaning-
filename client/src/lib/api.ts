@@ -92,12 +92,30 @@ export const bookingApi = {
     request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
 };
 
+async function requestBlob(path: string, accessToken: string): Promise<Blob> {
+  const headers = new Headers({ Authorization: `Bearer ${accessToken}` });
+  let response: Response;
+  try {
+    response = await fetch(apiUrl(path), { headers });
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+    throw new ApiError("We could not reach the booking service. Please check your connection and try again.");
+  }
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null);
+    const detail = payload?.detail;
+    throw new ApiError(typeof detail === "string" ? detail : "The receipt could not be downloaded.", response.status);
+  }
+  return response.blob();
+}
+
 export const customerApi = {
   requestAccess: (email: string) => request<{ message: string }>("/customer/access/request", { method: "POST", body: JSON.stringify({ email }) }),
   exchange: (token: string) => request<CustomerAccessToken>("/customer/access/exchange", { method: "POST", body: JSON.stringify({ token }) }),
   bookings: (token: string) => request<CustomerDashboard>("/customer/bookings", {}, token),
   requestChange: (token: string, bookingId: string, payload: CustomerChangePayload) =>
     request<{ id: string; message: string; status: CustomerChangeRequest["status"] }>(`/customer/bookings/${bookingId}/change-requests`, { method: "POST", body: JSON.stringify(payload) }, token),
+  downloadReceipt: (token: string, bookingId: string) => requestBlob(`/customer/bookings/${bookingId}/receipt`, token),
 };
 
 export { ApiError, configuredApiUrl };

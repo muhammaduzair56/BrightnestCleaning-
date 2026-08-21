@@ -14,7 +14,7 @@ from sqlalchemy.orm import sessionmaker
 from app.cache import cache
 from app.database import Base, get_db
 from app.main import app
-from app.models import AdminUser
+from app.models import AdminUser, Booking, BookingStatus
 from app.schemas import BookingCreate
 from app.security import create_access_token, decode_token, hash_password
 
@@ -239,6 +239,21 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         refreshed_body = client.get("/api/v1/customer/bookings", headers=headers).json()
         assert refreshed_body["upcoming"][0]["change_request"]["request_type"] == "reschedule"
         assert refreshed_body["upcoming"][1]["change_request"]["request_type"] == "cancel"
+
+        with TestSession() as session:
+            completed_booking = session.get(Booking, first_booking_id)
+            completed_booking.status = BookingStatus.COMPLETED
+            session.commit()
+
+        receipt_response = client.get(f"/api/v1/customer/bookings/{first_booking_id}/receipt", headers=headers)
+        assert receipt_response.status_code == 200
+        assert receipt_response.headers["content-type"].startswith("application/pdf")
+        assert "attachment" in receipt_response.headers["content-disposition"]
+        assert receipt_response.content.startswith(b"%PDF")
+        assert b"BrightNest" in receipt_response.content
+
+        unavailable_receipt_response = client.get(f"/api/v1/customer/bookings/{second_booking_id}/receipt", headers=headers)
+        assert unavailable_receipt_response.status_code == 409
     finally:
         app.dependency_overrides.clear()
         engine.dispose()

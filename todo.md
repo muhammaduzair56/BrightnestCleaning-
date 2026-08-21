@@ -75,6 +75,8 @@
 - [x] Add customer-authenticated reschedule and cancellation request workflow.
 - [x] Notify the BrightNest team when a customer submits a booking change request.
 - [x] Add dashboard controls, confirmation states, and backend tests for booking change requests.
+- [x] Add secure PDF receipt generation for completed customer bookings.
+- [x] Add customer-scoped receipt download controls and PDF output tests.
 
 ## Client-feedback asset validation
 

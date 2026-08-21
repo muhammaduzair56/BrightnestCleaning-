@@ -4,6 +4,8 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
+from io import BytesIO
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -11,6 +13,7 @@ from app.config import get_settings
 from app.database import get_db
 from app.models import Booking, CustomerChangeRequest, CustomerChangeRequestStatus, CustomerMagicLink
 from app.notifications import notify_customer_change_request, send_customer_magic_link
+from app.receipts import build_completed_receipt_pdf
 from app.schemas import (
     CustomerAccessExchange,
     CustomerAccessRequest,
@@ -87,6 +90,31 @@ def exchange_customer_access(
     return CustomerAccessTokenResponse(
         access_token=create_customer_access_token(link.customer_email),
         expires_in=settings.customer_magic_link_minutes * 60,
+    )
+
+
+@router.get("/bookings/{booking_id}/receipt")
+def download_completed_receipt(
+    booking_id: str,
+    customer_email: str = Depends(get_current_customer),
+    db: Session = Depends(get_db),
+) -> StreamingResponse:
+    booking = db.scalar(
+        select(Booking).where(
+            Booking.id == booking_id,
+            func.lower(Booking.customer_email) == customer_email,
+        )
+    )
+    if booking is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
+    if booking.status.value != "completed":
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="A receipt is available after the cleaning is completed")
+    pdf = build_completed_receipt_pdf(booking)
+    filename = f"brightnest-receipt-{booking.id[:8].lower()}.pdf"
+    return StreamingResponse(
+        BytesIO(pdf),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )
 
 
