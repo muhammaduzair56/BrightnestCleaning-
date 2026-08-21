@@ -57,6 +57,16 @@ def hash_token_identifier(jti: str) -> str:
     return hashlib.sha256(jti.encode("utf-8")).hexdigest()
 
 
+def create_customer_magic_token() -> tuple[str, str]:
+    raw_token = secrets.token_urlsafe(32)
+    return raw_token, hash_token_identifier(raw_token)
+
+
+def create_customer_access_token(customer_email: str) -> str:
+    token, _ = _issue_token(customer_email.lower(), "customer_access", timedelta(minutes=settings.customer_magic_link_minutes))
+    return token
+
+
 def decode_token(token: str, expected_type: str) -> dict[str, object]:
     try:
         payload = jwt.decode(token, settings.jwt_secret.get_secret_value(), algorithms=[settings.jwt_algorithm])
@@ -65,6 +75,15 @@ def decode_token(token: str, expected_type: str) -> dict[str, object]:
     if payload.get("type") != expected_type or not payload.get("sub"):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication token")
     return payload
+
+
+def get_current_customer(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+) -> str:
+    if credentials is None or credentials.scheme.lower() != "bearer":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Customer access is required")
+    payload = decode_token(credentials.credentials, "customer_access")
+    return str(payload["sub"]).lower()
 
 
 def get_current_admin(

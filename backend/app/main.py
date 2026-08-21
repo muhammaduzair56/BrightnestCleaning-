@@ -12,7 +12,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app.config import get_settings
 from app.rate_limit import RateLimitMiddleware
-from app.routers import auth, bookings
+from app.routers import auth, bookings, customer
 
 settings = get_settings()
 logging.basicConfig(level=settings.log_level, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -66,6 +66,7 @@ def create_app() -> FastAPI:
 
     app.include_router(auth.router, prefix=settings.api_prefix)
     app.include_router(bookings.router, prefix=settings.api_prefix)
+    app.include_router(customer.router, prefix=settings.api_prefix)
 
     return app
 

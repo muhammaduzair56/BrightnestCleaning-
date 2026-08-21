@@ -33,7 +33,9 @@ Create these under **Service → Variables**. Set sensitive values as masked/sec
 | `JWT_SECRET` | New random secret, 32+ characters | Yes |
 | `ADMIN_NOTIFICATION_EMAIL` | `brightnestcleaninguk@gmail.com` | Yes |
 | `EMAIL_FROM` | Sender on a verified Resend domain | Yes |
-| `RESEND_API_KEY` | Existing server-only Resend key | For booking notifications |
+| `RESEND_API_KEY` | Existing server-only Resend key | For booking notifications and customer magic links |
+| `FRONTEND_BASE_URL` | `https://brightnestcleaning.vercel.app` | Yes for customer dashboard links |
+| `CUSTOMER_MAGIC_LINK_MINUTES` | `30` | Recommended |
 | `BOOTSTRAP_ADMIN_EMAIL` | Private admin login email | Initial admin setup |
 | `BOOTSTRAP_ADMIN_PASSWORD` | Unique 12+ character password | Initial admin setup |
 | `ALLOWED_ORIGINS` | `https://brightnestcleaning.vercel.app` | Yes |
@@ -64,7 +66,7 @@ Then add this value in the Vercel frontend project and redeploy the website:
 VITE_API_BASE_URL=https://YOUR-RAILWAY-DOMAIN.up.railway.app
 ```
 
-Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login.
+Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected.
 
 ## Trial note
 

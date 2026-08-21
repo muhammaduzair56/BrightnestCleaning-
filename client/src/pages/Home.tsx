@@ -348,6 +348,7 @@ export default function Home() {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
+            <Link href="/dashboard" className="text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#2f9f91]">My bookings</Link>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
               <ShieldCheck className="h-4 w-4 text-[#2f9f91]" />
               Birmingham-based
@@ -381,6 +382,9 @@ export default function Home() {
                   {label} <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
                 </button>
               ))}
+              <Link href="/dashboard" className="mt-4 flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>
+                My bookings <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
+              </Link>
               <button
                 className="btn-primary mt-4 w-full justify-center"
                 onClick={() => {

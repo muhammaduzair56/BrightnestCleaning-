@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_minutes: int = 15
     refresh_token_days: int = 7
+    customer_magic_link_minutes: int = 30
+    frontend_base_url: str = "http://localhost:5173"
     redis_url: str | None = None
     resend_api_key: SecretStr | None = None
     admin_notification_email: EmailStr

@@ -66,6 +66,12 @@
 - [x] Identify and eliminate the remaining mobile horizontal overflow/right-edge gap.
 - [x] Add the supplied authentic client feedback to the website trust section.
 - [x] Replace the current logo with the supplied BrightNest Cleaning UK logo asset.
+- [x] Create and deliver a complete latest-source ZIP archive.
+- [x] Document production items to add and items that must remain excluded.
+- [ ] Audit booking authentication and API access for a real client dashboard.
+- [x] Build upcoming and past booking dashboard views without seeded or fake data.
+- [ ] Add secure customer magic-link issuance and verification.
+- [ ] Add customer-scoped upcoming and past booking dashboard APIs and UI.
 
 ## Client-feedback asset validation
 

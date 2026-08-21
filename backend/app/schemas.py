@@ -105,6 +105,42 @@ class BookingAccepted(BaseModel):
     message: str
 
 
+class CustomerAccessRequest(BaseModel):
+    email: EmailStr
+
+
+class CustomerAccessResponse(BaseModel):
+    message: str
+
+
+class CustomerAccessExchange(BaseModel):
+    token: str = Field(min_length=20, max_length=4096)
+
+
+class CustomerAccessTokenResponse(BaseModel):
+    access_token: str
+    token_type: Literal["bearer"] = "bearer"
+    expires_in: int
+
+
+class CustomerBookingRead(BaseModel):
+    id: str
+    service_type: str
+    frequency: str
+    preferred_date: date
+    preferred_time: time
+    status: BookingStatus
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CustomerDashboardResponse(BaseModel):
+    customer_email: EmailStr
+    upcoming: list[CustomerBookingRead]
+    past: list[CustomerBookingRead]
+
+
 class AdminLoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)

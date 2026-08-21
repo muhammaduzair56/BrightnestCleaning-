@@ -73,3 +73,8 @@ Reference se conversion concepts adopt kiye jayenge: clear top navigation, servi
 ## Style Decisions
 
 Public copy mein build-status, implementation ya placeholder language nahin hogi; har line ek real Birmingham customer ko calmly guide kare gi. **BrightNest Mint** key actions, service numerals aur small graphic details mein signature signal rahe ga, jab ke apricot limited warmth accent ho ga. Nested-home / leaf-arc mark sirf logo tak limited nahin rahe ga: nestline arcs ko hero labels, service-card artwork aur brand containers mein repeat kiya jayega taake page ki visual language ownable aur consistently BrightNest lage.
+
+### Accepted review amendments
+- Customer-facing dashboard states must remain calm and helpful; they must not expose API, deployment, environment-variable, or build language.
+- The supplied BrightNest mark should be reused consistently in customer-facing account surfaces rather than substituted with generic iconography.
+- Trust proof must remain grounded in authentic client material; where source context is not available, prefer service standards and process reassurance over invented reviews.

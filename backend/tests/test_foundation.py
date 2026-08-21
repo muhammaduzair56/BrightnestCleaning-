@@ -125,3 +125,106 @@ def test_public_booking_endpoint_applies_rate_limit_before_database_work():
     responses = [client.post("/api/v1/bookings", json=invalid_payload) for _ in range(9)]
     assert responses[-1].status_code == 429
     assert responses[-1].headers["Retry-After"]
+
+
+def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_path):
+    from urllib.parse import parse_qs, urlparse
+
+    database_path = tmp_path / "brightnest-customer-test.sqlite"
+    engine = create_engine(f"sqlite:///{database_path}")
+    Base.metadata.create_all(engine)
+    TestSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def override_db():
+        session = TestSession()
+        try:
+            yield session
+        finally:
+            session.close()
+
+    async def skip_booking_email(booking_id: str):
+        return None
+
+    captured = {}
+
+    async def capture_magic_link(email: str, raw_token: str):
+        captured["email"] = email
+        captured["raw_token"] = raw_token
+
+    app.dependency_overrides[get_db] = override_db
+    monkeypatch.setattr("app.routers.bookings.notify_new_booking", skip_booking_email)
+    monkeypatch.setattr("app.routers.customer.send_customer_magic_link", capture_magic_link)
+    cache._local.clear()
+    cache._local_limits.clear()
+    client = TestClient(app)
+    try:
+        booking_response = client.post(
+            "/api/v1/bookings",
+            json={
+                "customer_name": "Amina Khan",
+                "customer_email": "amina@example.co.uk",
+                "postcode": "B1 1AA",
+                "service_type": "Deep cleaning",
+                "frequency": "One-off visit",
+                "preferred_date": "2030-01-01",
+                "preferred_time": "10:30:00",
+                "privacy_consent": True,
+            },
+        )
+        assert booking_response.status_code == 201
+
+        access_request = client.post("/api/v1/customer/access/request", json={"email": "amina@example.co.uk"})
+        assert access_request.status_code == 202
+        assert captured["email"] == "amina@example.co.uk"
+        raw_token = captured["raw_token"]
+
+        exchange_response = client.post("/api/v1/customer/access/exchange", json={"token": raw_token})
+        assert exchange_response.status_code == 200
+        customer_token = exchange_response.json()["access_token"]
+
+        bookings_response = client.get(
+            "/api/v1/customer/bookings",
+            headers={"Authorization": f"Bearer {customer_token}"},
+        )
+        assert bookings_response.status_code == 200
+        body = bookings_response.json()
+        assert body["customer_email"] == "amina@example.co.uk"
+        assert len(body["upcoming"]) == 1
+        assert body["upcoming"][0]["service_type"] == "Deep cleaning"
+        assert body["past"] == []
+    finally:
+        app.dependency_overrides.clear()
+        engine.dispose()
+
+
+def test_customer_access_request_does_not_disclose_unknown_email(monkeypatch, tmp_path):
+    database_path = tmp_path / "brightnest-unknown-customer-test.sqlite"
+    engine = create_engine(f"sqlite:///{database_path}")
+    Base.metadata.create_all(engine)
+    TestSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def override_db():
+        session = TestSession()
+        try:
+            yield session
+        finally:
+            session.close()
+
+    async def fail_if_email_sent(email: str, raw_token: str):
+        raise AssertionError("No email should be sent for an unknown customer")
+
+    app.dependency_overrides[get_db] = override_db
+    monkeypatch.setattr("app.routers.customer.send_customer_magic_link", fail_if_email_sent)
+    cache._local.clear()
+    cache._local_limits.clear()
+    client = TestClient(app)
+    try:
+        response = client.post("/api/v1/customer/access/request", json={"email": "unknown@example.co.uk"})
+        assert response.status_code == 202
+        assert "If we have booking requests" in response.json()["message"]
+        assert "unknown@example.co.uk" not in response.text
+    finally:
+        app.dependency_overrides.clear()
+        cache._local.clear()
+        cache._local_limits.clear()
+        engine.dispose()

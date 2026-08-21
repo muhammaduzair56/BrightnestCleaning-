@@ -30,6 +30,9 @@ export type Booking = BookingPayload & {
 export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
 export type Dashboard = Record<"total" | BookingStatus, number>;
 export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
+export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" | "preferred_date" | "preferred_time" | "status" | "created_at">;
+export type CustomerDashboard = { customer_email: string; upcoming: CustomerBooking[]; past: CustomerBooking[] };
+export type CustomerAccessToken = { access_token: string; token_type: "bearer"; expires_in: number };
 
 const configuredApiUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/$/, "");
 
@@ -77,6 +80,12 @@ export const bookingApi = {
   list: (token: string, filter: BookingStatus | "all" = "all") => request<BookingList>(`/admin/bookings${filter === "all" ? "" : `?status=${filter}`}`, {}, token),
   update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string }) =>
     request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
+};
+
+export const customerApi = {
+  requestAccess: (email: string) => request<{ message: string }>("/customer/access/request", { method: "POST", body: JSON.stringify({ email }) }),
+  exchange: (token: string) => request<CustomerAccessToken>("/customer/access/exchange", { method: "POST", body: JSON.stringify({ token }) }),
+  bookings: (token: string) => request<CustomerDashboard>("/customer/bookings", {}, token),
 };
 
 export { ApiError, configuredApiUrl };

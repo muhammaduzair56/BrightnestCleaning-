@@ -6,7 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 // Keep the shared app shell light; each page becomes a cacheable, on-demand route chunk.
-const Admin = lazy(() => import("./pages/Admin"));
+const Admin = lazy(() => import("@/pages/Admin"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Home = lazy(() => import("./pages/Home"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -26,7 +27,8 @@ function Router() {
     <Suspense fallback={<RouteLoadingFallback />}>
       <Switch>
         <Route path={"/"} component={Home} />
-        <Route path={"/admin"} component={Admin} />
+        <Route path="/admin" component={Admin} />
+      <Route path="/dashboard" component={Dashboard} />
         <Route path={"/privacy-policy"} component={PrivacyPolicy} />
         <Route path={"/terms-of-service"} component={TermsOfService} />
         <Route path={"/404"} component={NotFound} />

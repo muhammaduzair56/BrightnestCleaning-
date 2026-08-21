@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 from html import escape
+from urllib.parse import quote
 
 import resend
 from resend.exceptions import ResendError
@@ -11,6 +12,7 @@ from sqlalchemy.orm import Session
 from app.config import get_settings
 from app.database import SessionLocal
 from app.models import Booking
+from app.security import hash_token_identifier
 
 logger = logging.getLogger("brightnest.notifications")
 settings = get_settings()
@@ -35,6 +37,35 @@ def _booking_email_html(booking: Booking) -> str:
         for label, value in rows
     )
     return f"<h2>New BrightNest booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>"
+
+
+async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
+    """Send a customer dashboard link without exposing booking data in the URL."""
+    if settings.resend_api_key is None:
+        logger.warning("Customer magic link skipped because Resend is not configured email=%s", customer_email)
+        return False
+    resend.api_key = settings.resend_api_key.get_secret_value()
+    link = f"{settings.frontend_base_url.rstrip('/')}/dashboard?token={quote(raw_token)}"
+    html = (
+        "<h2>Your BrightNest booking dashboard</h2>"
+        "<p>Use the secure link below to view your upcoming and past booking requests.</p>"
+        f"<p><a href=\"{escape(link)}\">Open my booking dashboard</a></p>"
+        f"<p>This link expires in {settings.customer_magic_link_minutes} minutes and can only be used to access bookings for this email address.</p>"
+    )
+    params: resend.Emails.SendParams = {
+        "from": settings.email_from,
+        "to": [customer_email],
+        "subject": "Your BrightNest booking dashboard",
+        "html": html,
+        "tags": [{"name": "event", "value": "customer_magic_link"}, {"name": "email_hash", "value": hash_token_identifier(customer_email.lower())}],
+    }
+    options: resend.Emails.SendOptions = {"idempotency_key": f"customer-magic-link/{hash_token_identifier(raw_token)}"}
+    try:
+        await resend.Emails.send_async(params, options)
+        return True
+    except ResendError:
+        logger.exception("Customer magic-link delivery failed email=%s", customer_email)
+        return False
 
 
 async def notify_new_booking(booking_id: str) -> None:

@@ -74,6 +74,17 @@ class Booking(Base):
     audit_events: Mapped[list[AuditEvent]] = relationship(back_populates="booking", cascade="all, delete-orphan")
 
 
+class CustomerMagicLink(Base):
+    __tablename__ = "customer_magic_links"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, nullable=False, index=True)
+    customer_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
 
