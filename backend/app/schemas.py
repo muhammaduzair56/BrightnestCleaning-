@@ -4,9 +4,9 @@ from __future__ import annotations
 from datetime import date, datetime, time
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
 
-from app.models import BookingStatus
+from app.models import BookingStatus, CustomerChangeRequestStatus, CustomerChangeRequestType
 
 SERVICE_TYPES = {
     "Regular home cleaning",
@@ -123,6 +123,39 @@ class CustomerAccessTokenResponse(BaseModel):
     expires_in: int
 
 
+class CustomerChangeRequestCreate(BaseModel):
+    request_type: CustomerChangeRequestType
+    requested_date: date | None = None
+    requested_time: time | None = None
+    message: str | None = Field(default=None, max_length=1000)
+
+    @model_validator(mode="after")
+    def validate_request_details(self) -> "CustomerChangeRequestCreate":
+        if self.request_type is CustomerChangeRequestType.RESCHEDULE and (self.requested_date is None or self.requested_time is None):
+            raise ValueError("A new date and time are required for a reschedule request")
+        if self.requested_date is not None and self.requested_date < date.today():
+            raise ValueError("The requested date must be today or later")
+        return self
+
+
+class CustomerChangeRequestRead(BaseModel):
+    id: str
+    request_type: CustomerChangeRequestType
+    requested_date: date | None
+    requested_time: time | None
+    message: str | None
+    status: CustomerChangeRequestStatus
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CustomerChangeRequestResponse(BaseModel):
+    id: str
+    message: str
+    status: CustomerChangeRequestStatus
+
+
 class CustomerBookingRead(BaseModel):
     id: str
     service_type: str
@@ -131,6 +164,7 @@ class CustomerBookingRead(BaseModel):
     preferred_time: time
     status: BookingStatus
     created_at: datetime
+    change_request: CustomerChangeRequestRead | None = None
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -68,10 +68,13 @@
 - [x] Replace the current logo with the supplied BrightNest Cleaning UK logo asset.
 - [x] Create and deliver a complete latest-source ZIP archive.
 - [x] Document production items to add and items that must remain excluded.
-- [ ] Audit booking authentication and API access for a real client dashboard.
+- [x] Audit booking authentication and API access for a real client dashboard.
 - [x] Build upcoming and past booking dashboard views without seeded or fake data.
-- [ ] Add secure customer magic-link issuance and verification.
-- [ ] Add customer-scoped upcoming and past booking dashboard APIs and UI.
+- [x] Add secure customer magic-link issuance and verification.
+- [x] Add customer-scoped upcoming and past booking dashboard APIs and UI.
+- [x] Add customer-authenticated reschedule and cancellation request workflow.
+- [x] Notify the BrightNest team when a customer submits a booking change request.
+- [x] Add dashboard controls, confirmation states, and backend tests for booking change requests.
 
 ## Client-feedback asset validation
 

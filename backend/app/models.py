@@ -74,6 +74,37 @@ class Booking(Base):
     audit_events: Mapped[list[AuditEvent]] = relationship(back_populates="booking", cascade="all, delete-orphan")
 
 
+class CustomerChangeRequestType(str, enum.Enum):
+    RESCHEDULE = "reschedule"
+    CANCEL = "cancel"
+
+
+class CustomerChangeRequestStatus(str, enum.Enum):
+    REQUESTED = "requested"
+    REVIEWED = "reviewed"
+    RESOLVED = "resolved"
+
+
+class CustomerChangeRequest(Base):
+    __tablename__ = "customer_change_requests"
+    __table_args__ = (
+        Index("ix_customer_change_requests_booking_status", "booking_id", "status"),
+        Index("ix_customer_change_requests_email_created_at", "customer_email", "created_at"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
+    booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id", ondelete="CASCADE"), nullable=False, index=True)
+    customer_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    request_type: Mapped[CustomerChangeRequestType] = mapped_column(Enum(CustomerChangeRequestType, name="customer_change_request_type"), nullable=False)
+    requested_date: Mapped[date | None] = mapped_column(Date)
+    requested_time: Mapped[time | None] = mapped_column(Time)
+    message: Mapped[str | None] = mapped_column(Text)
+    status: Mapped[CustomerChangeRequestStatus] = mapped_column(Enum(CustomerChangeRequestStatus, name="customer_change_request_status"), nullable=False, default=CustomerChangeRequestStatus.REQUESTED, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
+
+    booking: Mapped[Booking] = relationship()
+
+
 class CustomerMagicLink(Base):
     __tablename__ = "customer_magic_links"
 

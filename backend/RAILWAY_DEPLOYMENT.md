@@ -66,7 +66,7 @@ Then add this value in the Vercel frontend project and redeploy the website:
 VITE_API_BASE_URL=https://YOUR-RAILWAY-DOMAIN.up.railway.app
 ```
 
-Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected.
+Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected. From an upcoming booking, submit one reschedule or cancellation request and confirm the customer sees a pending status while the BrightNest notification arrives at `ADMIN_NOTIFICATION_EMAIL`. Only one unresolved change request is accepted per booking.
 
 ## Trial note
 

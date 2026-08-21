@@ -151,9 +151,13 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         captured["email"] = email
         captured["raw_token"] = raw_token
 
+    async def skip_change_request_email(change_request_id: str):
+        return None
+
     app.dependency_overrides[get_db] = override_db
     monkeypatch.setattr("app.routers.bookings.notify_new_booking", skip_booking_email)
     monkeypatch.setattr("app.routers.customer.send_customer_magic_link", capture_magic_link)
+    monkeypatch.setattr("app.routers.customer.notify_customer_change_request", skip_change_request_email)
     cache._local.clear()
     cache._local_limits.clear()
     client = TestClient(app)
@@ -172,6 +176,20 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
             },
         )
         assert booking_response.status_code == 201
+        second_booking_response = client.post(
+            "/api/v1/bookings",
+            json={
+                "customer_name": "Amina Khan",
+                "customer_email": "amina@example.co.uk",
+                "postcode": "B1 1AA",
+                "service_type": "Oven cleaning",
+                "frequency": "One-off visit",
+                "preferred_date": "2030-01-02",
+                "preferred_time": "14:00:00",
+                "privacy_consent": True,
+            },
+        )
+        assert second_booking_response.status_code == 201
 
         access_request = client.post("/api/v1/customer/access/request", json={"email": "amina@example.co.uk"})
         assert access_request.status_code == 202
@@ -189,9 +207,38 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         assert bookings_response.status_code == 200
         body = bookings_response.json()
         assert body["customer_email"] == "amina@example.co.uk"
-        assert len(body["upcoming"]) == 1
+        assert len(body["upcoming"]) == 2
         assert body["upcoming"][0]["service_type"] == "Deep cleaning"
         assert body["past"] == []
+
+        first_booking_id = booking_response.json()["booking_id"]
+        second_booking_id = second_booking_response.json()["booking_id"]
+        headers = {"Authorization": f"Bearer {customer_token}"}
+        reschedule_response = client.post(
+            f"/api/v1/customer/bookings/{first_booking_id}/change-requests",
+            headers=headers,
+            json={"request_type": "reschedule", "requested_date": "2030-01-03", "requested_time": "11:30:00", "message": "Thursday would suit us better."},
+        )
+        assert reschedule_response.status_code == 201
+        assert reschedule_response.json()["status"] == "requested"
+
+        cancellation_response = client.post(
+            f"/api/v1/customer/bookings/{second_booking_id}/change-requests",
+            headers=headers,
+            json={"request_type": "cancel", "message": "Please cancel this visit."},
+        )
+        assert cancellation_response.status_code == 201
+
+        duplicate_response = client.post(
+            f"/api/v1/customer/bookings/{first_booking_id}/change-requests",
+            headers=headers,
+            json={"request_type": "cancel"},
+        )
+        assert duplicate_response.status_code == 409
+
+        refreshed_body = client.get("/api/v1/customer/bookings", headers=headers).json()
+        assert refreshed_body["upcoming"][0]["change_request"]["request_type"] == "reschedule"
+        assert refreshed_body["upcoming"][1]["change_request"]["request_type"] == "cancel"
     finally:
         app.dependency_overrides.clear()
         engine.dispose()

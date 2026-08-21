@@ -30,9 +30,19 @@ export type Booking = BookingPayload & {
 export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
 export type Dashboard = Record<"total" | BookingStatus, number>;
 export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
-export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" | "preferred_date" | "preferred_time" | "status" | "created_at">;
+export type CustomerChangeRequest = {
+  id: string;
+  request_type: "reschedule" | "cancel";
+  requested_date: string | null;
+  requested_time: string | null;
+  message: string | null;
+  status: "requested" | "reviewed" | "resolved";
+  created_at: string;
+};
+export type CustomerBooking = Pick<Booking, "id" | "service_type" | "frequency" | "preferred_date" | "preferred_time" | "status" | "created_at"> & { change_request: CustomerChangeRequest | null };
 export type CustomerDashboard = { customer_email: string; upcoming: CustomerBooking[]; past: CustomerBooking[] };
 export type CustomerAccessToken = { access_token: string; token_type: "bearer"; expires_in: number };
+export type CustomerChangePayload = { request_type: "reschedule" | "cancel"; requested_date?: string; requested_time?: string; message?: string };
 
 const configuredApiUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/$/, "");
 
@@ -86,6 +96,8 @@ export const customerApi = {
   requestAccess: (email: string) => request<{ message: string }>("/customer/access/request", { method: "POST", body: JSON.stringify({ email }) }),
   exchange: (token: string) => request<CustomerAccessToken>("/customer/access/exchange", { method: "POST", body: JSON.stringify({ token }) }),
   bookings: (token: string) => request<CustomerDashboard>("/customer/bookings", {}, token),
+  requestChange: (token: string, bookingId: string, payload: CustomerChangePayload) =>
+    request<{ id: string; message: string; status: CustomerChangeRequest["status"] }>(`/customer/bookings/${bookingId}/change-requests`, { method: "POST", body: JSON.stringify(payload) }, token),
 };
 
 export { ApiError, configuredApiUrl };

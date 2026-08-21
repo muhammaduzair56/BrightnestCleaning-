@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.database import SessionLocal
-from app.models import Booking
+from app.models import Booking, CustomerChangeRequest
 from app.security import hash_token_identifier
 
 logger = logging.getLogger("brightnest.notifications")
@@ -37,6 +37,47 @@ def _booking_email_html(booking: Booking) -> str:
         for label, value in rows
     )
     return f"<h2>New BrightNest booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>"
+
+
+async def notify_customer_change_request(change_request_id: str) -> None:
+    """Alert the BrightNest team about a customer booking-change request."""
+    session: Session = SessionLocal()
+    try:
+        change_request = session.get(CustomerChangeRequest, change_request_id)
+        if change_request is None or change_request.booking is None:
+            return
+        if settings.resend_api_key is None:
+            logger.warning("Change-request notification skipped because Resend is not configured request_id=%s", change_request_id)
+            return
+        booking = change_request.booking
+        resend.api_key = settings.resend_api_key.get_secret_value()
+        requested_visit = ""
+        if change_request.requested_date is not None and change_request.requested_time is not None:
+            requested_visit = f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Requested new visit</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(str(change_request.requested_date))} at {escape(change_request.requested_time.strftime('%H:%M'))}</td></tr>"
+        rows = "".join([
+            f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Request</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(change_request.request_type.value)}</td></tr>",
+            f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Reference</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(booking.id)}</td></tr>",
+            f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Customer</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(booking.customer_name)} ({escape(booking.customer_email)})</td></tr>",
+            f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Current visit</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(str(booking.preferred_date))} at {escape(booking.preferred_time.strftime('%H:%M'))}</td></tr>",
+            requested_visit,
+            f"<tr><th style='text-align:left;padding:8px;border-bottom:1px solid #e5e7eb'>Message</th><td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(change_request.message or 'No additional message')}</td></tr>",
+        ])
+        params: resend.Emails.SendParams = {
+            "from": settings.email_from,
+            "to": [str(settings.admin_notification_email)],
+            "reply_to": booking.customer_email,
+            "subject": f"Customer {change_request.request_type.value} request: {booking.service_type}",
+            "html": f"<h2>BrightNest customer booking-change request</h2><table style='border-collapse:collapse'>{rows}</table>",
+            "tags": [{"name": "booking_id", "value": booking.id}, {"name": "event", "value": "customer_change_requested"}],
+        }
+        options: resend.Emails.SendOptions = {"idempotency_key": f"customer-change-request/{change_request.id}"}
+        await resend.Emails.send_async(params, options)
+    except ResendError:
+        logger.exception("Customer change-request notification failed request_id=%s", change_request_id)
+    except Exception:
+        logger.exception("Unexpected customer change-request notification failure request_id=%s", change_request_id)
+    finally:
+        session.close()
 
 
 async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
