@@ -95,6 +95,9 @@
 - [x] Add customer GDPR export and deletion request handling.
 - [x] Add sitemap.xml, robots.txt, structured metadata, and route-level SEO tags.
 - [x] Run full security, integration, scheduling, responsive, SEO, and regression verification.
+- [x] Add monthly revenue and cancellation-rate trend data to the admin analytics API.
+- [x] Add responsive, accessible revenue and cancellation charts to the admin dashboard.
+- [x] Verify chart calculations, empty states, mobile layout, and regression behavior.
 
 ## Client-feedback asset validation
 

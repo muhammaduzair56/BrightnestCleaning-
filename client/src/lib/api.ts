@@ -39,7 +39,8 @@ export type Booking = BookingPayload & {
 
 export type BookingList = { items: Booking[]; page: number; page_size: number; total: number };
 export type Dashboard = Record<"total" | BookingStatus, number>;
-export type AdminAnalytics = { bookings_this_month: number; completed_this_month: number; cancelled_this_month: number; revenue_pence_this_month: number; average_booking_total_pence: number | null };
+export type AdminAnalyticsMonth = { month: string; label: string; bookings: number; completed: number; cancelled: number; cancellation_rate: number; revenue_pence: number };
+export type AdminAnalytics = { bookings_this_month: number; completed_this_month: number; cancelled_this_month: number; revenue_pence_this_month: number; average_booking_total_pence: number | null; months: AdminAnalyticsMonth[] };
 export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
 export type CustomerChangeRequest = {
   id: string;

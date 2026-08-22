@@ -280,12 +280,23 @@ class DashboardResponse(BaseModel):
     cancelled: int
 
 
+class AdminAnalyticsMonth(BaseModel):
+    month: str
+    label: str
+    bookings: int
+    completed: int
+    cancelled: int
+    cancellation_rate: float
+    revenue_pence: int
+
+
 class AdminAnalyticsResponse(BaseModel):
     bookings_this_month: int
     completed_this_month: int
     cancelled_this_month: int
     revenue_pence_this_month: int
     average_booking_total_pence: int | None
+    months: list[AdminAnalyticsMonth]
 
 
 class ReferralCodeCheckRequest(BaseModel):

@@ -2,7 +2,7 @@
  * BrightNest design reminder — the private admin uses the same calm ink/mint system as the
  * public site, with operational density, direct status clarity and no customer-facing clutter.
  */
-import { AdminAnalytics, AdminChangeRequest, Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
+import { AdminAnalytics, AdminAnalyticsMonth, AdminChangeRequest, Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
 import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck, CalendarClock, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
@@ -26,6 +26,21 @@ const statusTone: Record<BookingStatus, string> = {
 
 function readStoredToken() {
   return sessionStorage.getItem("brightnest_admin_access") ?? "";
+}
+
+function TrendCharts({ months }: { months: AdminAnalyticsMonth[] }) {
+  const revenueMax = Math.max(...months.map((month) => month.revenue_pence), 1);
+  const hasRecords = months.some((month) => month.bookings > 0);
+  return <section className="mt-6 grid gap-6 xl:grid-cols-2" aria-label="Booking trends">
+    <div className="rounded-[24px] border border-[#173137]/10 bg-white p-5 sm:p-7">
+      <div className="flex items-start justify-between gap-4"><div><p className="eyebrow text-[#2f9f91]">Revenue trend</p><h2 className="font-display mt-2 text-3xl tracking-[-0.05em]">Recorded revenue</h2></div><span className="rounded-full bg-[#d9f0e8] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#173137]">6 months</span></div>
+      {!hasRecords ? <p className="mt-8 rounded-2xl bg-[#edf3ed] p-5 text-sm font-bold leading-6 text-[#173137]/55">Revenue trend will appear after bookings have been recorded.</p> : <div className="mt-8" role="img" aria-label="Monthly recorded revenue bar chart"><div className="flex h-48 items-end gap-2 border-b border-[#173137]/10 sm:gap-4">{months.map((month) => <div key={month.month} className="flex min-w-0 flex-1 flex-col items-center justify-end gap-2"><span className="text-[10px] font-extrabold text-[#173137]/65">£{(month.revenue_pence / 100).toFixed(0)}</span><div className="w-full max-w-12 rounded-t-[10px] bg-[#2f9f91] transition-[height] duration-300" style={{ height: `${Math.max(month.revenue_pence > 0 ? 8 : 2, (month.revenue_pence / revenueMax) * 125)}px` }} title={`${month.label}: £${(month.revenue_pence / 100).toFixed(2)}`} /><span className="truncate text-[10px] font-bold text-[#173137]/45">{month.label.split(" ")[0]}</span></div>)}</div><p className="mt-4 text-xs font-bold text-[#173137]/45">Only completed bookings with recorded totals are included.</p></div>}
+    </div>
+    <div className="rounded-[24px] border border-[#173137]/10 bg-white p-5 sm:p-7">
+      <div className="flex items-start justify-between gap-4"><div><p className="eyebrow text-[#2f9f91]">Cancellation rate</p><h2 className="font-display mt-2 text-3xl tracking-[-0.05em]">Booking health</h2></div><span className="rounded-full bg-[#f1c9ad] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#173137]">Per month</span></div>
+      {!hasRecords ? <p className="mt-8 rounded-2xl bg-[#edf3ed] p-5 text-sm font-bold leading-6 text-[#173137]/55">Cancellation rate will appear after booking activity is recorded.</p> : <div className="mt-8" role="img" aria-label="Monthly cancellation rate bar chart"><div className="flex h-48 items-end gap-2 border-b border-[#173137]/10 sm:gap-4">{months.map((month) => <div key={month.month} className="flex min-w-0 flex-1 flex-col items-center justify-end gap-2"><span className="text-[10px] font-extrabold text-[#173137]/65">{month.cancellation_rate}%</span><div className="w-full max-w-12 rounded-t-[10px] bg-[#f1c9ad] transition-[height] duration-300" style={{ height: `${Math.max(month.cancellation_rate > 0 ? 8 : 2, (month.cancellation_rate / 100) * 125)}px` }} title={`${month.label}: ${month.cancellation_rate}%`} /><span className="truncate text-[10px] font-bold text-[#173137]/45">{month.label.split(" ")[0]}</span></div>)}</div><p className="mt-4 text-xs font-bold text-[#173137]/45">Cancelled bookings divided by all bookings in each month.</p></div>}
+    </div>
+  </section>;
 }
 
 export default function Admin() {
@@ -231,6 +246,7 @@ export default function Admin() {
           <div className="admin-stat"><span>Completed visits</span><strong>{analytics?.completed_this_month ?? "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">this month</small></div>
           <div className="admin-stat"><span>Cancellations</span><strong>{analytics?.cancelled_this_month ?? "—"}</strong><small className="mt-1 block text-xs text-[#173137]/50">this month</small></div>
         </div>
+        {analytics && <TrendCharts months={analytics.months} />}
         <div className="mt-10 flex flex-wrap gap-2 border-b border-[#173137]/10 pb-5">
           {(Object.keys(statusLabels) as (BookingStatus | "all")[]).map((item) => <button key={item} onClick={() => setFilter(item)} className={`admin-filter ${filter === item ? "admin-filter-active" : ""}`}>{statusLabels[item]}</button>)}
         </div>

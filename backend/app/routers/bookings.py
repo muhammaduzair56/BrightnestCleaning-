@@ -13,7 +13,7 @@ from app.cache import cache
 from app.database import get_db
 from app.models import AdminUser, AuditEvent, Booking, BookingStatus, CustomerChangeRequest, CustomerChangeRequestStatus, ReferralCode, RecurringBookingPlan
 from app.notifications import notify_customer_change_resolution, notify_new_booking
-from app.schemas import AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, BookingAccepted, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
+from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, BookingAccepted, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
 from app.security import get_current_admin
 
 router = APIRouter(tags=["bookings"])
@@ -237,12 +237,27 @@ def analytics(db: Session = Depends(get_db), admin: AdminUser = Depends(get_curr
     completed = [booking for booking in month_bookings if booking.status is BookingStatus.COMPLETED]
     cancelled = [booking for booking in month_bookings if booking.status is BookingStatus.CANCELLED]
     totals = [booking.total_pence for booking in completed if booking.total_pence is not None]
+    months: list[AdminAnalyticsMonth] = []
+    for offset in range(5, -1, -1):
+        year = today.year
+        month = today.month - offset
+        while month <= 0:
+            year -= 1
+            month += 12
+        start = date(year, month, 1)
+        end = date(year, month, monthrange(year, month)[1])
+        records = db.scalars(select(Booking).where(Booking.preferred_date >= start, Booking.preferred_date <= end)).all()
+        completed_records = [record for record in records if record.status is BookingStatus.COMPLETED]
+        cancelled_records = [record for record in records if record.status is BookingStatus.CANCELLED]
+        recorded_totals = [record.total_pence for record in completed_records if record.total_pence is not None]
+        months.append(AdminAnalyticsMonth(month=start.isoformat(), label=start.strftime("%b %Y"), bookings=len(records), completed=len(completed_records), cancelled=len(cancelled_records), cancellation_rate=round((len(cancelled_records) / len(records)) * 100, 1) if records else 0, revenue_pence=sum(recorded_totals)))
     return AdminAnalyticsResponse(
         bookings_this_month=len(month_bookings),
         completed_this_month=len(completed),
         cancelled_this_month=len(cancelled),
         revenue_pence_this_month=sum(totals),
         average_booking_total_pence=round(sum(totals) / len(totals)) if totals else None,
+        months=months,
     )
 
 
