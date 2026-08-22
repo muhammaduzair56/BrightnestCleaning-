@@ -112,9 +112,9 @@
 - [x] Improve booking-form field contrast and spacing on the dark panel.
 - [x] Validate mobile service layout, FAQ stacking, keyboard access, and responsive spacing.
 - [x] Keep unverified insurance/DBS claims out and add truthful footer cues for postcode coverage, privacy-first handling, and no-payment booking requests.
-- [ ] Diagnose the latest Railway healthcheck failure: image build succeeded but the service is unavailable during `/health` checks.
+- [x] Diagnose the latest Railway healthcheck failure: image build succeeded but the service is unavailable because Alembic had multiple migration heads.
 - [ ] Confirm the rotated Neon `DATABASE_URL` is saved in Railway without quotes or extra spaces.
-- [ ] Inspect the latest Railway deploy logs for application crash or port-binding errors after database authentication is fixed.
+- [x] Inspect the latest Railway deploy logs and identify the Alembic multiple-head startup error.
 - [ ] Redeploy and verify `/health` returns the expected JSON response.
 - [x] Audit `.gitignore`, existing environment files, and package contents for secret exposure before ZIP creation.
 - [x] Add safe environment template documentation for local frontend and backend setup without real credentials.
@@ -128,10 +128,10 @@
 - [x] Inspect the Alembic migration graph and identify all current head revisions.
 - [x] Add a non-destructive Alembic merge migration joining the divergent heads.
 - [x] Validate the repaired migration graph and rerun backend/frontend regression checks.
-- [ ] Push the Alembic merge fix and verify the Railway redeploy sequence.
-- [ ] Reproduce or isolate why the container is unavailable during the `/health` healthcheck after a successful image build.
-- [ ] Apply and validate the smallest safe runtime deployment fix.
-- [ ] Push the runtime fix and verify Railway reaches a healthy deployment.
+- [x] Push the Alembic merge fix and provide the Railway redeploy sequence.
+- [x] Reproduce and isolate why the container is unavailable: startup exits because Alembic has multiple heads.
+- [x] Apply and validate the smallest safe runtime deployment fix by adding a non-destructive Alembic merge migration.
+- [ ] Redeploy the pushed migration fix and verify Railway reaches a healthy deployment.
 
 
 ## Client-feedback asset validation
