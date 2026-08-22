@@ -124,6 +124,14 @@
 - [x] Update `backend/app/config.py` so SQLAlchemy receives the original database URL without automatic driver rewriting.
 - [x] Run backend tests, frontend typecheck/build, and a focused configuration regression check.
 - [x] Commit and push the validated database URL fix to the configured GitHub repository.
+- [x] Inspect the latest Docker startup script, Dockerfile command, Railway config, and application port binding.
+- [x] Inspect the Alembic migration graph and identify all current head revisions.
+- [x] Add a non-destructive Alembic merge migration joining the divergent heads.
+- [x] Validate the repaired migration graph and rerun backend/frontend regression checks.
+- [ ] Push the Alembic merge fix and verify the Railway redeploy sequence.
+- [ ] Reproduce or isolate why the container is unavailable during the `/health` healthcheck after a successful image build.
+- [ ] Apply and validate the smallest safe runtime deployment fix.
+- [ ] Push the runtime fix and verify Railway reaches a healthy deployment.
 
 
 ## Client-feedback asset validation
