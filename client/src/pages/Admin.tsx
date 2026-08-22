@@ -16,6 +16,8 @@ const statusLabels: Record<BookingStatus | "all", string> = {
   cancelled: "Cancelled",
 };
 
+const analyticsServices = ["Regular home cleaning", "Deep cleaning", "End of tenancy", "Move-in / move-out", "Post-renovation", "Airbnb / short-term rental", "Office & commercial", "Window cleaning", "Oven cleaning", "Carpet cleaning", "Rug cleaning", "Sofa / upholstery", "Rubbish / waste removal", "Small one-off jobs"];
+
 const statusTone: Record<BookingStatus, string> = {
   new: "bg-[#d9f0e8] text-[#173137]",
   contacted: "bg-[#f1c9ad] text-[#173137]",
@@ -54,6 +56,8 @@ export default function Admin() {
   const [endDate, setEndDate] = useState("");
   const [appliedStartDate, setAppliedStartDate] = useState("");
   const [appliedEndDate, setAppliedEndDate] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [appliedServiceType, setAppliedServiceType] = useState("");
   const [filter, setFilter] = useState<BookingStatus | "all">("all");
   const [selected, setSelected] = useState<Booking | null>(null);
   const [changeRequests, setChangeRequests] = useState<AdminChangeRequest[]>([]);
@@ -91,7 +95,7 @@ export default function Admin() {
     try {
       const [dashboardResponse, analyticsResponse, bookingsResponse, requestsResponse] = await Promise.all([
         bookingApi.dashboard(activeToken),
-        bookingApi.analytics(activeToken, appliedStartDate, appliedEndDate),
+        bookingApi.analytics(activeToken, appliedStartDate, appliedEndDate, appliedServiceType),
         bookingApi.list(activeToken, activeFilter),
         bookingApi.changeRequests(activeToken, "requested"),
       ]);
@@ -118,9 +122,10 @@ export default function Admin() {
     setError("");
     setAppliedStartDate(startDate);
     setAppliedEndDate(endDate);
+    setAppliedServiceType(serviceType);
   };
 
-  const clearDateRange = () => { setStartDate(""); setEndDate(""); setAppliedStartDate(""); setAppliedEndDate(""); setError(""); };
+  const clearDateRange = () => { setStartDate(""); setEndDate(""); setAppliedStartDate(""); setAppliedEndDate(""); setServiceType(""); setAppliedServiceType(""); setError(""); };
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -251,7 +256,7 @@ export default function Admin() {
           <button className="btn-primary" onClick={() => void loadData()} disabled={loading}><RefreshCcw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button>
         </div>
         {error && <p className="admin-error mt-6" role="alert">{error}</p>}
-        <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-5 sm:p-6" aria-label="Analytics date range filter"><div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><p className="eyebrow text-[#2f9f91]">Analytics window</p><h2 className="font-display mt-2 text-2xl tracking-[-0.04em]">Choose a date range</h2><p className="mt-2 text-sm leading-6 text-[#173137]/60">Filter bookings, recorded revenue and cancellation trends by preferred visit date.</p></div><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">From<input type="date" value={startDate} max={endDate || undefined} onChange={(event) => setStartDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">To<input type="date" value={endDate} min={startDate || undefined} onChange={(event) => setEndDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><div className="flex gap-2"><button type="button" onClick={applyDateRange} disabled={loading} className="admin-action-button justify-center bg-[#173137] text-white">Apply</button><button type="button" onClick={clearDateRange} disabled={loading || (!startDate && !endDate && !appliedStartDate && !appliedEndDate)} className="admin-action-button justify-center">Clear</button></div></div></div><p className="mt-4 text-xs font-bold text-[#173137]/45">{appliedStartDate && appliedEndDate ? `Showing ${appliedStartDate} to ${appliedEndDate}` : "No dates selected — showing the latest six-month overview."}</p></section>
+        <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-5 sm:p-6" aria-label="Analytics date range filter"><div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><p className="eyebrow text-[#2f9f91]">Analytics window</p><h2 className="font-display mt-2 text-2xl tracking-[-0.04em]">Choose a date range</h2><p className="mt-2 text-sm leading-6 text-[#173137]/60">Filter bookings, recorded revenue and cancellation trends by preferred visit date.</p></div><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">Service<select value={serviceType} onChange={(event) => setServiceType(event.target.value)} className="admin-input min-w-[190px] bg-white normal-case tracking-normal"><option value="">All services</option>{analyticsServices.map((service) => <option key={service} value={service}>{service}</option>)}</select></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">From<input type="date" value={startDate} max={endDate || undefined} onChange={(event) => setStartDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">To<input type="date" value={endDate} min={startDate || undefined} onChange={(event) => setEndDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><div className="flex gap-2"><button type="button" onClick={applyDateRange} disabled={loading} className="admin-action-button justify-center bg-[#173137] text-white">Apply</button><button type="button" onClick={clearDateRange} disabled={loading || (!startDate && !endDate && !appliedStartDate && !appliedEndDate)} className="admin-action-button justify-center">Clear</button></div></div></div><p className="mt-4 text-xs font-bold text-[#173137]/45">{appliedServiceType ? `${appliedServiceType} · ` : ""}{appliedStartDate && appliedEndDate ? `Showing ${appliedStartDate} to ${appliedEndDate}` : "All services · latest six-month overview."}</p></section>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
           {(["total", "new", "contacted", "confirmed", "completed", "cancelled"] as const).map((key) => <div key={key} className="admin-stat"><span>{key === "total" ? "All requests" : statusLabels[key]}</span><strong>{dashboard?.[key] ?? "—"}</strong></div>)}
         </div>

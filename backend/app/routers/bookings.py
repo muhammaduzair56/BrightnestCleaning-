@@ -238,6 +238,7 @@ def _shift_month(value: date, offset: int) -> date:
 def analytics(
     start_date: date | None = Query(default=None),
     end_date: date | None = Query(default=None),
+    service_type: str | None = Query(default=None, min_length=1, max_length=120),
     db: Session = Depends(get_db),
     admin: AdminUser = Depends(get_current_admin),
 ) -> AdminAnalyticsResponse:
@@ -248,7 +249,10 @@ def analytics(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Start date must be on or before end date")
     if (range_end - range_start).days > 731:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Analytics date range cannot exceed two years")
-    month_bookings = db.scalars(select(Booking).where(Booking.preferred_date >= range_start, Booking.preferred_date <= range_end)).all()
+    filters = [Booking.preferred_date >= range_start, Booking.preferred_date <= range_end]
+    if service_type:
+        filters.append(Booking.service_type == service_type.strip())
+    month_bookings = db.scalars(select(Booking).where(*filters)).all()
     completed = [booking for booking in month_bookings if booking.status is BookingStatus.COMPLETED]
     cancelled = [booking for booking in month_bookings if booking.status is BookingStatus.CANCELLED]
     totals = [booking.total_pence for booking in completed if booking.total_pence is not None]
@@ -257,7 +261,10 @@ def analytics(
     while cursor <= range_end:
         start = max(cursor, range_start)
         end = min(date(cursor.year, cursor.month, monthrange(cursor.year, cursor.month)[1]), range_end)
-        records = db.scalars(select(Booking).where(Booking.preferred_date >= start, Booking.preferred_date <= end)).all()
+        bucket_filters = [Booking.preferred_date >= start, Booking.preferred_date <= end]
+        if service_type:
+            bucket_filters.append(Booking.service_type == service_type.strip())
+        records = db.scalars(select(Booking).where(*bucket_filters)).all()
         completed_records = [record for record in records if record.status is BookingStatus.COMPLETED]
         cancelled_records = [record for record in records if record.status is BookingStatus.CANCELLED]
         recorded_totals = [record.total_pence for record in completed_records if record.total_pence is not None]

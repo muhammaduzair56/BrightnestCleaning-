@@ -113,7 +113,7 @@ export const bookingApi = {
   create: (payload: BookingPayload) => request<{ booking_id: string; message: string }>("/bookings", { method: "POST", body: JSON.stringify(payload) }),
   login: (email: string, password: string) => request<Tokens>("/admin/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   dashboard: (token: string) => request<Dashboard>("/admin/dashboard", {}, token),
-  analytics: (token: string, startDate?: string, endDate?: string) => { const params = new URLSearchParams(); if (startDate) params.set("start_date", startDate); if (endDate) params.set("end_date", endDate); const query = params.toString(); return request<AdminAnalytics>(`/admin/analytics${query ? `?${query}` : ""}`, {}, token); },
+  analytics: (token: string, startDate?: string, endDate?: string, serviceType?: string) => { const params = new URLSearchParams(); if (startDate) params.set("start_date", startDate); if (endDate) params.set("end_date", endDate); if (serviceType) params.set("service_type", serviceType); const query = params.toString(); return request<AdminAnalytics>(`/admin/analytics${query ? `?${query}` : ""}`, {}, token); },
   list: (token: string, filter: BookingStatus | "all" = "all") => request<BookingList>(`/admin/bookings${filter === "all" ? "" : `?status=${filter}`}`, {}, token),
   update: (token: string, bookingId: string, payload: { status?: BookingStatus; admin_notes?: string; currency?: string; subtotal_pence?: number; tax_rate_basis_points?: number; tax_pence?: number; total_pence?: number; payment_status?: PaymentStatus; payment_provider?: string; payment_reference?: string; paid_at?: string }) =>
     request<Booking>(`/admin/bookings/${bookingId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),

@@ -111,6 +111,12 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
         assert analytics_response.status_code == 200
         assert len(analytics_response.json()["months"]) == 1
         assert analytics_response.json()["months"][0]["bookings"] == 1
+        service_response = client.get("/api/v1/admin/analytics?start_date=2030-01-01&end_date=2030-01-31&service_type=Deep%20cleaning", headers=headers)
+        assert service_response.status_code == 200
+        assert service_response.json()["bookings_this_month"] == 1
+        empty_service_response = client.get("/api/v1/admin/analytics?start_date=2030-01-01&end_date=2030-01-31&service_type=Window%20cleaning", headers=headers)
+        assert empty_service_response.status_code == 200
+        assert empty_service_response.json()["bookings_this_month"] == 0
         invalid_range_response = client.get("/api/v1/admin/analytics?start_date=2030-02-01&end_date=2030-01-31", headers=headers)
         assert invalid_range_response.status_code == 422
 

@@ -101,6 +101,9 @@
 - [x] Add validated start and end date parameters to the admin analytics API.
 - [x] Add responsive date-range controls that refresh analytics charts and summary metrics.
 - [x] Verify invalid ranges, empty periods, chart updates, and mobile layout.
+- [x] Add optional service-type filtering to the admin analytics API alongside date ranges.
+- [x] Add a responsive service selector and combined-filter chart updates in admin.
+- [x] Verify service/date filters, empty services, chart values, mobile layout, and regressions.
 
 ## Client-feedback asset validation
 
