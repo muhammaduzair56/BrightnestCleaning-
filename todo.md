@@ -134,6 +134,7 @@
 - [ ] Redeploy the pushed migration fix and verify Railway reaches a healthy deployment.
 - [x] Inspect the initial migration’s PostgreSQL enum definitions and compare them with the existing Neon schema conflict.
 - [x] Make enum creation idempotent without dropping existing tables, enums, or customer data.
+- [x] Replace generic enum declarations with dialect-specific PostgreSQL ENUM declarations so existing types are never recreated during table creation.
 - [x] Validate the schema repair locally, rerun regression checks, and push the fix for Railway redeployment.
 - [x] Align the backend fallback port with Railway’s configured target port of 8080.
 - [x] Add concise startup diagnostics for the effective PORT and migration/bootstrap stages without logging secrets.

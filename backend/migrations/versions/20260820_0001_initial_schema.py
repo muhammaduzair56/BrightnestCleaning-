@@ -1,6 +1,7 @@
 """Create BrightNest administration, bookings, refresh-token, and audit tables."""
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 revision = "20260820_0001"
@@ -10,8 +11,8 @@ depends_on = None
 
 # Create enum types explicitly in upgrade() with checkfirst=True, then prevent
 # SQLAlchemy from issuing a second CREATE TYPE while creating the tables.
-user_role = sa.Enum("admin", name="user_role", create_type=False)
-booking_status = sa.Enum(
+user_role = postgresql.ENUM("admin", name="user_role", create_type=False)
+booking_status = postgresql.ENUM(
     "new",
     "contacted",
     "confirmed",
