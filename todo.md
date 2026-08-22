@@ -132,6 +132,9 @@
 - [x] Reproduce and isolate why the container is unavailable: startup exits because Alembic has multiple heads.
 - [x] Apply and validate the smallest safe runtime deployment fix by adding a non-destructive Alembic merge migration.
 - [ ] Redeploy the pushed migration fix and verify Railway reaches a healthy deployment.
+- [ ] Align the backend fallback port with Railway’s configured target port of 8080.
+- [ ] Add concise startup diagnostics for the effective PORT and migration/bootstrap stages without logging secrets.
+- [ ] Validate and push the runtime healthcheck fix, then verify the live Railway endpoint.
 
 
 ## Client-feedback asset validation

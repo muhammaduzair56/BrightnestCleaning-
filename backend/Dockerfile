@@ -17,6 +17,6 @@ COPY --chown=user:user . .
 RUN chmod +x ./scripts/start.sh
 
 USER user
-EXPOSE 7860
+EXPOSE 8080
 
 CMD ["./scripts/start.sh"]
