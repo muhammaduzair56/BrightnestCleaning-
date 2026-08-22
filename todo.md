@@ -123,7 +123,7 @@
 - [x] Create and inspect a complete safe source ZIP that excludes `.env` files and credentials.
 - [x] Update `backend/app/config.py` so SQLAlchemy receives the original database URL without automatic driver rewriting.
 - [x] Run backend tests, frontend typecheck/build, and a focused configuration regression check.
-- [ ] Commit and push the validated database URL fix to the configured GitHub repository.
+- [x] Commit and push the validated database URL fix to the configured GitHub repository.
 
 
 ## Client-feedback asset validation
