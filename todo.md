@@ -118,10 +118,10 @@
 - [ ] Redeploy and verify `/health` returns the expected JSON response.
 - [x] Confirm migrations completed and isolate the remaining bootstrap failure.
 - [x] Identify the `ADMIN` versus `admin` enum mismatch during admin bootstrap.
-- [ ] Align the application admin-role mapping with the existing Neon enum without destructive schema changes.
-- [ ] Validate and push the role-mapping fix, then redeploy and verify `/health`.
+- [x] Align the application admin-role mapping with the existing Neon enum without destructive schema changes.
+- [x] Validate and push the role-mapping fix; redeploy and verify `/health` remains pending.
 - [x] Confirm migrations completed and isolate the remaining bootstrap failure.
-- [ ] Set a strong Railway `BOOTSTRAP_ADMIN_PASSWORD` with at least 12 characters.
+- [x] Set a strong Railway `BOOTSTRAP_ADMIN_PASSWORD` with at least 12 characters.
 - [ ] Redeploy and verify `/health` plus admin bootstrap success.
 - [x] Inspect all remaining migration enum declarations after the `customer_change_request_type` conflict.
 - [x] Make the customer change-request enum creation idempotent without dropping existing data.
