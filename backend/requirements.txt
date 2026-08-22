@@ -4,6 +4,7 @@ email-validator==2.3.0
 fastapi==0.116.1
 passlib[bcrypt]==1.7.4
 psycopg[binary]==3.2.10
+psycopg2-binary==2.9.10
 pydantic-settings==2.10.1
 PyJWT==2.10.1
 redis==6.4.0

@@ -6,7 +6,6 @@ from typing import Annotated, Literal
 
 from pydantic import EmailStr, SecretStr, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
-from sqlalchemy.engine import make_url
 
 
 class Settings(BaseSettings):
@@ -45,11 +44,8 @@ class Settings(BaseSettings):
 
     @property
     def sqlalchemy_database_url(self) -> str:
-        """Use Psycopg with SQLAlchemy while preserving Neon SSL query parameters."""
-        url = make_url(self.database_url)
-        if url.drivername in {"postgresql", "postgres"}:
-            url = url.set(drivername="postgresql+psycopg")
-        return str(url)
+        """Return the database URL exactly as supplied by the deployment environment."""
+        return self.database_url
 
 
 @lru_cache
