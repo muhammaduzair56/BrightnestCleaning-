@@ -98,6 +98,9 @@
 - [x] Add monthly revenue and cancellation-rate trend data to the admin analytics API.
 - [x] Add responsive, accessible revenue and cancellation charts to the admin dashboard.
 - [x] Verify chart calculations, empty states, mobile layout, and regression behavior.
+- [x] Add validated start and end date parameters to the admin analytics API.
+- [x] Add responsive date-range controls that refresh analytics charts and summary metrics.
+- [x] Verify invalid ranges, empty periods, chart updates, and mobile layout.
 
 ## Client-feedback asset validation
 

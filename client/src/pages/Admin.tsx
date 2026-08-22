@@ -50,6 +50,10 @@ export default function Admin() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [appliedStartDate, setAppliedStartDate] = useState("");
+  const [appliedEndDate, setAppliedEndDate] = useState("");
   const [filter, setFilter] = useState<BookingStatus | "all">("all");
   const [selected, setSelected] = useState<Booking | null>(null);
   const [changeRequests, setChangeRequests] = useState<AdminChangeRequest[]>([]);
@@ -87,7 +91,7 @@ export default function Admin() {
     try {
       const [dashboardResponse, analyticsResponse, bookingsResponse, requestsResponse] = await Promise.all([
         bookingApi.dashboard(activeToken),
-        bookingApi.analytics(activeToken),
+        bookingApi.analytics(activeToken, appliedStartDate, appliedEndDate),
         bookingApi.list(activeToken, activeFilter),
         bookingApi.changeRequests(activeToken, "requested"),
       ]);
@@ -106,7 +110,17 @@ export default function Admin() {
 
   useEffect(() => {
     void loadData();
-  }, [filter, token]);
+  }, [filter, token, appliedStartDate, appliedEndDate]);
+
+  const applyDateRange = () => {
+    if ((startDate && !endDate) || (!startDate && endDate)) { setError("Choose both a start date and an end date, or clear both fields."); return; }
+    if (startDate && endDate && startDate > endDate) { setError("Start date must be on or before end date."); return; }
+    setError("");
+    setAppliedStartDate(startDate);
+    setAppliedEndDate(endDate);
+  };
+
+  const clearDateRange = () => { setStartDate(""); setEndDate(""); setAppliedStartDate(""); setAppliedEndDate(""); setError(""); };
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -236,7 +250,8 @@ export default function Admin() {
           <div><p className="eyebrow">Birmingham operations</p><h1 className="font-display mt-3 text-[42px] tracking-[-0.06em] sm:text-[56px]">Booking requests</h1><p className="mt-3 text-sm text-[#173137]/65">Keep each home’s next step clear, timely and considered.</p></div>
           <button className="btn-primary" onClick={() => void loadData()} disabled={loading}><RefreshCcw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button>
         </div>
-        {error && <p className="admin-error mt-6">{error}</p>}
+        {error && <p className="admin-error mt-6" role="alert">{error}</p>}
+        <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-5 sm:p-6" aria-label="Analytics date range filter"><div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><p className="eyebrow text-[#2f9f91]">Analytics window</p><h2 className="font-display mt-2 text-2xl tracking-[-0.04em]">Choose a date range</h2><p className="mt-2 text-sm leading-6 text-[#173137]/60">Filter bookings, recorded revenue and cancellation trends by preferred visit date.</p></div><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">From<input type="date" value={startDate} max={endDate || undefined} onChange={(event) => setStartDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">To<input type="date" value={endDate} min={startDate || undefined} onChange={(event) => setEndDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><div className="flex gap-2"><button type="button" onClick={applyDateRange} disabled={loading} className="admin-action-button justify-center bg-[#173137] text-white">Apply</button><button type="button" onClick={clearDateRange} disabled={loading || (!startDate && !endDate && !appliedStartDate && !appliedEndDate)} className="admin-action-button justify-center">Clear</button></div></div></div><p className="mt-4 text-xs font-bold text-[#173137]/45">{appliedStartDate && appliedEndDate ? `Showing ${appliedStartDate} to ${appliedEndDate}` : "No dates selected — showing the latest six-month overview."}</p></section>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
           {(["total", "new", "contacted", "confirmed", "completed", "cancelled"] as const).map((key) => <div key={key} className="admin-stat"><span>{key === "total" ? "All requests" : statusLabels[key]}</span><strong>{dashboard?.[key] ?? "—"}</strong></div>)}
         </div>

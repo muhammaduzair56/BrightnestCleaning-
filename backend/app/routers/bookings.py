@@ -228,29 +228,41 @@ def run_recurring_bookings(db: Session = Depends(get_db), admin: AdminUser = Dep
     return {"created": created, "plans_checked": len(plans)}
 
 
+def _shift_month(value: date, offset: int) -> date:
+    absolute_month = (value.year * 12 + value.month - 1) + offset
+    year, month_index = divmod(absolute_month, 12)
+    return date(year, month_index + 1, 1)
+
+
 @router.get("/admin/analytics", response_model=AdminAnalyticsResponse)
-def analytics(db: Session = Depends(get_db), admin: AdminUser = Depends(get_current_admin)) -> AdminAnalyticsResponse:
+def analytics(
+    start_date: date | None = Query(default=None),
+    end_date: date | None = Query(default=None),
+    db: Session = Depends(get_db),
+    admin: AdminUser = Depends(get_current_admin),
+) -> AdminAnalyticsResponse:
     today = date.today()
-    month_start = today.replace(day=1)
-    month_end = today.replace(day=monthrange(today.year, today.month)[1])
-    month_bookings = db.scalars(select(Booking).where(Booking.preferred_date >= month_start, Booking.preferred_date <= month_end)).all()
+    range_start = start_date or _shift_month(today.replace(day=1), -5)
+    range_end = end_date or today
+    if range_start > range_end:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Start date must be on or before end date")
+    if (range_end - range_start).days > 731:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Analytics date range cannot exceed two years")
+    month_bookings = db.scalars(select(Booking).where(Booking.preferred_date >= range_start, Booking.preferred_date <= range_end)).all()
     completed = [booking for booking in month_bookings if booking.status is BookingStatus.COMPLETED]
     cancelled = [booking for booking in month_bookings if booking.status is BookingStatus.CANCELLED]
     totals = [booking.total_pence for booking in completed if booking.total_pence is not None]
     months: list[AdminAnalyticsMonth] = []
-    for offset in range(5, -1, -1):
-        year = today.year
-        month = today.month - offset
-        while month <= 0:
-            year -= 1
-            month += 12
-        start = date(year, month, 1)
-        end = date(year, month, monthrange(year, month)[1])
+    cursor = _shift_month(range_start, 0)
+    while cursor <= range_end:
+        start = max(cursor, range_start)
+        end = min(date(cursor.year, cursor.month, monthrange(cursor.year, cursor.month)[1]), range_end)
         records = db.scalars(select(Booking).where(Booking.preferred_date >= start, Booking.preferred_date <= end)).all()
         completed_records = [record for record in records if record.status is BookingStatus.COMPLETED]
         cancelled_records = [record for record in records if record.status is BookingStatus.CANCELLED]
         recorded_totals = [record.total_pence for record in completed_records if record.total_pence is not None]
-        months.append(AdminAnalyticsMonth(month=start.isoformat(), label=start.strftime("%b %Y"), bookings=len(records), completed=len(completed_records), cancelled=len(cancelled_records), cancellation_rate=round((len(cancelled_records) / len(records)) * 100, 1) if records else 0, revenue_pence=sum(recorded_totals)))
+        months.append(AdminAnalyticsMonth(month=cursor.isoformat(), label=cursor.strftime("%b %Y"), bookings=len(records), completed=len(completed_records), cancelled=len(cancelled_records), cancellation_rate=round((len(cancelled_records) / len(records)) * 100, 1) if records else 0, revenue_pence=sum(recorded_totals)))
+        cursor = _shift_month(cursor, 1)
     return AdminAnalyticsResponse(
         bookings_this_month=len(month_bookings),
         completed_this_month=len(completed),

@@ -107,6 +107,13 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
         access_token = login_response.json()["access_token"]
         headers = {"Authorization": f"Bearer {access_token}"}
 
+        analytics_response = client.get("/api/v1/admin/analytics?start_date=2030-01-01&end_date=2030-01-31", headers=headers)
+        assert analytics_response.status_code == 200
+        assert len(analytics_response.json()["months"]) == 1
+        assert analytics_response.json()["months"][0]["bookings"] == 1
+        invalid_range_response = client.get("/api/v1/admin/analytics?start_date=2030-02-01&end_date=2030-01-31", headers=headers)
+        assert invalid_range_response.status_code == 422
+
         list_response = client.get("/api/v1/admin/bookings", headers=headers)
         assert list_response.status_code == 200
         assert list_response.json()["total"] == 1
