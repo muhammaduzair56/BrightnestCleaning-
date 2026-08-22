@@ -8,8 +8,18 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
-user_role = sa.Enum("admin", name="user_role")
-booking_status = sa.Enum("new", "contacted", "confirmed", "cancelled", "completed", name="booking_status")
+# Create enum types explicitly in upgrade() with checkfirst=True, then prevent
+# SQLAlchemy from issuing a second CREATE TYPE while creating the tables.
+user_role = sa.Enum("admin", name="user_role", create_type=False)
+booking_status = sa.Enum(
+    "new",
+    "contacted",
+    "confirmed",
+    "cancelled",
+    "completed",
+    name="booking_status",
+    create_type=False,
+)
 
 
 def upgrade() -> None:

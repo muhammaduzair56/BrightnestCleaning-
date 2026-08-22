@@ -132,6 +132,9 @@
 - [x] Reproduce and isolate why the container is unavailable: startup exits because Alembic has multiple heads.
 - [x] Apply and validate the smallest safe runtime deployment fix by adding a non-destructive Alembic merge migration.
 - [ ] Redeploy the pushed migration fix and verify Railway reaches a healthy deployment.
+- [x] Inspect the initial migration’s PostgreSQL enum definitions and compare them with the existing Neon schema conflict.
+- [x] Make enum creation idempotent without dropping existing tables, enums, or customer data.
+- [x] Validate the schema repair locally and rerun regression checks; GitHub push is the remaining step.
 - [x] Align the backend fallback port with Railway’s configured target port of 8080.
 - [x] Add concise startup diagnostics for the effective PORT and migration/bootstrap stages without logging secrets.
 - [x] Validate and push the runtime healthcheck fix; live Railway endpoint verification remains pending.
