@@ -113,6 +113,13 @@
 - [x] Verify the deployed Vercel artifact contains `index.html` at the configured output root.
 - [x] Enforce a Vercel-compatible SPA fallback and align the production root/output settings.
 - [ ] Redeploy and validate direct `/admin` navigation on the production domain.
+- [x] Confirm a fresh Vercel Production deployment still returns `404 NOT_FOUND` for direct `/admin` navigation.
+- [ ] Verify the Vercel project is connected to `muhammaduzair56/BrightnestCleaning-` on `main` with repository root `./`.
+- [ ] Confirm Vercel Build Logs detect root `vercel.json` and output `dist/public`.
+- [ ] Apply and deploy the final fallback configuration, then validate `/admin` directly.
+- [x] Confirm repository root, Vercel config, and local `dist/public/index.html` are present while live `/admin` still returns 404.
+- [ ] Change SPA rewrites to use the deployed root destination `/` for direct route fallback.
+- [ ] Validate, push, and redeploy the root-destination fallback on Vercel.
 - [x] Strengthen the hero CTA hierarchy with a filled primary action and subtle secondary action.
 - [x] Simplify the services section to highlight six popular services and reveal the remaining services on demand.
 - [x] Replace service number badges with meaningful service icons and clarify guide-based pricing with accessible help text.
