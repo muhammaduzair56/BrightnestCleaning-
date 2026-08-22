@@ -118,8 +118,8 @@
 - [ ] Confirm Vercel Build Logs detect root `vercel.json` and output `dist/public`.
 - [ ] Apply and deploy the final fallback configuration, then validate `/admin` directly.
 - [x] Confirm repository root, Vercel config, and local `dist/public/index.html` are present while live `/admin` still returns 404.
-- [ ] Change SPA rewrites to use the deployed root destination `/` for direct route fallback.
-- [ ] Validate, push, and redeploy the root-destination fallback on Vercel.
+- [x] Change SPA rewrites to use the deployed root destination `/` for direct route fallback.
+- [x] Validate and push the root-destination fallback; Vercel redeploy and live verification remain pending.
 - [x] Strengthen the hero CTA hierarchy with a filled primary action and subtle secondary action.
 - [x] Simplify the services section to highlight six popular services and reveal the remaining services on demand.
 - [x] Replace service number badges with meaningful service icons and clarify guide-based pricing with accessible help text.
