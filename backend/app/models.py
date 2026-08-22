@@ -15,6 +15,11 @@ def uuid_string() -> str:
     return str(uuid.uuid4())
 
 
+def enum_values(enum_cls: type[enum.Enum]) -> list[str]:
+    """Persist enum values (for example, ``admin``), not Python member names."""
+    return [member.value for member in enum_cls]
+
+
 class UserRole(str, enum.Enum):
     ADMIN = "admin"
 
@@ -41,7 +46,11 @@ class AdminUser(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
     email: Mapped[str] = mapped_column(String(320), unique=True, nullable=False, index=True)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    role: Mapped[UserRole] = mapped_column(Enum(UserRole, name="user_role"), nullable=False, default=UserRole.ADMIN)
+    role: Mapped[UserRole] = mapped_column(
+        Enum(UserRole, name="user_role", values_callable=enum_values),
+        nullable=False,
+        default=UserRole.ADMIN,
+    )
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
@@ -70,7 +79,12 @@ class Booking(Base):
     preferred_date: Mapped[date] = mapped_column(Date, nullable=False, index=True)
     preferred_time: Mapped[time] = mapped_column(Time, nullable=False)
     notes: Mapped[str | None] = mapped_column(Text)
-    status: Mapped[BookingStatus] = mapped_column(Enum(BookingStatus, name="booking_status"), nullable=False, default=BookingStatus.NEW, index=True)
+    status: Mapped[BookingStatus] = mapped_column(
+        Enum(BookingStatus, name="booking_status", values_callable=enum_values),
+        nullable=False,
+        default=BookingStatus.NEW,
+        index=True,
+    )
     admin_notes: Mapped[str | None] = mapped_column(Text)
     assigned_admin_id: Mapped[str | None] = mapped_column(ForeignKey("admin_users.id", ondelete="SET NULL"), index=True)
     email_status: Mapped[str] = mapped_column(String(24), nullable=False, default="pending")
@@ -79,7 +93,12 @@ class Booking(Base):
     tax_rate_basis_points: Mapped[int | None] = mapped_column()
     tax_pence: Mapped[int | None] = mapped_column()
     total_pence: Mapped[int | None] = mapped_column()
-    payment_status: Mapped[PaymentStatus] = mapped_column(Enum(PaymentStatus, name="payment_status"), nullable=False, default=PaymentStatus.UNPAID, index=True)
+    payment_status: Mapped[PaymentStatus] = mapped_column(
+        Enum(PaymentStatus, name="payment_status", values_callable=enum_values),
+        nullable=False,
+        default=PaymentStatus.UNPAID,
+        index=True,
+    )
     payment_provider: Mapped[str | None] = mapped_column(String(32))
     payment_reference: Mapped[str | None] = mapped_column(String(128))
     paid_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -112,11 +131,19 @@ class CustomerChangeRequest(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_string)
     booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id", ondelete="CASCADE"), nullable=False, index=True)
     customer_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
-    request_type: Mapped[CustomerChangeRequestType] = mapped_column(Enum(CustomerChangeRequestType, name="customer_change_request_type"), nullable=False)
+    request_type: Mapped[CustomerChangeRequestType] = mapped_column(
+        Enum(CustomerChangeRequestType, name="customer_change_request_type", values_callable=enum_values),
+        nullable=False,
+    )
     requested_date: Mapped[date | None] = mapped_column(Date)
     requested_time: Mapped[time | None] = mapped_column(Time)
     message: Mapped[str | None] = mapped_column(Text)
-    status: Mapped[CustomerChangeRequestStatus] = mapped_column(Enum(CustomerChangeRequestStatus, name="customer_change_request_status"), nullable=False, default=CustomerChangeRequestStatus.REQUESTED, index=True)
+    status: Mapped[CustomerChangeRequestStatus] = mapped_column(
+        Enum(CustomerChangeRequestStatus, name="customer_change_request_status", values_callable=enum_values),
+        nullable=False,
+        default=CustomerChangeRequestStatus.REQUESTED,
+        index=True,
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
     reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
