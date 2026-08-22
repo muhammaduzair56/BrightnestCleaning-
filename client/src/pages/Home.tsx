@@ -9,8 +9,13 @@ import {
   ChevronDown,
   Clock3,
   Home as HomeIcon,
+  Info,
   LoaderCircle,
   Menu,
+  Building2,
+  Brush,
+  Hammer,
+  KeyRound,
   ShieldCheck,
   Sparkles,
   X,
@@ -125,6 +130,24 @@ const services = [
   },
 ];
 
+const featuredServiceTitles = new Set([
+  "Regular home cleaning",
+  "Deep cleaning",
+  "End of tenancy",
+  "Move-in / move-out",
+  "Post-renovation",
+  "Office & commercial",
+]);
+
+function ServiceIcon({ title }: { title: string }) {
+  if (title === "Regular home cleaning" || title === "Move-in / move-out") return <HomeIcon className="h-5 w-5" aria-hidden="true" />;
+  if (title === "Deep cleaning") return <Brush className="h-5 w-5" aria-hidden="true" />;
+  if (title === "End of tenancy") return <KeyRound className="h-5 w-5" aria-hidden="true" />;
+  if (title === "Post-renovation") return <Hammer className="h-5 w-5" aria-hidden="true" />;
+  if (title === "Office & commercial") return <Building2 className="h-5 w-5" aria-hidden="true" />;
+  return <Sparkles className="h-5 w-5" aria-hidden="true" />;
+}
+
 const visitRhythms = [
   { value: "One-off visit", description: "A single clean for the space you need refreshed now." },
   { value: "Weekly", description: "A regular weekly rhythm for ongoing home care." },
@@ -215,6 +238,7 @@ function formatBookingDate(value: string) {
 
 export default function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showAllServices, setShowAllServices] = useState(false);
   const [step, setStep] = useState<BookingStep>(1);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
@@ -420,11 +444,11 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-7">
-                <button className="btn-primary justify-center sm:justify-start" onClick={() => bookService()}>
+                <button className="btn-primary hero-primary-cta justify-center sm:justify-start" onClick={() => bookService()}>
                   Plan your clean <ArrowRight className="h-4 w-4" />
                 </button>
                 <button
-                  className="group inline-flex items-center justify-center gap-2 text-sm font-extrabold text-[#173137] sm:justify-start"
+                  className="hero-secondary-cta group inline-flex items-center justify-center gap-2 text-sm font-extrabold text-[#173137] sm:justify-start"
                   onClick={() => scrollToSection("services")}
                 >
                   Explore services
@@ -478,12 +502,12 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-9 grid gap-3 sm:mt-14 sm:grid-cols-2 xl:grid-cols-3">
-              {services.map((item, index) => (
-                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[228px] flex-col overflow-hidden p-4 sm:min-h-[320px] sm:p-7`}>
-                  <div className="flex shrink-0 items-start justify-between">
-                    <span className="service-number">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full border border-current/20 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110">
+            <div className="mt-9 grid grid-cols-2 gap-2.5 sm:mt-14 sm:grid-cols-2 sm:gap-3 xl:grid-cols-3">
+              {services.filter((item) => showAllServices || featuredServiceTitles.has(item.title)).map((item) => (
+                <article key={item.title} className={`service-card service-${item.tone} group relative flex min-h-[224px] flex-col overflow-hidden p-3.5 sm:min-h-[320px] sm:p-7`}>
+                  <div className="flex shrink-0 items-start justify-between gap-2">
+                    <span className="service-icon grid h-9 w-9 place-items-center rounded-full border border-current/20" aria-hidden="true"><ServiceIcon title={item.title} /></span>
+                    <span className="grid h-9 w-9 place-items-center rounded-full border border-current/20 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110 sm:h-10 sm:w-10">
                       <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
@@ -498,6 +522,16 @@ export default function Home() {
                   </div>
                 </article>
               ))}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-4 sm:mt-8">
+              <button type="button" className="service-toggle" aria-expanded={showAllServices} onClick={() => setShowAllServices((current) => !current)}>
+                {showAllServices ? "Show featured services" : "View all 14 services"}
+                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${showAllServices ? "rotate-180" : ""}`} />
+              </button>
+              <span className="guide-note" tabIndex={0}>
+                <Info className="h-4 w-4" aria-hidden="true" />
+                <span role="tooltip">Price varies by property size and scope — request an exact quote after sharing a few details.</span>
+              </span>
             </div>
           </div>
         </section>
@@ -916,12 +950,12 @@ export default function Home() {
         </section>
 
         <section className="px-5 pb-10 sm:pb-16 lg:px-10 lg:pb-20">
-          <div className="mx-auto max-w-[1440px] rounded-[26px] bg-[#2f9f91] px-6 py-9 text-white sm:rounded-[30px] sm:px-10 sm:py-12 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10 lg:rounded-[40px] lg:px-16 lg:py-16">
+          <div className="mx-auto max-w-[1440px] rounded-[26px] bg-[#d9f0e8] px-6 py-9 text-[#173137] sm:rounded-[30px] sm:px-10 sm:py-12 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10 lg:rounded-[40px] lg:px-16 lg:py-16">
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-white/70">A fresh start is close</p>
-              <h2 className="font-display mt-4 max-w-[670px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[60px]">Your home already has the potential. Let’s uncover it.</h2>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2f9f91]">A fresh start is close</p>
+              <h2 className="font-display mt-4 max-w-[670px] text-[43px] leading-[0.98] tracking-[-0.055em]">Your home already has the potential. Let’s uncover it.</h2>
             </div>
-            <button className="btn-dark mt-8 lg:mt-0" onClick={() => bookService()}>
+            <button className="btn-primary mt-8 lg:mt-0" onClick={() => bookService()}>
               Plan your clean <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -945,6 +979,11 @@ export default function Home() {
             <p className="mt-5 text-sm leading-7 text-white/60">Need a tailored home or specialist cleaning request?</p>
             <button onClick={() => bookService()} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white underline decoration-[#9ee0d2] decoration-2 underline-offset-4">Start your request <ArrowRight className="h-4 w-4" /></button>
           </div>
+        </div>
+        <div className="trust-strip mx-auto grid max-w-[1440px] gap-3 border-b border-white/15 py-6 sm:grid-cols-3 sm:gap-5">
+          <div className="trust-strip-item"><ShieldCheck className="h-4 w-4 text-[#9ee0d2]" /><span><strong>Privacy-first requests</strong><small>Your details are used to review and respond to your enquiry.</small></span></div>
+          <div className="trust-strip-item"><HomeIcon className="h-4 w-4 text-[#9ee0d2]" /><span><strong>Postcode coverage check</strong><small>We confirm Birmingham and selected surrounding areas before booking.</small></span></div>
+          <div className="trust-strip-item"><CalendarDays className="h-4 w-4 text-[#9ee0d2]" /><span><strong>No payment with a request</strong><small>Preferred dates are reviewed before any visit is confirmed.</small></span></div>
         </div>
         <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} BrightNest Cleaning UK. All rights reserved.</span>

@@ -77,4 +77,7 @@ Public copy mein build-status, implementation ya placeholder language nahin hogi
 ### Accepted review amendments
 - Customer-facing dashboard states must remain calm and helpful; they must not expose API, deployment, environment-variable, or build language.
 - The supplied BrightNest mark should be reused consistently in customer-facing account surfaces rather than substituted with generic iconography.
-- Trust proof must remain grounded in authentic client material; where source context is not available, prefer service standards and process reassurance over invented reviews.
+  - Trust proof must remain grounded in authentic client material; where source context is not available, prefer service standards and process reassurance over invented reviews.
+  - BrightNest Mint remains a controlled signature accent for primary actions, service identifiers, and small care details; large conversion surfaces should favour warm ivory, soft mint, apricot, or ink navy.
+  - Service identifiers should use quiet architectural iconography and fine nestline linework rather than relying on large repeated corner ornaments.
+  - The homepage should keep an editorial home-journal rhythm around the functional booking interface, using composed text/image pacing and restrained action surfaces.

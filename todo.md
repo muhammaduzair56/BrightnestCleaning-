@@ -104,6 +104,18 @@
 - [x] Add optional service-type filtering to the admin analytics API alongside date ranges.
 - [x] Add a responsive service selector and combined-filter chart updates in admin.
 - [x] Verify service/date filters, empty services, chart values, mobile layout, and regressions.
+- [x] Add a Vercel SPA rewrite so direct /admin navigation serves the React application.
+- [ ] Verify the deployed admin route after redeployment and document the login steps.
+- [x] Strengthen the hero CTA hierarchy with a filled primary action and subtle secondary action.
+- [x] Simplify the services section to highlight six popular services and reveal the remaining services on demand.
+- [x] Replace service number badges with meaningful service icons and clarify guide-based pricing with accessible help text.
+- [x] Improve booking-form field contrast and spacing on the dark panel.
+- [x] Validate mobile service layout, FAQ stacking, keyboard access, and responsive spacing.
+- [x] Keep unverified insurance/DBS claims out and add truthful footer cues for postcode coverage, privacy-first handling, and no-payment booking requests.
+- [ ] Diagnose the latest Railway healthcheck failure: image build succeeded but the service is unavailable during `/health` checks.
+- [ ] Confirm the rotated Neon `DATABASE_URL` is saved in Railway without quotes or extra spaces.
+- [ ] Inspect the latest Railway deploy logs for application crash or port-binding errors after database authentication is fixed.
+- [ ] Redeploy and verify `/health` returns the expected JSON response.
 
 ## Client-feedback asset validation
 
