@@ -116,6 +116,9 @@
 - [ ] Confirm the rotated Neon `DATABASE_URL` is saved in Railway without quotes or extra spaces.
 - [x] Inspect the latest Railway deploy logs and identify the Alembic multiple-head startup error.
 - [ ] Redeploy and verify `/health` returns the expected JSON response.
+- [ ] Inspect all remaining migration enum declarations after the `customer_change_request_type` conflict.
+- [ ] Make the customer change-request enum creation idempotent without dropping existing data.
+- [ ] Re-run the full validation suite and push the final migration repair.
 - [x] Audit `.gitignore`, existing environment files, and package contents for secret exposure before ZIP creation.
 - [x] Add safe environment template documentation for local frontend and backend setup without real credentials.
 - [x] Add local testing instructions explaining how to create a private `.env` and set a private `DATABASE_URL`.

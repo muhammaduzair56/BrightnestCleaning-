@@ -5,6 +5,7 @@ Revises: 20260821_0002
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 revision = "20260821_0003"
@@ -13,8 +14,19 @@ branch_labels = None
 depends_on = None
 
 
-customer_request_type = sa.Enum("reschedule", "cancel", name="customer_change_request_type")
-customer_request_status = sa.Enum("requested", "reviewed", "resolved", name="customer_change_request_status")
+customer_request_type = postgresql.ENUM(
+    "reschedule",
+    "cancel",
+    name="customer_change_request_type",
+    create_type=False,
+)
+customer_request_status = postgresql.ENUM(
+    "requested",
+    "reviewed",
+    "resolved",
+    name="customer_change_request_status",
+    create_type=False,
+)
 
 
 def upgrade() -> None:

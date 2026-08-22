@@ -5,6 +5,7 @@ Revises: 20260821_0003
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 revision = "20260821_0004"
@@ -13,7 +14,15 @@ branch_labels = None
 depends_on = None
 
 
-payment_status = sa.Enum("unpaid", "paid", "partially_refunded", "refunded", "failed", name="payment_status")
+payment_status = postgresql.ENUM(
+    "unpaid",
+    "paid",
+    "partially_refunded",
+    "refunded",
+    "failed",
+    name="payment_status",
+    create_type=False,
+)
 
 
 def upgrade() -> None:
