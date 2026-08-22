@@ -107,11 +107,11 @@
 - [x] Add a Vercel SPA rewrite so direct /admin navigation serves the React application.
 - [ ] Verify the deployed admin route after redeployment and document the login steps.
 - [x] Confirm the live Vercel `/admin` request returns Vercel `404 NOT_FOUND` before the SPA loads.
-- [ ] Inspect and correct the Vercel SPA rewrite/build-output configuration.
-- [ ] Validate direct `/admin` navigation locally and on the redeployed production site.
+- [x] Inspect and correct the Vercel SPA rewrite/build-output configuration.
+- [x] Validate the built artifact and local Vercel rewrite configuration; production `/admin` validation remains pending.
 - [x] Confirm the live Production deployment is Ready while direct `/admin` still returns Vercel `404 NOT_FOUND`.
-- [ ] Verify the deployed Vercel artifact contains `index.html` at the configured output root.
-- [ ] Enforce a Vercel-compatible SPA fallback and align the production root/output settings.
+- [x] Verify the deployed Vercel artifact contains `index.html` at the configured output root.
+- [x] Enforce a Vercel-compatible SPA fallback and align the production root/output settings.
 - [ ] Redeploy and validate direct `/admin` navigation on the production domain.
 - [x] Strengthen the hero CTA hierarchy with a filled primary action and subtle secondary action.
 - [x] Simplify the services section to highlight six popular services and reveal the remaining services on demand.
