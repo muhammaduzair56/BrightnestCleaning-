@@ -106,6 +106,13 @@
 - [x] Verify service/date filters, empty services, chart values, mobile layout, and regressions.
 - [x] Add a Vercel SPA rewrite so direct /admin navigation serves the React application.
 - [ ] Verify the deployed admin route after redeployment and document the login steps.
+- [x] Confirm the live Vercel `/admin` request returns Vercel `404 NOT_FOUND` before the SPA loads.
+- [ ] Inspect and correct the Vercel SPA rewrite/build-output configuration.
+- [ ] Validate direct `/admin` navigation locally and on the redeployed production site.
+- [x] Confirm the live Production deployment is Ready while direct `/admin` still returns Vercel `404 NOT_FOUND`.
+- [ ] Verify the deployed Vercel artifact contains `index.html` at the configured output root.
+- [ ] Enforce a Vercel-compatible SPA fallback and align the production root/output settings.
+- [ ] Redeploy and validate direct `/admin` navigation on the production domain.
 - [x] Strengthen the hero CTA hierarchy with a filled primary action and subtle secondary action.
 - [x] Simplify the services section to highlight six popular services and reveal the remaining services on demand.
 - [x] Replace service number badges with meaningful service icons and clarify guide-based pricing with accessible help text.
@@ -123,6 +130,9 @@
 - [x] Confirm migrations completed and isolate the remaining bootstrap failure.
 - [x] Set a strong Railway `BOOTSTRAP_ADMIN_PASSWORD` with at least 12 characters.
 - [ ] Redeploy and verify `/health` plus admin bootstrap success.
+- [x] Confirm the FastAPI process, migrations, bootstrap, and port are healthy; isolate the remaining 400 as TrustedHost validation.
+- [ ] Update Railway `TRUSTED_HOSTS` to include the public Railway domain and internal healthcheck hosts.
+- [ ] Redeploy and verify Railway healthcheck returns 200 and the public `/health` endpoint returns JSON.
 - [x] Inspect all remaining migration enum declarations after the `customer_change_request_type` conflict.
 - [x] Make the customer change-request enum creation idempotent without dropping existing data.
 - [x] Re-run the full validation suite and push the final migration repair.
