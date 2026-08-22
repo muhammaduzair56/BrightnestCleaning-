@@ -116,6 +116,11 @@
 - [ ] Confirm the rotated Neon `DATABASE_URL` is saved in Railway without quotes or extra spaces.
 - [ ] Inspect the latest Railway deploy logs for application crash or port-binding errors after database authentication is fixed.
 - [ ] Redeploy and verify `/health` returns the expected JSON response.
+- [x] Audit `.gitignore`, existing environment files, and package contents for secret exposure before ZIP creation.
+- [x] Add safe environment template documentation for local frontend and backend setup without real credentials.
+- [x] Add local testing instructions explaining how to create a private `.env` and set a private `DATABASE_URL`.
+- [x] Run local typecheck/build and backend tests without storing secrets in the distributable archive.
+- [x] Create and inspect a complete safe source ZIP that excludes `.env` files and credentials.
 
 ## Client-feedback asset validation
 
