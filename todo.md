@@ -305,3 +305,10 @@
 - [x] Validate all eight blog cards and representative article routes on desktop and mobile; images render in both previews.
 - [x] Push the image repair to GitHub and save a recoverable checkpoint for Vercel redeployment; commit `1e2cfeb` is on GitHub `main`.
 
+
+## Vercel public blog image repair
+
+- [x] Replace the four webdev-only blog image paths with publicly resolvable CDN URLs for Vercel.
+- [x] Validate the public image URLs and all eight blog cards/article imagery after the source update; all CDN checks returned HTTP 200 and previews rendered on desktop/mobile.
+- [ ] Push the final public-asset fix and provide the Vercel redeploy instruction.
+
