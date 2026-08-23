@@ -140,14 +140,14 @@ const featuredServiceTitles = new Set([
 ]);
 
 const addOnServices = [
-  { title: "Oven interior", note: "A careful kitchen-detail add-on", price: "Quote based" },
-  { title: "Inside windows", note: "A clearer finish for reachable glass", price: "Quote based" },
-  { title: "Fridge interior", note: "A fresh reset for shelves and seals", price: "Quote based" },
-  { title: "Washing machine", note: "A considered clean for the appliance", price: "Quote based" },
-  { title: "Carpet refresh", note: "Room-by-room fabric care", price: "Quote based" },
-  { title: "Sofa & upholstery", note: "A softer, fresher seating reset", price: "Quote based" },
-  { title: "Mattress refresh", note: "A clean finish for better rest", price: "Quote based" },
-  { title: "Cupboard interiors", note: "The useful detail behind the doors", price: "Quote based" },
+  { title: "Single oven", note: "A careful kitchen-detail add-on", price: "£80 extra" },
+  { title: "Window cleaning inside", note: "A clearer finish for reachable glass", price: "£15 per window" },
+  { title: "Fridge cleaning", note: "A fresh reset for shelves and seals", price: "£70 extra" },
+  { title: "Washing machine cleaning", note: "A considered clean for the appliance", price: "£80 extra" },
+  { title: "Living room carpet cleaning", note: "Room-by-room fabric care", price: "£60 extra" },
+  { title: "Sofa cleaning", note: "A softer, fresher seating reset", price: "Per seat: £50" },
+  { title: "Mattress cleaning", note: "A clean finish for better rest", price: "£50 extra" },
+  { title: "Full property", note: "A wider reset across the home", price: "£120 – £250+" },
 ];
 
 function ServiceIcon({ title }: { title: string }) {

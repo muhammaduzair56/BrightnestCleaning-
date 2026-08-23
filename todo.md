@@ -215,6 +215,7 @@
 - [ ] Refine BrightNest navigation into a strict desktop/mobile system with clear active states and accessible mobile behavior.
 - [ ] Add an original `/blog` route with BrightNest-specific article cards, summaries, and metadata.
 - [x] Add an original BrightNest add-on services section before the booking flow.
+- [x] Update add-on cards with the supplied reference price points while retaining BrightNest’s own labels and booking handoff.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.
