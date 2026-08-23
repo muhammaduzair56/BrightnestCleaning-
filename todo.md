@@ -217,7 +217,11 @@
 - [x] Add an original BrightNest add-on services section before the booking flow.
 - [x] Update add-on cards with the supplied reference price points while retaining BrightNest’s own labels and booking handoff.
 - [x] Add a per-card Book Now action beside each add-on price with smooth booking-form scrolling.
-- [x] Add accessible hover/focus tooltips describing each add-on’s included scope.
+- [ ] Add accessible hover/focus tooltips describing each add-on’s included scope.
+- [x] Expand booking service choices with detailed domestic, commercial, recurring, and fixed-price options.
+- [x] Add Bin cleaning as a selectable booking service/add-on.
+- [x] Add Bedrooms and Bathrooms count fields to booking step one and preserve payload compatibility.
+- [x] Validate expanded booking form on desktop/mobile and production build.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

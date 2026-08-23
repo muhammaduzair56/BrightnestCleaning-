@@ -24,6 +24,7 @@ SERVICE_TYPES = {
     "Rug cleaning",
     "Sofa / upholstery",
     "Rubbish / waste removal",
+    "Bin cleaning",
     "Small one-off jobs",
     "Tailored / other request",
 }

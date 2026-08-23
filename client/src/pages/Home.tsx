@@ -122,6 +122,13 @@ const services = [
     tone: "mint",
   },
   {
+    eyebrow: "Outdoor detail",
+    title: "Bin cleaning",
+    price: "Quote based",
+    description: "A fresh, job-specific clean for household bins and containers.",
+    tone: "linen",
+  },
+  {
     eyebrow: "Small jobs",
     title: "Small one-off jobs",
     price: "Minimum / job quote",
@@ -254,6 +261,9 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
   const [service, setService] = useState("");
+  const [bedrooms, setBedrooms] = useState("1");
+  const [bathrooms, setBathrooms] = useState("1");
+  const [binCleaning, setBinCleaning] = useState(false);
   const [frequency, setFrequency] = useState("One-off visit");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -334,7 +344,12 @@ export default function Home() {
         preferred_date: date,
         preferred_time: time,
         privacy_consent: true,
-        notes: notes.trim() || undefined,
+        notes: [
+          `Bedrooms: ${bedrooms}`,
+          `Bathrooms: ${bathrooms}`,
+          `Bin cleaning: ${binCleaning ? "Yes" : "No"}`,
+          notes.trim() ? `Additional notes: ${notes.trim()}` : "",
+        ].filter(Boolean).join("\n") || undefined,
       });
       setBookingReference(response.booking_id);
       setSubmitted(true);
@@ -528,7 +543,7 @@ export default function Home() {
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-4 sm:mt-8">
               <button type="button" className="service-toggle" aria-expanded={showAllServices} onClick={() => setShowAllServices((current) => !current)}>
-                {showAllServices ? "Show featured services" : "View all 14 services"}
+                {showAllServices ? "Show featured services" : "View all 15 services"}
                 <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${showAllServices ? "rotate-180" : ""}`} />
               </button>
               <span className="guide-note" tabIndex={0}>
@@ -746,6 +761,26 @@ export default function Home() {
                           </Drawer>
                           <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
                         </div>
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <div>
+                            <label htmlFor="bedrooms" className="field-label">Bedrooms</label>
+                            <select id="bedrooms" value={bedrooms} onChange={(event) => setBedrooms(event.target.value)} className="field-control" aria-describedby="bedrooms-help">
+                              {Array.from({ length: 8 }, (_, index) => String(index + 1)).map((value) => <option key={value} value={value}>{value} {value === "1" ? "bedroom" : "bedrooms"}</option>)}
+                            </select>
+                            <p id="bedrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Tell us the main home size.</p>
+                          </div>
+                          <div>
+                            <label htmlFor="bathrooms" className="field-label">Bathrooms</label>
+                            <select id="bathrooms" value={bathrooms} onChange={(event) => setBathrooms(event.target.value)} className="field-control" aria-describedby="bathrooms-help">
+                              {Array.from({ length: 6 }, (_, index) => String(index + 1)).map((value) => <option key={value} value={value}>{value} {value === "1" ? "bathroom" : "bathrooms"}</option>)}
+                            </select>
+                            <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Include en-suites if helpful.</p>
+                          </div>
+                        </div>
+                        <label className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
+                          <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
+                          <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/48">We’ll confirm the exact scope and quote with your booking request.</small></span>
+                        </label>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
