@@ -216,3 +216,7 @@
 - [ ] Add an original `/blog` route with BrightNest-specific article cards, summaries, and metadata.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.
 - [ ] Validate `/blog`, navbar links, mobile menu behavior, image loading, and production build.
+- [x] Verify whether the live Vercel deployment is serving the latest BrightNest checkpoint or an older branch/commit.
+- [x] Make the navbar visibly strict: compact fixed-height rail, separated nav groups, clear active state, and prominent booking action.
+- [x] Verify the production-like preview at desktop and mobile widths, including `/blog`.
+- [ ] Save the corrected revision and provide the exact Vercel redeploy step.

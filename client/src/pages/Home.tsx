@@ -348,8 +348,8 @@ export default function Home() {
         Thoughtful domestic & specialist cleaning across Birmingham & surrounding areas
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-[#173137]/10 bg-[#f8f6ef]/92 backdrop-blur-xl">
-        <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 lg:px-10">
+      <header className="sticky top-0 z-40 px-3 pt-3 sm:px-5 lg:px-8">
+        <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between gap-5 rounded-full border border-[#173137]/12 bg-[#fffdf7]/95 px-4 shadow-[0_10px_30px_rgba(23,49,55,0.08)] backdrop-blur-xl sm:h-[76px] sm:px-5 lg:px-7">
           <button
             className="group flex items-center text-left"
             onClick={() => scrollToSection("top")}
@@ -362,17 +362,12 @@ export default function Home() {
             />
           </button>
 
-          <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Primary navigation">
-            {navItems.map(([label, id]) => (
-              <button
-                key={id}
-                onClick={() => scrollToSection(id)}
-                className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100"
-              >
-                {label}
-              </button>
-            ))}
-            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#2f9f91] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]" aria-label="Read the BrightNest blog">Blog</Link>
+          <nav className="hidden items-center gap-4 lg:flex xl:gap-6" aria-label="Primary navigation">
+            <button onClick={() => scrollToSection("top")} className="relative py-2 text-sm font-bold text-[#2f9f91] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]">Home</button>
+            <button onClick={() => scrollToSection("difference")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">About us</button>
+            <button onClick={() => scrollToSection("services")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">Services</button>
+            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100" aria-label="Read the BrightNest blog">Blog</Link>
+            <button onClick={() => bookService()} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">Contact</button>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
@@ -398,18 +393,11 @@ export default function Home() {
         {mobileOpen && (
           <div className="border-t border-[#173137]/10 bg-[#f8f6ef] px-5 py-5 shadow-xl lg:hidden">
             <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
-              {navItems.map(([label, id]) => (
-                <button
-                  key={id}
-                  className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    scrollToSection(id);
-                  }}
-                >
-                  {label} <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
-                </button>
-              ))}
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#2f9f91]" onClick={() => { setMobileOpen(false); scrollToSection("top"); }}>Home <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("difference"); }}>About us <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("services"); }}>Services <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("how-it-works"); }}>How it works <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); bookService(); }}>Contact <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
               <Link href="/blog" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#2f9f91]" onClick={() => setMobileOpen(false)}>
                 Blog <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
               </Link>
