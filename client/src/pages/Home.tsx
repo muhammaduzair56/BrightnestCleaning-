@@ -139,6 +139,17 @@ const featuredServiceTitles = new Set([
   "Office & commercial",
 ]);
 
+const addOnServices = [
+  { title: "Oven interior", note: "A careful kitchen-detail add-on", price: "Quote based" },
+  { title: "Inside windows", note: "A clearer finish for reachable glass", price: "Quote based" },
+  { title: "Fridge interior", note: "A fresh reset for shelves and seals", price: "Quote based" },
+  { title: "Washing machine", note: "A considered clean for the appliance", price: "Quote based" },
+  { title: "Carpet refresh", note: "Room-by-room fabric care", price: "Quote based" },
+  { title: "Sofa & upholstery", note: "A softer, fresher seating reset", price: "Quote based" },
+  { title: "Mattress refresh", note: "A clean finish for better rest", price: "Quote based" },
+  { title: "Cupboard interiors", note: "The useful detail behind the doors", price: "Quote based" },
+];
+
 function ServiceIcon({ title }: { title: string }) {
   if (title === "Regular home cleaning" || title === "Move-in / move-out") return <HomeIcon className="h-5 w-5" aria-hidden="true" />;
   if (title === "Deep cleaning") return <Brush className="h-5 w-5" aria-hidden="true" />;
@@ -622,23 +633,27 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-5 pb-16 sm:pb-24 lg:px-10 lg:pb-32">
-          <div className="mx-auto grid max-w-[1440px] overflow-hidden rounded-[32px] bg-[#dbece4] lg:grid-cols-[0.95fr_1.05fr] lg:rounded-[42px]">
-            <div className="order-2 px-6 py-7 sm:px-10 sm:py-14 lg:order-1 lg:px-16 lg:py-20">
-              <p className="eyebrow">Guest-ready details</p>
-              <h2 className="font-display mt-5 max-w-[510px] text-[42px] leading-[0.98] tracking-[-0.055em] sm:text-[58px]">For homes that welcome people in.</h2>
-              <p className="mt-6 max-w-[540px] text-base leading-7 text-[#173137]/70">Add the details that make the difference for move-out, short-let and special-occasion cleans.</p>
-              <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-3 sm:mt-9 sm:gap-x-6 sm:gap-y-4">
-                {["Linen change", "Fridge interior", "Oven detail", "Cupboard interiors", "Carpet care", "After-builders reset"].map((item) => (
-                  <span key={item} className="flex items-center gap-2 text-sm font-extrabold"><Sparkles className="h-4 w-4 text-[#2f9f91]" /> {item}</span>
-                ))}
-              </div>
-              <button className="btn-primary mt-7 sm:mt-10" onClick={() => bookService("Airbnb turnovers")}>
-                Plan a guest-ready clean <ArrowRight className="h-4 w-4" />
-              </button>
+        <section id="add-ons" className="scroll-mt-24 px-5 pb-16 sm:pb-24 lg:px-10 lg:pb-32">
+          <div className="mx-auto max-w-[1440px] overflow-hidden rounded-[30px] bg-[#173137] px-5 py-8 text-[#f8f6ef] sm:rounded-[38px] sm:px-9 sm:py-11 lg:px-14 lg:py-14">
+            <div className="mx-auto max-w-[760px] text-center">
+              <span className="mx-auto mb-4 block h-8 w-8 rounded-full border border-[#9ee0d2]/60" aria-hidden="true" />
+              <p className="eyebrow text-[#9ee0d2]">Add the finishing details</p>
+              <h2 className="font-display mt-4 text-[43px] leading-[0.96] tracking-[-0.055em] sm:text-[60px]">A deeper clean, made personal.</h2>
+              <p className="mx-auto mt-5 max-w-[630px] text-sm leading-6 text-white/65 sm:text-base">Choose any extra detail that would help your home feel more complete. Add-ons are reviewed with your request and quoted around the space, access and finish required.</p>
             </div>
-            <div className="order-1 min-h-[260px] sm:min-h-[380px] lg:order-2 lg:min-h-full">
-              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/EAtTQFMEJYeEyRwQ.webp" alt="A fresh guest-ready apartment bedroom" className="h-full min-h-[260px] w-full object-cover sm:min-h-[380px]" loading="lazy" />
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:mt-11 lg:grid-cols-4">
+              {addOnServices.map((item) => (
+                <button key={item.title} type="button" onClick={() => bookService(item.title)} className="group flex min-h-[132px] flex-col items-start rounded-[18px] border border-white/12 bg-[#f8f6ef] p-4 text-left text-[#173137] transition-transform duration-200 hover:-translate-y-1 hover:bg-[#e8f3ed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9ee0d2] sm:p-5">
+                  <span className="grid h-9 w-9 place-items-center rounded-[11px] bg-[#e3f1ea] text-[#2f9f91]"><ServiceIcon title={item.title} /></span>
+                  <span className="mt-4 text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">{item.price}</span>
+                  <span className="mt-1 text-base font-extrabold tracking-[-0.02em]">{item.title}</span>
+                  <span className="mt-1 text-xs leading-5 text-[#173137]/60">{item.note}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 sm:flex-row">
+              <p className="max-w-[520px] text-xs leading-5 text-white/55">Not sure what to add? Start your request and describe the detail in your own words — we’ll help shape the scope.</p>
+              <button className="btn-light shrink-0" onClick={() => bookService()}>Add to my request <ArrowRight className="h-4 w-4" /></button>
             </div>
           </div>
         </section>

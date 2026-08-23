@@ -214,6 +214,9 @@
 - [ ] Review the supplied Martilla reference navigation for structural cues without copying its branding, assets, or copy.
 - [ ] Refine BrightNest navigation into a strict desktop/mobile system with clear active states and accessible mobile behavior.
 - [ ] Add an original `/blog` route with BrightNest-specific article cards, summaries, and metadata.
+- [x] Add an original BrightNest add-on services section before the booking flow.
+- [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
+- [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.
 - [ ] Validate `/blog`, navbar links, mobile menu behavior, image loading, and production build.
 - [x] Verify whether the live Vercel deployment is serving the latest BrightNest checkpoint or an older branch/commit.
@@ -228,5 +231,7 @@
 - [ ] Verify the live deployment commit matches the latest strict-navbar/image fix.
 - [ ] Verify production image URLs return successful responses on the live domain.
 - [ ] Confirm navbar and blog images after the correct Vercel redeploy.
+- [ ] Confirm Vercel production is using the sticky-navbar checkpoint `cce3bcec` rather than `df7b4c6`.
+- [ ] Redeploy the sticky-navbar source from GitHub main and verify the live production result.
 - [x] Confirm the public home and blog headers remain visible during page scroll.
 - [x] Add fixed-header content offsets and verify mobile menu layering.
