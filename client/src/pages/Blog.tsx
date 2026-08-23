@@ -14,7 +14,7 @@ const articles = [
     readTime: "5 min read",
     title: "The calm-home reset: where a deep clean makes the biggest difference",
     excerpt: "A practical room-by-room way to decide what needs attention first, without turning the whole weekend into a project.",
-    image: "/manus-storage/brightnest-blog-deep-cleaning_9ab3c67b.jpg",
+    image: "/blog/brightnest-blog-deep-cleaning.webp",
   },
   {
     id: "gentler-products",
@@ -23,7 +23,7 @@ const articles = [
     readTime: "4 min read",
     title: "A gentler cleaning cupboard, built around the home you actually use",
     excerpt: "How to choose a small, useful set of products and tools for everyday surfaces, kitchen details and fresh finishes.",
-    image: "/manus-storage/brightnest-blog-eco-products_6a30e058.jpg",
+    image: "/blog/brightnest-blog-eco-products.webp",
   },
   {
     id: "rental-turnover",
@@ -32,7 +32,7 @@ const articles = [
     readTime: "6 min read",
     title: "A smoother changeover for guests, tenants and busy property teams",
     excerpt: "The details that help a rental feel ready again, from first impression to the small touches people notice on arrival.",
-    image: "/manus-storage/brightnest-blog-rental-turnover_7ae22bec.jpg",
+    image: "/blog/brightnest-blog-rental-turnover.webp",
   },
   {
     id: "winter-home-care",
@@ -41,7 +41,7 @@ const articles = [
     readTime: "4 min read",
     title: "The winter home edit: small cleaning habits that lighten the darker months",
     excerpt: "A gentle seasonal checklist for kitchens, soft furnishings and the corners that collect more dust when windows stay closed.",
-    image: "/manus-storage/brightnest-blog-winter-home_def780f9.jpg",
+    image: "/blog/brightnest-blog-winter-home.webp",
   },
 ];
 
@@ -127,7 +127,7 @@ export default function Blog() {
               </div>
             </div>
             <div className="relative min-h-[300px] overflow-hidden bg-[#c5dfd5] lg:min-h-full">
-              <img src="/manus-storage/brightnest-blog-winter-home_def780f9.jpg" alt="A calm, clean kitchen corner with natural daylight" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="/blog/brightnest-blog-winter-home.webp" alt="A calm, clean kitchen corner with natural daylight" className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-[#173137]/15 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 max-w-[250px] rounded-[18px] border border-white/40 bg-[#f8f6ef]/88 p-4 backdrop-blur-sm sm:bottom-8 sm:left-8">
                 <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">A considered approach</p>

@@ -220,3 +220,7 @@
 - [x] Make the navbar visibly strict: compact fixed-height rail, separated nav groups, clear active state, and prominent booking action.
 - [x] Verify the production-like preview at desktop and mobile widths, including `/blog`.
 - [ ] Save the corrected revision and provide the exact Vercel redeploy step.
+- [x] Diagnose why the generated blog image paths return broken images on the live Vercel build.
+- [x] Replace broken blog image references with production-safe first-party asset URLs.
+- [x] Lock the public navbar into a compact single-rail strict layout on desktop and mobile.
+- [x] Re-run build and responsive preview checks for homepage and blog.
