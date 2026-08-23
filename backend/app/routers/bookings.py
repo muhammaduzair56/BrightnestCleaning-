@@ -1,7 +1,8 @@
 """Public booking creation and protected booking-management endpoints."""
 from __future__ import annotations
 
-from datetime import date, datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta, time
+import hashlib
 from calendar import monthrange
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
@@ -10,13 +11,29 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, selectinload
 
 from app.cache import cache
+from app.config import get_settings
 from app.database import get_db
 from app.models import AdminUser, AuditEvent, Booking, BookingStatus, CustomerChangeRequest, CustomerChangeRequestStatus, ReferralCode, RecurringBookingPlan
 from app.notifications import notify_customer_change_resolution, notify_new_booking
-from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, BookingAccepted, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
+from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, AvailabilitySlot, BookingAccepted, BookingAvailabilityResponse, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
 from app.security import get_current_admin
 
 router = APIRouter(tags=["bookings"])
+
+
+TIME_SLOT_DEFINITIONS = (
+    ("08:00", "8:00 am", "Early morning"),
+    ("09:00", "9:00 am", "Morning"),
+    ("10:00", "10:00 am", "Morning"),
+    ("11:00", "11:00 am", "Late morning"),
+    ("12:00", "12:00 pm", "Midday"),
+    ("13:00", "1:00 pm", "Early afternoon"),
+    ("14:00", "2:00 pm", "Afternoon"),
+    ("15:00", "3:00 pm", "Afternoon"),
+    ("16:00", "4:00 pm", "Late afternoon"),
+    ("17:00", "5:00 pm", "Evening"),
+)
+ACTIVE_BOOKING_STATUSES = (BookingStatus.NEW, BookingStatus.CONTACTED, BookingStatus.CONFIRMED)
 
 
 def _booking_read(booking: Booking) -> BookingRead:
@@ -25,6 +42,35 @@ def _booking_read(booking: Booking) -> BookingRead:
 
 async def _invalidate_booking_cache() -> None:
     await cache.bump_booking_version()
+
+
+def _lock_slot(db: Session, preferred_date: date, preferred_time: time) -> None:
+    """Serialize competing submissions for the same slot on PostgreSQL."""
+    bind = db.get_bind()
+    if bind is None or bind.dialect.name != "postgresql":
+        return
+    lock_key = int.from_bytes(hashlib.sha256(f"{preferred_date.isoformat()}:{preferred_time.isoformat()}".encode()).digest()[:8], "big", signed=True)
+    db.execute(select(func.pg_advisory_xact_lock(lock_key)))
+
+
+def _slot_booking_count(db: Session, preferred_date: date, preferred_time: time) -> int:
+    return int(db.scalar(select(func.count(Booking.id)).where(Booking.preferred_date == preferred_date, Booking.preferred_time == preferred_time, Booking.status.in_(ACTIVE_BOOKING_STATUSES))) or 0)
+
+
+def _ensure_slot_available(db: Session, preferred_date: date, preferred_time: time) -> None:
+    _lock_slot(db, preferred_date, preferred_time)
+    if _slot_booking_count(db, preferred_date, preferred_time) >= get_settings().booking_slot_capacity:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="That time has just been taken. Please choose another available slot.")
+
+
+@router.get("/availability", response_model=BookingAvailabilityResponse)
+def get_availability(preferred_date: date = Query(...), service_type: str | None = Query(default=None, min_length=1, max_length=120), db: Session = Depends(get_db)) -> BookingAvailabilityResponse:
+    if preferred_date < date.today():
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Availability can only be checked for today or a future date")
+    counts = dict(db.execute(select(Booking.preferred_time, func.count(Booking.id)).where(Booking.preferred_date == preferred_date, Booking.status.in_(ACTIVE_BOOKING_STATUSES)).group_by(Booking.preferred_time)).all())
+    capacity = get_settings().booking_slot_capacity
+    current_time = datetime.now().time()
+    return BookingAvailabilityResponse(date=preferred_date, slots=[AvailabilitySlot(value=value, label=label, description=description, available=(preferred_date > date.today() or time.fromisoformat(value) > current_time) and counts.get(time.fromisoformat(value), 0) < capacity) for value, label, description in TIME_SLOT_DEFINITIONS])
 
 
 @router.post("/referrals/check", response_model=ReferralCodeCheckResponse)
@@ -42,6 +88,9 @@ def check_referral_code(payload: ReferralCodeCheckRequest, db: Session = Depends
 async def create_booking(payload: BookingCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)) -> BookingAccepted:
     if payload.preferred_date < date.today():
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Preferred date must be today or later")
+    if payload.preferred_date == date.today() and payload.preferred_time <= datetime.now().time():
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Please choose a future time for today")
+    _ensure_slot_available(db, payload.preferred_date, payload.preferred_time)
     booking = Booking(**payload.model_dump(exclude={"privacy_consent"}))
     try:
         db.add(booking)

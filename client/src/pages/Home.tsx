@@ -20,9 +20,9 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ApiError, bookingApi } from "@/lib/api";
+import { ApiError, bookingApi, type BookingAvailability } from "@/lib/api";
 import { Calendar } from "@/components/ui/calendar";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
@@ -282,6 +282,8 @@ export default function Home() {
   const [frequencyPickerOpen, setFrequencyPickerOpen] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [timePickerOpen, setTimePickerOpen] = useState(false);
+  const [availability, setAvailability] = useState<BookingAvailability | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const coveragePrefixes = (import.meta.env.VITE_COVERAGE_POSTCODE_PREFIXES || "B").split(",").map((prefix: string) => prefix.trim().toUpperCase()).filter(Boolean);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -301,6 +303,26 @@ export default function Home() {
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
   const selectedTime = timeSlots.find((item) => item.value === time);
   const selectedDate = date ? new Date(`${date}T12:00:00`) : undefined;
+
+  useEffect(() => {
+    if (!date) {
+      setAvailability(null);
+      return;
+    }
+    let active = true;
+    setAvailabilityLoading(true);
+    void bookingApi.availability(date, service || undefined).then((nextAvailability) => {
+      if (!active) return;
+      setAvailability(nextAvailability);
+      if (time && !nextAvailability.slots.some((slot) => slot.value === time && slot.available)) setTime("");
+    }).catch(() => {
+      if (active) setAvailability(null);
+    }).finally(() => {
+      if (active) setAvailabilityLoading(false);
+    });
+    return () => { active = false; };
+  }, [date, service]);
+
   const quickDate = (offset: number) => {
     const candidate = new Date(today);
     candidate.setDate(candidate.getDate() + offset);
@@ -850,6 +872,10 @@ export default function Home() {
                                   <div className="mt-2 grid grid-cols-3 gap-2">
                                     {[{ label: "Soonest", offset: 0 }, { label: "Tomorrow", offset: 1 }, { label: "In 3 days", offset: 3 }].map((option) => <button key={option.label} type="button" className={`rounded-[12px] border px-3 py-2 text-xs font-extrabold transition-colors ${date === quickDate(option.offset) ? "border-[#2f9f91] bg-[#d9f0e8] text-[#173137]" : "border-[#173137]/10 bg-white text-[#173137]/70 hover:border-[#2f9f91]/45 hover:bg-[#edf3ed]"}`} onClick={() => { setDate(quickDate(option.offset)); setFormError(""); setDatePickerOpen(false); }}>{option.label}</button>)}
                                   </div>
+                                  <p className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Visit rhythm</p>
+                                  <div className="mt-2 flex flex-wrap gap-2">
+                                    {visitRhythms.map((item) => <button key={item.value} type="button" className={`rounded-full border px-3 py-2 text-xs font-extrabold transition-colors ${frequency === item.value ? "border-[#2f9f91] bg-[#173137] text-white" : "border-[#173137]/10 bg-white text-[#173137]/68 hover:border-[#2f9f91]/45"}`} onClick={() => { setFrequency(item.value); setFormError(""); }}>{item.value === "Fortnightly" ? "Bi-weekly" : item.value}</button>)}
+                                  </div>
                                 </div>
                                 <div className="flex justify-center px-4 py-3 sm:px-6">
                                   <Calendar mode="single" selected={selectedDate} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
@@ -875,13 +901,19 @@ export default function Home() {
                                   <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred time</DrawerTitle>
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">We will confirm availability with you before the visit is booked.</DrawerDescription>
                                 </DrawerHeader>
-                                <div className="px-4 pt-4 sm:px-6"><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Available windows</p><p className="mt-1 text-xs font-bold text-[#173137]/52">Choose the hour you would most like us to aim for.</p></div>
+                                <div className="px-4 pt-4 sm:px-6"><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Available windows</p><p className="mt-1 text-xs font-bold text-[#173137]/52">Choose the hour you would most like us to aim for. Fully booked slots are marked unavailable.</p></div>
                                 <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
+                                  {availabilityLoading && <p className="px-2 pb-2 text-xs font-extrabold text-[#2f9f91]">Checking live availability…</p>}
                                   {timeSlots.map((item) => {
                                     const selected = time === item.value;
+                                    const availabilitySlot = availability?.slots.find((slot) => slot.value === item.value);
+                                    const currentTimeKey = new Date().toTimeString().slice(0, 5);
+                                    const isPastToday = date === toDateKey(new Date()) && item.value <= currentTimeKey;
+                                    const unavailable = isPastToday || (availabilitySlot ? !availabilitySlot.available : false);
+                                    const unavailableReason = isPastToday ? "Time has passed" : "Fully booked";
                                     return (
-                                      <button key={item.value} type="button" className={`service-picker-option ${selected ? "service-picker-option-active" : ""}`} onClick={() => { setTime(item.value); setFormError(""); setTimePickerOpen(false); }}>
-                                        <span className="min-w-0 text-left"><strong>{item.label}</strong><small>{item.description}</small></span>
+                                      <button key={item.value} type="button" disabled={unavailable} aria-disabled={unavailable} className={`service-picker-option ${selected ? "service-picker-option-active" : ""} ${unavailable ? "cursor-not-allowed opacity-45" : ""}`} onClick={() => { setTime(item.value); setFormError(""); setTimePickerOpen(false); }}>
+                                        <span className="min-w-0 text-left"><strong>{item.label}</strong><small>{unavailable ? unavailableReason : item.description}</small></span>
                                         <span className="service-picker-check" aria-hidden="true">{selected && <Check className="h-4 w-4" />}</span>
                                       </button>
                                     );

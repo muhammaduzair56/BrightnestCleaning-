@@ -45,6 +45,9 @@ export type Dashboard = Record<"total" | BookingStatus, number>;
 export type AdminAnalyticsMonth = { month: string; label: string; bookings: number; completed: number; cancelled: number; cancellation_rate: number; revenue_pence: number };
 export type AdminAnalytics = { bookings_this_month: number; completed_this_month: number; cancelled_this_month: number; revenue_pence_this_month: number; average_booking_total_pence: number | null; months: AdminAnalyticsMonth[] };
 export type Tokens = { access_token: string; refresh_token: string; token_type: "bearer"; expires_in: number };
+export type AvailabilitySlot = { value: string; label: string; description: string; available: boolean };
+export type BookingAvailability = { date: string; slots: AvailabilitySlot[] };
+
 export type CustomerChangeRequest = {
   id: string;
   request_type: "reschedule" | "cancel";
@@ -114,6 +117,7 @@ async function request<T>(path: string, options: RequestInit = {}, accessToken?:
 
 export const bookingApi = {
   create: (payload: BookingPayload) => request<{ booking_id: string; message: string }>("/bookings", { method: "POST", body: JSON.stringify(payload) }),
+  availability: (date: string, serviceType?: string) => { const params = new URLSearchParams({ preferred_date: date }); if (serviceType) params.set("service_type", serviceType); return request<BookingAvailability>(`/availability?${params.toString()}`); },
   login: (email: string, password: string) => request<Tokens>("/admin/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
   dashboard: (token: string) => request<Dashboard>("/admin/dashboard", {}, token),
   analytics: (token: string, startDate?: string, endDate?: string, serviceType?: string) => { const params = new URLSearchParams(); if (startDate) params.set("start_date", startDate); if (endDate) params.set("end_date", endDate); if (serviceType) params.set("service_type", serviceType); const query = params.toString(); return request<AdminAnalytics>(`/admin/analytics${query ? `?${query}` : ""}`, {}, token); },

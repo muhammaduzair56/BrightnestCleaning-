@@ -229,6 +229,10 @@
 - [x] Refine the booking date picker for clearer future-date scheduling and UK-readable formatting.
 - [x] Refine the booking time picker for clear daytime slot selection and accessibility.
 - [x] Validate date/time picker behavior, mobile layout, and submitted payload compatibility.
+- [x] Decide whether availability should use BrightNest’s existing booking database or an external calendar provider. Selected database-backed availability; no external calendar sync for this revision.
+- [x] Add backend availability checking that blocks fully booked date/time slots.
+- [x] Add recurring schedule selection and persist the requested recurrence safely. Bi-weekly is represented by the existing Fortnightly / every-two-weeks option.
+- [x] Validate race-safe booking submission, recurrence behavior, and responsive picker UX.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

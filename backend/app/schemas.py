@@ -150,6 +150,18 @@ class BookingAccepted(BaseModel):
     message: str
 
 
+class AvailabilitySlot(BaseModel):
+    value: str
+    label: str
+    description: str
+    available: bool
+
+
+class BookingAvailabilityResponse(BaseModel):
+    date: date
+    slots: list[AvailabilitySlot]
+
+
 class CustomerAccessRequest(BaseModel):
     email: EmailStr
 
