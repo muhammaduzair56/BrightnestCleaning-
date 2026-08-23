@@ -378,3 +378,16 @@
 - [x] Replaced the black-background asset across all seven logo references.
 - [x] Confirmed the black side is gone in the 375px mobile preview; TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint after validation.
+
+## Use supplied Photoroom logo image
+
+- [ ] Use the user's supplied `image-Photoroom.png` asset instead of the generated transparent logo.
+- [ ] Ensure the logo presentation does not create an unwanted white or black side block.
+- [ ] Verify the mobile header and save a checkpoint.
+
+## Supplied Photoroom logo validation
+
+- [x] Replaced the generated transparent asset with the exact supplied `image-Photoroom.png` logo.
+- [x] Updated all seven logo and favicon references.
+- [x] Verified the supplied image in the 375px mobile header; TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint.
