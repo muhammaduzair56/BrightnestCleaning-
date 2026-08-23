@@ -339,3 +339,10 @@
 - [x] Final local production-preview audits: homepage mobile 67/100 Performance, 100 Accessibility, 82 Best Practices, 100 SEO; blog mobile 81/100 Performance, 100 Accessibility, 82 Best Practices, 100 SEO. Desktop: homepage 98/100 Performance, 100 Accessibility, 81 Best Practices, 100 SEO; blog 99/100 Performance, 100 Accessibility, 81 Best Practices, 100 SEO.
 - [x] Documented the remaining external-runtime deprecation limitation and next performance opportunities in `LIGHTHOUSE_AUDIT_REPORT.md`.
 
+
+## Push latest optimization release
+
+- [ ] Commit the verified image, accessibility, Best Practices, and Lighthouse report changes.
+- [ ] Push the optimization release to GitHub `main`.
+- [ ] Verify the remote commit and provide the Vercel redeploy handoff.
+
