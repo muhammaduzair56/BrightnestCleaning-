@@ -273,10 +273,14 @@
 - [x] Make the navbar visibly strict: compact fixed-height rail, separated nav groups, clear active state, and prominent booking action.
 - [x] Verify the production-like preview at desktop and mobile widths, including `/blog`.
 - [ ] Save the corrected revision and provide the exact Vercel redeploy step.
+- [x] Expand the blog from four to eight original BrightNest articles.
+- [x] Create four article-specific social preview images in the webdev asset store and wire their production URLs into the new articles.
+- [x] Add dynamic title, description, canonical, Open Graph, Twitter, and article metadata for each blog article.
+- [x] Add accessible WhatsApp, Facebook, X, and copy-link sharing controls to each article.
 - [x] Diagnose why the generated blog image paths return broken images on the live Vercel build.
 - [x] Replace broken blog image references with production-safe first-party asset URLs.
 - [x] Lock the public navbar into a compact single-rail strict layout on desktop and mobile.
-- [ ] Re-run build and responsive preview checks for homepage and blog.
+- [x] Re-run build and responsive preview checks for homepage and blog; blog typecheck/build and desktop/mobile previews pass.
 - [ ] Verify Vercel is connected to GitHub repository `muhammaduzair56/BrightnestCleaning-`, branch `main`, and root directory `/`.
 - [ ] Verify the live deployment commit matches the latest strict-navbar/image fix.
 - [ ] Verify production image URLs return successful responses on the live domain.
