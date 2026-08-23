@@ -78,8 +78,9 @@ function vitePluginManusDebugCollector(): Plugin {
   return {
     name: "manus-debug-collector",
 
-    transformIndexHtml(html) {
-      if (process.env.NODE_ENV === "production") {
+    transformIndexHtml(html, ctx) {
+      // The collector is development-only; keep it out of production builds and previews.
+      if (!ctx.server) {
         return html;
       }
       return {
@@ -219,6 +220,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    sourcemap: true,
   },
   server: {
     port: 3000,

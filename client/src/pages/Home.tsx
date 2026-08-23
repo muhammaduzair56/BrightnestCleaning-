@@ -417,24 +417,24 @@ export default function Home() {
             aria-label="Back to top"
           >
             <img
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/nGxiaCTVOHaPBQzw.png"
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/SkBXPeHKpJrOzCnO.webp"
               alt="BrightNest Cleaning UK logo"
               className="h-[64px] w-[170px] origin-left scale-[1.14] object-contain object-left transition-transform duration-200 group-hover:scale-[1.18] group-active:scale-95 sm:h-[68px] sm:w-[184px]"
             />
           </button>
 
           <nav className="hidden items-center gap-4 lg:flex xl:gap-6" aria-label="Primary navigation">
-            <button onClick={() => scrollToSection("top")} className="relative py-2 text-sm font-bold text-[#2f9f91] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]">Home</button>
-            <button onClick={() => scrollToSection("difference")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">About us</button>
-            <button onClick={() => scrollToSection("services")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">Services</button>
-            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100" aria-label="Read the BrightNest blog">Blog</Link>
-            <button onClick={() => bookService()} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100">Contact</button>
+            <button onClick={() => scrollToSection("top")} className="relative py-2 text-sm font-bold text-[#23786f] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]">Home</button>
+            <button onClick={() => scrollToSection("difference")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">About us</button>
+            <button onClick={() => scrollToSection("services")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Services</button>
+            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100" aria-label="Read the BrightNest blog">Blog</Link>
+            <button onClick={() => bookService()} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Contact</button>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <Link href="/dashboard" className="border-l border-[#173137]/15 pl-4 text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#2f9f91]">My bookings</Link>
+            <Link href="/dashboard" className="border-l border-[#173137]/15 pl-4 text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#23786f]">My bookings</Link>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
-              <ShieldCheck className="h-4 w-4 text-[#2f9f91]" />
+              <ShieldCheck className="h-4 w-4 text-[#23786f]" />
               Birmingham-based
             </span>
             <button className="btn-primary" onClick={() => bookService()}>
@@ -454,16 +454,16 @@ export default function Home() {
         {mobileOpen && (
           <div className="border-t border-[#173137]/10 bg-[#f8f6ef] px-5 py-5 shadow-xl lg:hidden">
             <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#2f9f91]" onClick={() => { setMobileOpen(false); scrollToSection("top"); }}>Home <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("difference"); }}>About us <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("services"); }}>Services <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("how-it-works"); }}>How it works <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); bookService(); }}>Contact <ArrowRight className="h-4 w-4 text-[#2f9f91]" /></button>
-              <Link href="/blog" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#2f9f91]" onClick={() => setMobileOpen(false)}>
-                Blog <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#23786f]" onClick={() => { setMobileOpen(false); scrollToSection("top"); }}>Home <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("difference"); }}>About us <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("services"); }}>Services <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("how-it-works"); }}>How it works <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); bookService(); }}>Contact <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <Link href="/blog" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#23786f]" onClick={() => setMobileOpen(false)}>
+                Blog <ArrowRight className="h-4 w-4 text-[#23786f]" />
               </Link>
               <Link href="/dashboard" className="mt-4 flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>
-                My bookings <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
+                My bookings <ArrowRight className="h-4 w-4 text-[#23786f]" />
               </Link>
               <button
                 className="btn-primary mt-4 w-full justify-center"
@@ -484,13 +484,13 @@ export default function Home() {
           <div className="hero-grain absolute inset-0 -z-10" />
           <div className="mx-auto grid max-w-[1440px] gap-5 sm:gap-8 lg:grid-cols-[minmax(0,0.96fr)_minmax(470px,1.04fr)] lg:items-stretch">
             <div className="flex min-h-[430px] flex-col justify-between rounded-[28px] border border-[#173137]/10 bg-[#edf3ed] p-6 sm:min-h-[500px] sm:rounded-[32px] sm:p-10 lg:min-h-[640px] lg:rounded-[42px] lg:p-14">
-              <div className="flex items-center gap-3 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2f9f91] sm:text-xs">
+              <div className="flex items-center gap-3 text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#23786f] sm:text-xs">
                 <span className="nestline" aria-hidden="true" />
                 <span>Clean homes. Healthier spaces. Happier lives.</span>
               </div>
               <div className="max-w-[660px] py-7 sm:py-10 lg:py-16">
                 <h1 className="font-display max-w-[620px] text-[50px] leading-[0.93] tracking-[-0.065em] text-[#173137] sm:text-[68px] xl:text-[86px]">
-                  Make room for <em className="font-normal text-[#2f9f91]">what matters.</em>
+                  Make room for <em className="font-normal text-[#23786f]">what matters.</em>
                 </h1>
                 <p className="mt-7 max-w-[510px] text-base leading-7 text-[#173137]/70 sm:text-lg sm:leading-8">
                   Thoughtful domestic and specialist cleaning that brings a calm, cared-for feeling back to your home.
@@ -514,7 +514,9 @@ export default function Home() {
 
             <div className="relative min-h-[340px] overflow-hidden rounded-[28px] bg-[#d8e9df] sm:min-h-[480px] sm:rounded-[32px] lg:min-h-[640px] lg:rounded-[42px]">
               <img
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/RXLTTcAvxXHzkGtC.webp"
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp"
+                srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/KyOEDDpTbzuebQBu.webp 640w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp 960w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/yQRYQlqOSmmelxWf.webp 1400w"
+                sizes="(max-width: 640px) 100vw, 58vw"
                 alt="A BrightNest cleaner carefully preparing a living room"
                 className="h-full min-h-[340px] w-full object-cover object-[72%_center] sm:min-h-[480px] lg:min-h-[640px]"
                 fetchPriority="high"
@@ -528,7 +530,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="absolute bottom-5 left-5 max-w-[275px] rounded-[22px] border border-white/60 bg-[#f8f6ef]/90 p-4 backdrop-blur-md sm:bottom-7 sm:left-7 sm:p-5">
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2f9f91]">Your time, protected</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#23786f]">Your time, protected</p>
                 <p className="mt-2 text-sm font-bold leading-5 text-[#173137]">Choose your service, time and details in one calm booking flow.</p>
               </div>
             </div>
@@ -536,10 +538,10 @@ export default function Home() {
         </section>
 
         <section className="border-y border-[#173137]/10 bg-[#f8f6ef] px-5 py-4 lg:px-10">
-          <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-x-8 gap-y-3 text-xs font-extrabold uppercase tracking-[0.12em] text-[#173137]/65">
-            <span className="inline-flex items-center gap-2"><HomeIcon className="h-4 w-4 text-[#2f9f91]" /> Domestic & specialist care</span>
-            <span className="inline-flex items-center gap-2"><CalendarDays className="h-4 w-4 text-[#2f9f91]" /> Easy request journey</span>
-            <span className="inline-flex items-center gap-2"><Sparkles className="h-4 w-4 text-[#2f9f91]" /> Made for your real life</span>
+          <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-x-8 gap-y-3 text-xs font-extrabold uppercase tracking-[0.12em] text-[#173137]/78">
+            <span className="inline-flex items-center gap-2"><HomeIcon className="h-4 w-4 text-[#23786f]" /> Domestic & specialist care</span>
+            <span className="inline-flex items-center gap-2"><CalendarDays className="h-4 w-4 text-[#23786f]" /> Easy request journey</span>
+            <span className="inline-flex items-center gap-2"><Sparkles className="h-4 w-4 text-[#23786f]" /> Made for your real life</span>
           </div>
         </section>
 
@@ -565,9 +567,9 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="service-card-content mt-4 min-w-0 sm:mt-auto sm:pt-9">
-                    <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] opacity-65">{item.eyebrow}</p>
+                    <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] opacity-100">{item.eyebrow}</p>
                     <h3 className="font-display mt-2 text-[31px] leading-[0.98] tracking-[-0.045em]">{item.title}</h3>
-                    <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-[#2f9f91]">{item.price}</p>
+                    <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-current">{item.price}</p>
                     <p className="mt-3 max-w-[340px] text-sm leading-6 opacity-75">{item.description}</p>
                     <button className="mt-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.13em] underline decoration-current/35 underline-offset-4" onClick={() => bookService(item.title)}>
                       Request this service <ArrowRight className="h-3.5 w-3.5" />
@@ -592,7 +594,7 @@ export default function Home() {
         <section id="how-it-works" className="scroll-mt-24 bg-[#173137] px-5 py-12 text-[#f8f6ef] sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-8 sm:gap-14 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="eyebrow text-[#9ee0d2]">Simple by design</p>
+              <p className="eyebrow eyebrow-dark">Simple by design</p>
               <h2 className="font-display mt-5 max-w-[490px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[60px]">Your clean, in three considered steps.</h2>
               <button className="btn-light mt-7 sm:mt-9" onClick={() => bookService()}>
                 Start a request <ArrowRight className="h-4 w-4" />
@@ -635,7 +637,7 @@ export default function Home() {
               </div>
             </div>
             <figure className="relative min-h-[300px] overflow-hidden rounded-[26px] bg-[#d7e2d9] sm:min-h-[460px] sm:rounded-[30px] lg:rounded-[38px]">
-              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pGjWztItugFawuDC.webp" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/IGXszbodrLcwAZHM.webp" srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/QmtqNIWJDgjFlkJn.webp 480w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/IGXszbodrLcwAZHM.webp 960w" sizes="(max-width: 640px) 100vw, 50vw" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               <figcaption className="absolute bottom-5 left-5 right-5 rounded-[19px] bg-[#173137]/88 p-4 text-sm font-bold leading-5 text-white backdrop-blur-md">
                 Detail matters — especially in the spaces that hold your day together.
               </figcaption>
@@ -643,7 +645,7 @@ export default function Home() {
             <div className="flex min-h-[300px] flex-col justify-between rounded-[26px] bg-[#f1c9ad] p-6 text-[#173137] sm:min-h-[460px] sm:rounded-[30px] sm:p-9 lg:rounded-[38px]">
               <span className="grid h-12 w-12 place-items-center rounded-full bg-[#173137] text-[#f8f6ef]"><Clock3 className="h-5 w-5" /></span>
               <div>
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#173137]/65">Designed around you</p>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#173137]/78">Designed around you</p>
                 <p className="font-display mt-4 text-[34px] leading-[1.02] tracking-[-0.045em]">Less time organising. More time enjoying your space.</p>
                 <button className="mt-7 inline-flex items-center gap-2 text-sm font-extrabold underline decoration-[#173137]/35 underline-offset-4" onClick={() => bookService()}>
                   Find your service <ArrowRight className="h-4 w-4" />
@@ -656,7 +658,7 @@ export default function Home() {
         <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-12 text-[#f8f6ef] sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-7 sm:gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center lg:gap-20">
             <div className="max-w-[610px]">
-              <p className="eyebrow text-[#9ee0d2]">Customer feedback</p>
+              <p className="eyebrow eyebrow-dark">Customer feedback</p>
               <h2 className="font-display mt-5 text-[46px] leading-[0.97] tracking-[-0.06em] sm:text-[64px]">Care you can see. Relief you can feel.</h2>
               <blockquote className="testimonial-quote mt-7 sm:mt-10">
                 <span aria-hidden="true">“</span>
@@ -669,15 +671,15 @@ export default function Home() {
               <div className="testimonial-proof-glow" aria-hidden="true" />
               <div className="relative z-10 grid grid-cols-2 gap-3">
                 <div className="overflow-hidden rounded-[19px] border border-white/15 bg-[#173137] shadow-[0_18px_38px_rgba(0,0,0,0.24)]">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/DrbbDlnsNYdhAMAp.png" alt="Client-shared bathroom before-and-after cleaning result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" />
+                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/WUufvcnLSPAFkrCm.webp" srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/twSyUMMlAygClbsx.webp 480w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/WUufvcnLSPAFkrCm.webp 900w" sizes="(max-width: 640px) 40vw, 240px" alt="Client-shared bathroom before-and-after cleaning result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" decoding="async" />
                   <p className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]">Bathroom reset</p>
                 </div>
                 <div className="overflow-hidden rounded-[19px] border border-white/15 bg-[#173137] shadow-[0_18px_38px_rgba(0,0,0,0.24)]">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/aHyNdgPapqrkKyii.png" alt="Client-shared kitchen cleaning before-and-after result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" />
+                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/dXXxmuQrvrpyGOjx.webp" srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/GcNIpLxfNRdZYFAu.webp 480w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/dXXxmuQrvrpyGOjx.webp 900w" sizes="(max-width: 640px) 40vw, 240px" alt="Client-shared kitchen cleaning before-and-after result and feedback" className="aspect-[0.8] w-full object-cover object-top" loading="lazy" decoding="async" />
                   <p className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]">Kitchen detail</p>
                 </div>
               </div>
-              <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/60">Authentic client feedback and before-and-after work shared with BrightNest.</figcaption>
+              <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/75">Authentic client feedback and before-and-after work shared with BrightNest.</figcaption>
               {(import.meta.env.VITE_GOOGLE_REVIEWS_URL || import.meta.env.VITE_TRUSTPILOT_URL) && <div className="relative z-10 mt-5 flex flex-wrap gap-2">{import.meta.env.VITE_GOOGLE_REVIEWS_URL && <a href={import.meta.env.VITE_GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Google Reviews <ArrowRight className="h-3.5 w-3.5" /></a>}{import.meta.env.VITE_TRUSTPILOT_URL && <a href={import.meta.env.VITE_TRUSTPILOT_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Trustpilot <ArrowRight className="h-3.5 w-3.5" /></a>}</div>}
             </figure>
           </div>
@@ -687,7 +689,7 @@ export default function Home() {
           <div className="mx-auto max-w-[1440px] overflow-hidden rounded-[30px] bg-[#173137] px-5 py-8 text-[#f8f6ef] sm:rounded-[38px] sm:px-9 sm:py-11 lg:px-14 lg:py-14">
             <div className="mx-auto max-w-[760px] text-center">
               <span className="mx-auto mb-4 block h-8 w-8 rounded-full border border-[#9ee0d2]/60" aria-hidden="true" />
-              <p className="eyebrow text-[#9ee0d2]">Add the finishing details</p>
+              <p className="eyebrow eyebrow-dark">Add the finishing details</p>
               <h2 className="font-display mt-4 text-[43px] leading-[0.96] tracking-[-0.055em] sm:text-[60px]">A deeper clean, made personal.</h2>
               <p className="mx-auto mt-5 max-w-[630px] text-sm leading-6 text-white/65 sm:text-base">Choose any extra detail that would help your home feel more complete. Add-ons are reviewed with your request and quoted around the space, access and finish required.</p>
             </div>
@@ -695,15 +697,15 @@ export default function Home() {
               {addOnServices.map((item) => (
                 <article key={item.title} className="group relative flex min-h-[158px] flex-col items-start rounded-[18px] border border-white/12 bg-[#f8f6ef] p-4 text-left text-[#173137] shadow-[0_10px_24px_rgba(0,0,0,0.08)] transition-all duration-200 hover:-translate-y-1 hover:bg-[#e8f3ed] hover:shadow-[0_16px_30px_rgba(0,0,0,0.16)] focus-within:ring-2 focus-within:ring-[#9ee0d2] sm:p-5">
                   <div className="flex w-full items-start justify-between gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-[11px] bg-[#e3f1ea] text-[#2f9f91] transition-transform duration-200 group-hover:rotate-[-5deg] group-hover:scale-105"><ServiceIcon title={item.title} /></span>
+                    <span className="grid h-9 w-9 place-items-center rounded-[11px] bg-[#e3f1ea] text-[#23786f] transition-transform duration-200 group-hover:rotate-[-5deg] group-hover:scale-105"><ServiceIcon title={item.title} /></span>
                     <div className="relative">
-                      <button type="button" className="grid h-7 w-7 place-items-center rounded-full border border-[#173137]/15 text-xs font-extrabold text-[#2f9f91] transition-colors hover:bg-[#d8eee5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f9f91]" aria-label={`What is included with ${item.title}?`}>i</button>
+                      <button type="button" className="grid h-7 w-7 place-items-center rounded-full border border-[#173137]/15 text-xs font-extrabold text-[#23786f] transition-colors hover:bg-[#d8eee5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f9f91]" aria-label={`What is included with ${item.title}?`}>i</button>
                       <span role="tooltip" className="pointer-events-none absolute right-0 top-9 z-20 w-48 rounded-[12px] bg-[#173137] p-3 text-left text-xs font-bold leading-5 text-[#f8f6ef] opacity-0 shadow-xl transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">{item.includes}</span>
                     </div>
                   </div>
                   <div className="mt-auto flex w-full items-end justify-between gap-3 pt-4">
                     <div className="min-w-0">
-                      <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">{item.price}</p>
+                      <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#23786f]">{item.price}</p>
                       <h3 className="mt-1 text-base font-extrabold leading-5 tracking-[-0.02em]">{item.title}</h3>
                     </div>
                     <button type="button" onClick={() => bookService(item.title)} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#173137] px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#f8f6ef] transition-transform duration-150 hover:scale-[1.03] hover:bg-[#2f9f91] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f9f91]">Book Now <ArrowRight className="h-3 w-3" /></button>
@@ -713,7 +715,7 @@ export default function Home() {
               ))}
             </div>
             <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 sm:flex-row">
-              <p className="max-w-[520px] text-xs leading-5 text-white/55">Not sure what to add? Start your request and describe the detail in your own words — we’ll help shape the scope.</p>
+              <p className="max-w-[520px] text-xs leading-5 text-white/72">Not sure what to add? Start your request and describe the detail in your own words — we’ll help shape the scope.</p>
               <button className="btn-light shrink-0" onClick={() => bookService()}>Add to my request <ArrowRight className="h-4 w-4" /></button>
             </div>
           </div>
@@ -727,7 +729,7 @@ export default function Home() {
                 <h2 className="font-display mt-4 max-w-[490px] text-[45px] leading-[0.96] tracking-[-0.06em] sm:text-[63px]">A few details, then a cleaner plan.</h2>
                 <p className="mt-6 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. Starting rates are shown in the service guide; specialist requests are quoted around your space and scope.</p>
                 <div className="mt-6 flex gap-4 border-t border-[#173137]/15 pt-5 text-sm font-bold leading-6 text-[#173137]/70 sm:mt-8 sm:pt-6">
-                  <ShieldCheck className="h-5 w-5 shrink-0 text-[#2f9f91]" />
+                  <ShieldCheck className="h-5 w-5 shrink-0 text-[#23786f]" />
                   A preferred time, postcode and a few home details help shape the right cleaning request.
                 </div>
               </div>
@@ -764,10 +766,9 @@ export default function Home() {
                           <label id="service-picker-label" className="field-label">Which service feels right?</label>
                           <Drawer open={servicePickerOpen} onOpenChange={setServicePickerOpen}>
                             <DrawerTrigger asChild>
-                              <button type="button" className={`service-picker-trigger ${service ? "service-picker-selected" : ""}`} aria-labelledby="service-picker-label" aria-describedby="service-picker-help">
+                              <button type="button" className={`service-picker-trigger ${service ? "service-picker-selected" : ""}`} aria-label={service || "Choose your cleaning service"} aria-describedby="service-picker-help">
                                 <span className="min-w-0 text-left">
-                                  <span className="block truncate text-sm font-extrabold">{service || "Choose your cleaning service"}</span>
-                                  <span className="mt-1 block text-xs font-bold text-white/52">{selectedService?.price || (service ? "Tailored quote available" : "See clear rates and quote-based options")}</span>
+                                  <span id="service-picker-value" className="block truncate text-sm font-extrabold">{service || "Choose your cleaning service"}</span>
                                 </span>
                                 <ChevronDown className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
                               </button>
@@ -794,37 +795,36 @@ export default function Home() {
                               </div>
                             </DrawerContent>
                           </Drawer>
-                          <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
+                          <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
                         </div>
-                        {binCleaningOnly ? <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">Bin cleaning selected</strong><span className="mt-1 block text-xs font-bold text-white/48">Bedrooms and bathrooms are not needed for this service. We’ll confirm the bin count and access details with you.</span></div> : <div className="grid gap-5 sm:grid-cols-2">
+                        {binCleaningOnly ? <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">Bin cleaning selected</strong><span className="mt-1 block text-xs font-bold text-white/72">Bedrooms and bathrooms are not needed for this service. We’ll confirm the bin count and access details with you.</span></div> : <div className="grid gap-5 sm:grid-cols-2">
                           <div>
                             <label htmlFor="bedrooms" className="field-label">Bedrooms</label>
                             <select id="bedrooms" value={bedrooms} onChange={(event) => setBedrooms(event.target.value)} className="field-control" aria-describedby="bedrooms-help" required>
                               {Array.from({ length: 8 }, (_, index) => String(index + 1)).map((value) => <option key={value} value={value}>{value} {value === "1" ? "bedroom" : "bedrooms"}</option>)}
                             </select>
-                            <p id="bedrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Tell us the main home size.</p>
+                            <p id="bedrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/72">Tell us the main home size.</p>
                           </div>
                           <div>
                             <label htmlFor="bathrooms" className="field-label">Bathrooms</label>
                             <select id="bathrooms" value={bathrooms} onChange={(event) => setBathrooms(event.target.value)} className="field-control" aria-describedby="bathrooms-help" required>
                               {Array.from({ length: 6 }, (_, index) => String(index + 1)).map((value) => <option key={value} value={value}>{value} {value === "1" ? "bathroom" : "bathrooms"}</option>)}
                             </select>
-                            <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Include en-suites if helpful.</p>
+                            <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/72">Include en-suites if helpful.</p>
                           </div>
                         </div>}
                         {!binCleaningOnly && <label className="booking-addon flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
                           <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
-                          <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/48">We’ll confirm the exact scope and quote with your booking request.</small></span>
+                          <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/72">We’ll confirm the exact scope and quote with your booking request.</small></span>
                         </label>}
-                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Indicative price</p><p className="mt-1 text-xs leading-5 text-white/55">Based on a two-hour starting visit and the details selected.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/55"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{!binCleaningOnly && <span>{bedrooms} bed · {bathrooms} bath</span>}{binCleaning && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/40">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
+                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Indicative price</p><p className="mt-1 text-xs leading-5 text-white/72">Based on a two-hour starting visit and the details selected.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{!binCleaningOnly && <span>{bedrooms} bed · {bathrooms} bath</span>}{binCleaning && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
                             <DrawerTrigger asChild>
-                              <button type="button" className="service-picker-trigger service-picker-selected" aria-labelledby="frequency-picker-label" aria-describedby="frequency-picker-help">
+                              <button type="button" className="service-picker-trigger service-picker-selected" aria-label={selectedFrequency.value} aria-describedby="frequency-picker-help">
                                 <span className="min-w-0 text-left">
-                                  <span className="block truncate text-sm font-extrabold">{selectedFrequency.value}</span>
-                                  <span className="mt-1 block text-xs font-bold text-white/52">{selectedFrequency.description}</span>
+                                  <span id="frequency-picker-value" className="block truncate text-sm font-extrabold">{selectedFrequency.value}</span>
                                 </span>
                                 <ChevronDown className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
                               </button>
@@ -847,17 +847,16 @@ export default function Home() {
                               </div>
                             </DrawerContent>
                           </Drawer>
-                          <p id="frequency-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">You can start with a one-off clean or request a regular visit rhythm.</p>
+                          <p id="frequency-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">You can start with a one-off clean or request a regular visit rhythm.</p>
                         </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                           <div>
                             <label id="date-picker-label" className="field-label">Preferred date</label>
                             <Drawer open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                               <DrawerTrigger asChild>
-                                <button type="button" className={`service-picker-trigger ${date ? "service-picker-selected" : ""}`} aria-labelledby="date-picker-label" aria-describedby="date-picker-help">
+                                <button type="button" className={`service-picker-trigger ${date ? "service-picker-selected" : ""}`} aria-label={date ? formatBookingDate(date) : "Choose your preferred date"} aria-describedby="date-picker-help">
                                   <span className="min-w-0 text-left">
-                                    <span className="block truncate text-sm font-extrabold">{formatBookingDate(date)}</span>
-                                    <span className="mt-1 block text-xs font-bold text-white/52">{date ? "Preferred visit date" : "Select an available future date"}</span>
+                                    <span id="date-picker-value" className="block truncate text-sm font-extrabold">{formatBookingDate(date)}</span>
                                   </span>
                                   <CalendarDays className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
                                 </button>
@@ -868,11 +867,11 @@ export default function Home() {
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Choose a future date that suits your home and schedule.</DrawerDescription>
                                 </DrawerHeader>
                                 <div className="px-4 pt-4 sm:px-6">
-                                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Quick choices</p>
+                                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#23786f]">Quick choices</p>
                                   <div className="mt-2 grid grid-cols-3 gap-2">
                                     {[{ label: "Soonest", offset: 0 }, { label: "Tomorrow", offset: 1 }, { label: "In 3 days", offset: 3 }].map((option) => <button key={option.label} type="button" className={`rounded-[12px] border px-3 py-2 text-xs font-extrabold transition-colors ${date === quickDate(option.offset) ? "border-[#2f9f91] bg-[#d9f0e8] text-[#173137]" : "border-[#173137]/10 bg-white text-[#173137]/70 hover:border-[#2f9f91]/45 hover:bg-[#edf3ed]"}`} onClick={() => { setDate(quickDate(option.offset)); setFormError(""); setDatePickerOpen(false); }}>{option.label}</button>)}
                                   </div>
-                                  <p className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Visit rhythm</p>
+                                  <p className="mt-5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#23786f]">Visit rhythm</p>
                                   <div className="mt-2 flex flex-wrap gap-2">
                                     {visitRhythms.map((item) => <button key={item.value} type="button" className={`rounded-full border px-3 py-2 text-xs font-extrabold transition-colors ${frequency === item.value ? "border-[#2f9f91] bg-[#173137] text-white" : "border-[#173137]/10 bg-white text-[#173137]/68 hover:border-[#2f9f91]/45"}`} onClick={() => { setFrequency(item.value); setFormError(""); }}>{item.value === "Fortnightly" ? "Bi-weekly" : item.value}</button>)}
                                   </div>
@@ -882,16 +881,15 @@ export default function Home() {
                                 </div>
                               </DrawerContent>
                             </Drawer>
-                            <p id="date-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Past dates are unavailable.</p>
+                            <p id="date-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">Past dates are unavailable.</p>
                           </div>
                           <div>
                             <label id="time-picker-label" className="field-label">Preferred time</label>
                             <Drawer open={timePickerOpen} onOpenChange={setTimePickerOpen}>
                               <DrawerTrigger asChild>
-                                <button type="button" className={`service-picker-trigger ${time ? "service-picker-selected" : ""}`} aria-labelledby="time-picker-label" aria-describedby="time-picker-help">
+                                <button type="button" className={`service-picker-trigger ${time ? "service-picker-selected" : ""}`} aria-label={selectedTime?.label || "Choose preferred time"} aria-describedby="time-picker-help">
                                   <span className="min-w-0 text-left">
-                                    <span className="block truncate text-sm font-extrabold">{selectedTime?.label || "Choose preferred time"}</span>
-                                    <span className="mt-1 block text-xs font-bold text-white/52">{selectedTime?.description || "Select from our daytime time slots"}</span>
+                                    <span id="time-picker-value" className="block truncate text-sm font-extrabold">{selectedTime?.label || "Choose preferred time"}</span>
                                   </span>
                                   <Clock3 className="h-5 w-5 shrink-0 text-[#9ee0d2]" />
                                 </button>
@@ -901,9 +899,9 @@ export default function Home() {
                                   <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred time</DrawerTitle>
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">We will confirm availability with you before the visit is booked.</DrawerDescription>
                                 </DrawerHeader>
-                                <div className="px-4 pt-4 sm:px-6"><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Available windows</p><p className="mt-1 text-xs font-bold text-[#173137]/52">Choose the hour you would most like us to aim for. Fully booked slots are marked unavailable.</p></div>
+                                <div className="px-4 pt-4 sm:px-6"><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#23786f]">Available windows</p><p className="mt-1 text-xs font-bold text-[#173137]/75">Choose the hour you would most like us to aim for. Fully booked slots are marked unavailable.</p></div>
                                 <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
-                                  {availabilityLoading && <p className="px-2 pb-2 text-xs font-extrabold text-[#2f9f91]">Checking live availability…</p>}
+                                  {availabilityLoading && <p className="px-2 pb-2 text-xs font-extrabold text-[#23786f]">Checking live availability…</p>}
                                   {timeSlots.map((item) => {
                                     const selected = time === item.value;
                                     const availabilitySlot = availability?.slots.find((slot) => slot.value === item.value);
@@ -921,7 +919,7 @@ export default function Home() {
                                 </div>
                               </DrawerContent>
                             </Drawer>
-                            <p id="time-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/48">The team will confirm the final arrival time with you.</p>
+                            <p id="time-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">The team will confirm the final arrival time with you.</p>
                           </div>
                         </div>
                       </div>
@@ -982,7 +980,7 @@ export default function Home() {
                           ))}
                         </div>
                         {notes && <p className="mt-4 rounded-[16px] bg-[#2f9f91]/15 px-4 py-3 text-sm leading-6 text-white/75">“{notes}”</p>}
-                        <p className="mt-5 text-sm leading-6 text-white/60">Submitting sends your request securely to BrightNest. Your preferred visit is confirmed once the service details are reviewed.</p>
+                        <p className="mt-5 text-sm leading-6 text-white/75">Submitting sends your request securely to BrightNest. Your preferred visit is confirmed once the service details are reviewed.</p>
                       </div>
                     )}
 
@@ -1046,9 +1044,9 @@ export default function Home() {
                 <details key={item.question} className="faq-item group border-b border-[#173137]/15 py-1">
                   <summary className="flex list-none items-center justify-between gap-6 py-5 text-left text-base font-extrabold tracking-[-0.02em] sm:py-6 sm:text-lg">
                     {item.question}
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#173137]/15 text-[#2f9f91] transition-transform duration-200 group-open:rotate-180"><ChevronDown className="h-4 w-4" /></span>
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#173137]/15 text-[#23786f] transition-transform duration-200 group-open:rotate-180"><ChevronDown className="h-4 w-4" /></span>
                   </summary>
-                  <div className="max-w-[720px] pb-6 pr-10"><p className="text-sm leading-7 text-[#173137]/70 sm:text-base">{item.answer}</p>{item.link && <Link href={item.link.href} className="mt-3 inline-flex text-xs font-extrabold uppercase tracking-[0.1em] text-[#2f9f91] underline decoration-[#2f9f91]/40 underline-offset-4">{item.link.label} <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link>}</div>
+                  <div className="max-w-[720px] pb-6 pr-10"><p className="text-sm leading-7 text-[#173137]/70 sm:text-base">{item.answer}</p>{item.link && <Link href={item.link.href} className="mt-3 inline-flex text-xs font-extrabold uppercase tracking-[0.1em] text-[#23786f] underline decoration-[#2f9f91]/40 underline-offset-4">{item.link.label} <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link>}</div>
                 </details>
               ))}
             </div>
@@ -1058,7 +1056,7 @@ export default function Home() {
         <section className="px-5 pb-10 sm:pb-16 lg:px-10 lg:pb-20">
           <div className="mx-auto max-w-[1440px] rounded-[26px] bg-[#d9f0e8] px-6 py-9 text-[#173137] sm:rounded-[30px] sm:px-10 sm:py-12 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10 lg:rounded-[40px] lg:px-16 lg:py-16">
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#2f9f91]">A fresh start is close</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#1f6f66]">A fresh start is close</p>
               <h2 className="font-display mt-4 max-w-[670px] text-[43px] leading-[0.98] tracking-[-0.055em]">Your home already has the potential. Let’s uncover it.</h2>
             </div>
             <button className="btn-primary mt-8 lg:mt-0" onClick={() => bookService()}>
@@ -1071,8 +1069,8 @@ export default function Home() {
       <footer className="bg-[#173137] px-5 pb-7 pt-10 text-[#f8f6ef] sm:pt-14 lg:px-10 lg:pt-18">
         <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
-            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/nGxiaCTVOHaPBQzw.png" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
-            <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/60">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/SkBXPeHKpJrOzCnO.webp" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
+            <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/75">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>
           </div>
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Explore</p>
@@ -1083,7 +1081,7 @@ export default function Home() {
           </div>
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Book</p>
-            <p className="mt-5 text-sm leading-7 text-white/60">Need a tailored home or specialist cleaning request?</p>
+            <p className="mt-5 text-sm leading-7 text-white/75">Need a tailored home or specialist cleaning request?</p>
             <button onClick={() => bookService()} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white underline decoration-[#9ee0d2] decoration-2 underline-offset-4">Start your request <ArrowRight className="h-4 w-4" /></button>
           </div>
         </div>
@@ -1092,7 +1090,7 @@ export default function Home() {
           <div className="trust-strip-item"><HomeIcon className="h-4 w-4 text-[#9ee0d2]" /><span><strong>Postcode coverage check</strong><small>We confirm Birmingham and selected surrounding areas before booking.</small></span></div>
           <div className="trust-strip-item"><CalendarDays className="h-4 w-4 text-[#9ee0d2]" /><span><strong>No payment with a request</strong><small>Preferred dates are reviewed before any visit is confirmed.</small></span></div>
         </div>
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/65 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} BrightNest Cleaning UK. All rights reserved.</span>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><Link href="/privacy-policy" className="transition-colors hover:text-white">Privacy Policy</Link><span aria-hidden="true">·</span><Link href="/terms-of-service" className="transition-colors hover:text-white">Terms of Service</Link></div>
         </div>

@@ -312,3 +312,30 @@
 - [x] Validate the public image URLs and all eight blog cards/article imagery after the source update; all CDN checks returned HTTP 200 and previews rendered on desktop/mobile.
 - [x] Push the final public-asset fix and provide the Vercel redeploy instruction; commit `3bfd603` is on GitHub `main`.
 
+
+## Live Lighthouse audit
+
+- [x] Audit the production homepage and blog on desktop and mobile.
+- [x] Capture Performance, Accessibility, Best Practices, SEO, Core Web Vitals, page weight, and image-loading findings.
+- [x] Write and deliver a prioritized Lighthouse report with evidence and recommended fixes in `LIGHTHOUSE_AUDIT_REPORT.md`.
+
+
+## Mobile performance and Lighthouse remediation
+
+- [ ] Audit current image dimensions/formats and remaining Lighthouse accessibility and Best Practices warnings.
+- [ ] Generate compressed responsive AVIF/WebP variants for the homepage and all blog imagery.
+- [ ] Wire responsive `srcSet`/`sizes`, lazy-loading, and durable image fallbacks without breaking social previews.
+- [ ] Fix remaining contrast, accessible-name, viewport, deprecated API, bfcache, and robots findings where applicable.
+- [ ] Re-run desktop/mobile Lighthouse audits and compare scores and Core Web Vitals.
+- [ ] Save the measured optimization release and document any remaining limitations.
+
+
+## Final optimization outcome
+
+- [x] Compressed and uploaded responsive WebP derivatives for homepage/blog imagery; the installed encoder did not support AVIF, so WebP is the active modern format.
+- [x] Added responsive `srcSet`/`sizes`, lazy loading, async decoding, explicit sizing hints, and a lightweight WebP logo.
+- [x] Fixed homepage/blog contrast findings, booking picker accessible-name mismatch, unrestricted viewport configuration, and production-only debug instrumentation.
+- [x] Enabled production source maps and removed temporary raw audit artifacts/scripts after preserving the final human-readable report.
+- [x] Final local production-preview audits: homepage mobile 67/100 Performance, 100 Accessibility, 82 Best Practices, 100 SEO; blog mobile 81/100 Performance, 100 Accessibility, 82 Best Practices, 100 SEO. Desktop: homepage 98/100 Performance, 100 Accessibility, 81 Best Practices, 100 SEO; blog 99/100 Performance, 100 Accessibility, 81 Best Practices, 100 SEO.
+- [x] Documented the remaining external-runtime deprecation limitation and next performance opportunities in `LIGHTHOUSE_AUDIT_REPORT.md`.
+

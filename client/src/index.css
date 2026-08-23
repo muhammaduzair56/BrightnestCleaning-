@@ -156,8 +156,9 @@ button:disabled { cursor: not-allowed; }
   letter-spacing: 0.16em;
   line-height: 1.2;
   text-transform: uppercase;
-  color: #2f9f91;
+  color: #1f6f66;
 }
+.eyebrow-dark { color: #9ee0d2; }
 
 .btn-primary, .btn-light, .btn-dark, .btn-mint, .btn-ghost-light {
   display: inline-flex;
@@ -176,7 +177,7 @@ button:disabled { cursor: not-allowed; }
 .btn-light:hover { background: #9ee0d2; transform: translateY(-2px); }
 .btn-dark { background: #173137; color: #f8f6ef; }
 .btn-dark:hover { background: #f8f6ef; color: #173137; transform: translateY(-2px); }
-.btn-mint { background: #2f9f91; color: white; }
+.btn-mint { background: #1f6f66; color: white; }
 .btn-mint:hover { background: #9ee0d2; color: #173137; transform: translateY(-2px); }
 .btn-ghost-light { color: rgba(255,255,255,0.65); }
 .btn-ghost-light:hover { color: white; transform: translateX(-2px); }
@@ -305,7 +306,7 @@ button:disabled { cursor: not-allowed; }
 .trust-strip-item > span { min-width: 0; }
 .trust-strip-item strong, .trust-strip-item small { display: block; }
 .trust-strip-item strong { color: white; font-size: 0.72rem; font-weight: 800; }
-.trust-strip-item small { margin-top: 0.25rem; color: rgba(255,255,255,0.48); font-size: 0.68rem; line-height: 1.45; }
+.trust-strip-item small { margin-top: 0.25rem; color: rgba(255,255,255,0.75); font-size: 0.68rem; line-height: 1.45; }
 .field-label { display: block; margin: 0 0 0.5rem; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
 .field-control {
   width: 100%;
