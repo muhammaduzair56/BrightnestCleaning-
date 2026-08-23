@@ -49,7 +49,7 @@ export default function Blog() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f8f6ef] text-[#173137]">
+    <div className="min-h-screen overflow-x-clip bg-[#f8f6ef] text-[#173137]">
       <div className="bg-[#173137] px-4 py-2.5 text-center text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#f8f6ef] sm:text-xs">
         Thoughtful domestic & specialist cleaning across Birmingham & surrounding areas
       </div>

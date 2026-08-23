@@ -228,3 +228,5 @@
 - [ ] Verify the live deployment commit matches the latest strict-navbar/image fix.
 - [ ] Verify production image URLs return successful responses on the live domain.
 - [ ] Confirm navbar and blog images after the correct Vercel redeploy.
+- [x] Confirm the public home and blog headers remain visible during page scroll.
+- [x] Add fixed-header content offsets and verify mobile menu layering.
