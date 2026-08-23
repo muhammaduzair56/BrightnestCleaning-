@@ -47,4 +47,4 @@ The frontend will normally be available at `http://localhost:3000`.
 
 ## Safety
 
-Never place real Neon, Resend, JWT, or admin credentials in GitHub, a ZIP archive, frontend source, screenshots, or chat. The downloadable project includes this safe guide and the backend deployment documentation, not a real `.env` file. Before production use, rotate any credential that has been exposed and set the replacement only in the appropriate private secret store.
+Never place real Neon, Brevo SMTP, JWT, or admin credentials in GitHub, a ZIP archive, frontend source, screenshots, or chat. The downloadable project includes this safe guide and the backend deployment documentation, not a real `.env` file. Before production use, rotate any credential that has been exposed and set the replacement only in the appropriate private secret store.
