@@ -301,6 +301,11 @@ export default function Home() {
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
   const selectedTime = timeSlots.find((item) => item.value === time);
   const selectedDate = date ? new Date(`${date}T12:00:00`) : undefined;
+  const quickDate = (offset: number) => {
+    const candidate = new Date(today);
+    candidate.setDate(candidate.getDate() + offset);
+    return toDateKey(candidate);
+  };
 
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
@@ -840,6 +845,12 @@ export default function Home() {
                                   <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred date</DrawerTitle>
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Choose a future date that suits your home and schedule.</DrawerDescription>
                                 </DrawerHeader>
+                                <div className="px-4 pt-4 sm:px-6">
+                                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Quick choices</p>
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {[{ label: "Soonest", offset: 0 }, { label: "Tomorrow", offset: 1 }, { label: "In 3 days", offset: 3 }].map((option) => <button key={option.label} type="button" className={`rounded-[12px] border px-3 py-2 text-xs font-extrabold transition-colors ${date === quickDate(option.offset) ? "border-[#2f9f91] bg-[#d9f0e8] text-[#173137]" : "border-[#173137]/10 bg-white text-[#173137]/70 hover:border-[#2f9f91]/45 hover:bg-[#edf3ed]"}`} onClick={() => { setDate(quickDate(option.offset)); setFormError(""); setDatePickerOpen(false); }}>{option.label}</button>)}
+                                  </div>
+                                </div>
                                 <div className="flex justify-center px-4 py-3 sm:px-6">
                                   <Calendar mode="single" selected={selectedDate} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
                                 </div>
@@ -864,6 +875,7 @@ export default function Home() {
                                   <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred time</DrawerTitle>
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">We will confirm availability with you before the visit is booked.</DrawerDescription>
                                 </DrawerHeader>
+                                <div className="px-4 pt-4 sm:px-6"><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#2f9f91]">Available windows</p><p className="mt-1 text-xs font-bold text-[#173137]/52">Choose the hour you would most like us to aim for.</p></div>
                                 <div className="service-picker-list max-h-[60vh] overflow-y-auto px-4 py-3 sm:px-6">
                                   {timeSlots.map((item) => {
                                     const selected = time === item.value;
