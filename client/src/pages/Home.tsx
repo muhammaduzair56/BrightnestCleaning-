@@ -140,14 +140,14 @@ const featuredServiceTitles = new Set([
 ]);
 
 const addOnServices = [
-  { title: "Single oven", note: "A careful kitchen-detail add-on", price: "£80 extra" },
-  { title: "Window cleaning inside", note: "A clearer finish for reachable glass", price: "£15 per window" },
-  { title: "Fridge cleaning", note: "A fresh reset for shelves and seals", price: "£70 extra" },
-  { title: "Washing machine cleaning", note: "A considered clean for the appliance", price: "£80 extra" },
-  { title: "Living room carpet cleaning", note: "Room-by-room fabric care", price: "£60 extra" },
-  { title: "Sofa cleaning", note: "A softer, fresher seating reset", price: "Per seat: £50" },
-  { title: "Mattress cleaning", note: "A clean finish for better rest", price: "£50 extra" },
-  { title: "Full property", note: "A wider reset across the home", price: "£120 – £250+" },
+  { title: "Single oven", note: "A careful kitchen-detail add-on", includes: "Interior shelves, racks and reachable surfaces.", price: "£80 extra" },
+  { title: "Window cleaning inside", note: "A clearer finish for reachable glass", includes: "Inside glass and frames for accessible windows.", price: "£15 per window" },
+  { title: "Fridge cleaning", note: "A fresh reset for shelves and seals", includes: "Shelves, drawers, seals and wipe-down surfaces.", price: "£70 extra" },
+  { title: "Washing machine cleaning", note: "A considered clean for the appliance", includes: "Drum edge, detergent drawer and outer surfaces.", price: "£80 extra" },
+  { title: "Living room carpet cleaning", note: "Room-by-room fabric care", includes: "A focused refresh for the main living-room carpet.", price: "£60 extra" },
+  { title: "Sofa cleaning", note: "A softer, fresher seating reset", includes: "Fabric refresh priced by the number of seats.", price: "Per seat: £50" },
+  { title: "Mattress cleaning", note: "A clean finish for better rest", includes: "A careful surface clean for one mattress.", price: "£50 extra" },
+  { title: "Full property", note: "A wider reset across the home", includes: "A broader combination of add-ons across your property.", price: "£120 – £250+" },
 ];
 
 function ServiceIcon({ title }: { title: string }) {
@@ -643,12 +643,23 @@ export default function Home() {
             </div>
             <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:mt-11 lg:grid-cols-4">
               {addOnServices.map((item) => (
-                <button key={item.title} type="button" onClick={() => bookService(item.title)} className="group flex min-h-[132px] flex-col items-start rounded-[18px] border border-white/12 bg-[#f8f6ef] p-4 text-left text-[#173137] transition-transform duration-200 hover:-translate-y-1 hover:bg-[#e8f3ed] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9ee0d2] sm:p-5">
-                  <span className="grid h-9 w-9 place-items-center rounded-[11px] bg-[#e3f1ea] text-[#2f9f91]"><ServiceIcon title={item.title} /></span>
-                  <span className="mt-4 text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">{item.price}</span>
-                  <span className="mt-1 text-base font-extrabold tracking-[-0.02em]">{item.title}</span>
-                  <span className="mt-1 text-xs leading-5 text-[#173137]/60">{item.note}</span>
-                </button>
+                <article key={item.title} className="group relative flex min-h-[158px] flex-col items-start rounded-[18px] border border-white/12 bg-[#f8f6ef] p-4 text-left text-[#173137] shadow-[0_10px_24px_rgba(0,0,0,0.08)] transition-all duration-200 hover:-translate-y-1 hover:bg-[#e8f3ed] hover:shadow-[0_16px_30px_rgba(0,0,0,0.16)] focus-within:ring-2 focus-within:ring-[#9ee0d2] sm:p-5">
+                  <div className="flex w-full items-start justify-between gap-3">
+                    <span className="grid h-9 w-9 place-items-center rounded-[11px] bg-[#e3f1ea] text-[#2f9f91] transition-transform duration-200 group-hover:rotate-[-5deg] group-hover:scale-105"><ServiceIcon title={item.title} /></span>
+                    <div className="relative">
+                      <button type="button" className="grid h-7 w-7 place-items-center rounded-full border border-[#173137]/15 text-xs font-extrabold text-[#2f9f91] transition-colors hover:bg-[#d8eee5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f9f91]" aria-label={`What is included with ${item.title}?`}>i</button>
+                      <span role="tooltip" className="pointer-events-none absolute right-0 top-9 z-20 w-48 rounded-[12px] bg-[#173137] p-3 text-left text-xs font-bold leading-5 text-[#f8f6ef] opacity-0 shadow-xl transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">{item.includes}</span>
+                    </div>
+                  </div>
+                  <div className="mt-auto flex w-full items-end justify-between gap-3 pt-4">
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#2f9f91]">{item.price}</p>
+                      <h3 className="mt-1 text-base font-extrabold leading-5 tracking-[-0.02em]">{item.title}</h3>
+                    </div>
+                    <button type="button" onClick={() => bookService(item.title)} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#173137] px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#f8f6ef] transition-transform duration-150 hover:scale-[1.03] hover:bg-[#2f9f91] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f9f91]">Book Now <ArrowRight className="h-3 w-3" /></button>
+                  </div>
+                  <p className="sr-only">{item.note}</p>
+                </article>
               ))}
             </div>
             <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 sm:flex-row">
