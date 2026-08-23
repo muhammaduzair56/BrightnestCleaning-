@@ -310,5 +310,5 @@
 
 - [x] Replace the four webdev-only blog image paths with publicly resolvable CDN URLs for Vercel.
 - [x] Validate the public image URLs and all eight blog cards/article imagery after the source update; all CDN checks returned HTTP 200 and previews rendered on desktop/mobile.
-- [ ] Push the final public-asset fix and provide the Vercel redeploy instruction.
+- [x] Push the final public-asset fix and provide the Vercel redeploy instruction; commit `3bfd603` is on GitHub `main`.
 
