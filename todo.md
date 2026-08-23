@@ -233,6 +233,11 @@
 - [x] Add backend availability checking that blocks fully booked date/time slots.
 - [x] Add recurring schedule selection and persist the requested recurrence safely. Bi-weekly is represented by the existing Fortnightly / every-two-weeks option.
 - [x] Validate race-safe booking submission, recurrence behavior, and responsive picker UX.
+- [x] Run non-destructive live QA for homepage, Blog, booking, availability API, recurring schedules, protected routes, and mobile layouts.
+- [x] Review browser/network/server results and document pass/fail findings with prioritized fixes.
+- [x] Replace the unsupported Resend `Emails.send_async` call with a supported email-delivery method.
+- [x] Add notification tests for successful delivery and graceful failure handling.
+- [x] Re-run backend tests and verify booking creation remains successful when notifications fail.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

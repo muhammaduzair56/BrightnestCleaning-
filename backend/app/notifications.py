@@ -1,6 +1,7 @@
 """Server-side Resend notifications for new booking requests."""
 from __future__ import annotations
 
+import asyncio
 import logging
 from html import escape
 from urllib.parse import quote
@@ -71,7 +72,7 @@ async def notify_customer_change_request(change_request_id: str) -> None:
             "tags": [{"name": "booking_id", "value": booking.id}, {"name": "event", "value": "customer_change_requested"}],
         }
         options: resend.Emails.SendOptions = {"idempotency_key": f"customer-change-request/{change_request.id}"}
-        await resend.Emails.send_async(params, options)
+        await asyncio.to_thread(resend.Emails.send, params, options)
     except ResendError:
         logger.exception("Customer change-request notification failed request_id=%s", change_request_id)
     except Exception:
@@ -107,7 +108,7 @@ async def notify_customer_change_resolution(change_request_id: str) -> None:
             "tags": [{"name": "booking_id", "value": booking.id}, {"name": "event", "value": "customer_change_resolved"}],
         }
         options: resend.Emails.SendOptions = {"idempotency_key": f"customer-change-resolution/{change_request.id}/{change_request.resolution}"}
-        await resend.Emails.send_async(params, options)
+        await asyncio.to_thread(resend.Emails.send, params, options)
     except ResendError:
         logger.exception("Customer change resolution notification failed request_id=%s", change_request_id)
     except Exception:
@@ -138,7 +139,7 @@ async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
     }
     options: resend.Emails.SendOptions = {"idempotency_key": f"customer-magic-link/{hash_token_identifier(raw_token)}"}
     try:
-        await resend.Emails.send_async(params, options)
+        await asyncio.to_thread(resend.Emails.send, params, options)
         return True
     except ResendError:
         logger.exception("Customer magic-link delivery failed email=%s", customer_email)
@@ -167,7 +168,7 @@ async def notify_new_booking(booking_id: str) -> None:
             "tags": [{"name": "booking_id", "value": booking.id}, {"name": "event", "value": "booking_created"}],
         }
         options: resend.Emails.SendOptions = {"idempotency_key": f"booking-created/{booking.id}"}
-        await resend.Emails.send_async(params, options)
+        await asyncio.to_thread(resend.Emails.send, params, options)
         booking.email_status = "sent"
         session.commit()
     except ResendError:
