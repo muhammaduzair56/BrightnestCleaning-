@@ -365,3 +365,16 @@
 - [x] Replaced the generated logo URL with the exact supplied original logo in homepage, blog, dashboard, and favicon metadata.
 - [x] Verified the logo in desktop and 375px mobile previews; TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint after validation.
+
+## Remove black logo background
+
+- [ ] Create a clean transparent-background version of the supplied BrightNest logo.
+- [ ] Replace the current logo asset in header, footer, and favicon references.
+- [ ] Verify desktop/mobile rendering and save a checkpoint.
+
+## Transparent logo validation
+
+- [x] Created a transparent-background version while preserving the supplied BrightNest mark.
+- [x] Replaced the black-background asset across all seven logo references.
+- [x] Confirmed the black side is gone in the 375px mobile preview; TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint after validation.
