@@ -9,7 +9,6 @@ pydantic-settings==2.10.1
 PyJWT==2.10.1
 redis==6.4.0
 reportlab==5.0.0
-resend[async]==2.12.0
 SQLAlchemy==2.0.43
 pytest==8.4.2
 httpx==0.28.1

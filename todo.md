@@ -238,6 +238,26 @@
 - [x] Replace the unsupported Resend `Emails.send_async` call with a supported email-delivery method.
 - [x] Add notification tests for successful delivery and graceful failure handling.
 - [x] Re-run backend tests and verify booking creation remains successful when notifications fail.
+- [x] Sync the Resend fix to the Railway source branch if needed and trigger a new deployment. Pushed deployment trigger commit `2bed3d8` to GitHub `main`.
+- [x] Verify the new Railway deployment starts cleanly and `/health` returns 200; live response is `{"status":"ok","service":"brightnest-api"}`.
+- [ ] Verify Railway is deploying the same GitHub repository, branch, root directory, and commit containing the Resend fix.
+- [ ] Force a fresh Railway build that does not reuse the stale backend image.
+- [x] Confirm live notification execution no longer references `send_async`; the new error is sender-format validation from Resend.
+- [ ] Correct Railway `EMAIL_FROM` to a valid `Name <email@example.com>` format.
+- [ ] Redeploy after the EMAIL_FROM change and verify a controlled notification delivery.
+- [ ] Align the temporary `onboarding@resend.dev` test recipient with the actual Resend account-owner email.
+- [ ] Document the verified-domain setup required before sending to BrightNest or customer addresses.
+- [ ] Verify customer magic-link delivery to a non-owner email after domain verification.
+- [ ] Update Railway `EMAIL_FROM` to a verified BrightNest domain sender and redeploy.
+- [ ] Evaluate SMTP as an alternative to the current Resend notification setup.
+- [ ] Identify safe SMTP provider credentials and Railway secret names without exposing passwords.
+- [x] Decide whether to keep Resend for production or replace it with SMTP before changing backend code. Selected Brevo SMTP.
+- [x] Inspect current notification code and settings before switching transports.
+- [x] Implement non-blocking Brevo SMTP delivery for admin notifications and customer magic links.
+- [x] Add SMTP environment documentation and mocked transport tests.
+- [x] Run full validation and prepare the Railway redeploy with SMTP variables. Backend: 13 tests passed; frontend typecheck/build passed; Python compilation and diff checks passed.
+- [ ] Guide fresh Resend account creation using `brightnestcleaninguk@gmail.com` without exposing credentials.
+- [ ] Provide Railway variable mapping, redeploy steps, and safe post-deploy verification.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

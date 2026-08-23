@@ -26,7 +26,10 @@ class Settings(BaseSettings):
     coverage_postcode_prefixes: Annotated[list[str], NoDecode] = ["B"]
     frontend_base_url: str = "http://localhost:5173"
     redis_url: str | None = None
-    resend_api_key: SecretStr | None = None
+    smtp_host: str | None = None
+    smtp_port: int = 587
+    smtp_username: str | None = None
+    smtp_password: SecretStr | None = None
     admin_notification_email: EmailStr
     email_from: str
     bootstrap_admin_email: EmailStr | None = None

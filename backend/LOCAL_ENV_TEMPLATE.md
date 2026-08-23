@@ -16,13 +16,18 @@ FRONTEND_BASE_URL=http://localhost:5173
 ALLOWED_ORIGINS=http://localhost:5173
 TRUSTED_HOSTS=localhost,127.0.0.1
 ADMIN_NOTIFICATION_EMAIL=your-private-admin-email@example.com
-EMAIL_FROM=BrightNest Cleaning <verified-sender@your-domain.example>
-RESEND_API_KEY=replace-with-a-local-or-test-resend-key
+SMTP_HOST=smtp-relay.brevo.com
+SMTP_PORT=587
+SMTP_USERNAME=your-brevo-smtp-login
+SMTP_PASSWORD=replace-with-your-private-brevo-smtp-key
+EMAIL_FROM=BrightNest Cleaning UK <verified-sender@your-domain.example>
 BOOTSTRAP_ADMIN_EMAIL=your-private-admin-email@example.com
 BOOTSTRAP_ADMIN_PASSWORD=replace-with-a-unique-local-password
 REDIS_URL=
 ENABLE_DOCS=true
 LOG_LEVEL=INFO
 ```
+
+SMTP_PASSWORD is a secret SMTP key, not a Brevo API key or a normal account password. Keep it only in the private local `.env` file or Railway Variables.
 
 The database URL must come from the same Neon project and branch that you intend to test. Keep the actual URL only in the private local `.env` file or in Railway Variables. Do not paste it into GitHub, ZIP archives, screenshots, or chat.
