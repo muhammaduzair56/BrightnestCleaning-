@@ -117,6 +117,9 @@
 - [ ] Verify the Vercel project is connected to `muhammaduzair56/BrightnestCleaning-` on `main` with repository root `./`.
 - [ ] Confirm Vercel Build Logs detect root `vercel.json` and output `dist/public`.
 - [ ] Apply and deploy the final fallback configuration, then validate `/admin` directly.
+- [x] Inspect admin booking-list and detail-panel height constraints causing the large blank area.
+- [x] Remove unnecessary fixed/min-height behavior while preserving desktop and mobile layouts.
+- [x] Validate the compact admin workspace with typecheck and production build; responsive behavior is preserved by the existing breakpoint rules.
 - [x] Confirm repository root, Vercel config, and local `dist/public/index.html` are present while live `/admin` still returns 404.
 - [x] Change SPA rewrites to use the deployed root destination `/` for direct route fallback.
 - [x] Validate and push the root-destination fallback; Vercel redeploy and live verification remain pending.
