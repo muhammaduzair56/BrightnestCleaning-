@@ -260,10 +260,15 @@
 - [ ] Provide Railway variable mapping, redeploy steps, and safe post-deploy verification.
 - [x] Diagnose deployed Brevo SMTP connection timeout from Railway logs for booking and magic-link notifications: Railway reached the API, but SMTP connection to port 587 timed out.
 - [x] Apply and validate a transport-level SMTP timeout/connectivity fix before the next Railway redeploy: configurable 15-second timeout, default port 2525, and automatic 587-to-2525 fallback.
+- [ ] Diagnose why the admin analytics dashboard shows £0.00 after a booking is visibly marked Paid and Completed with a saved total.
+- [ ] Fix and validate revenue persistence/calculation, then redeploy the corrected backend/frontend if required.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.
-- [ ] Validate `/blog`, navbar links, mobile menu behavior, image loading, and production build.
+- [x] Validate `/blog`, navbar links, mobile menu behavior, image loading, and production build.
+- [x] Refine the BrightNest blog landing layout toward the supplied editorial reference without copying its branding or content.
+- [x] Reduce excessive article text by restructuring expanded blog content into concise sections, headings, and scannable reading blocks.
+- [x] Validate blog landing and article views on desktop and mobile after the refinement; typecheck and production build pass.
 - [x] Verify whether the live Vercel deployment is serving the latest BrightNest checkpoint or an older branch/commit.
 - [x] Make the navbar visibly strict: compact fixed-height rail, separated nav groups, clear active state, and prominent booking action.
 - [x] Verify the production-like preview at desktop and mobile widths, including `/blog`.
