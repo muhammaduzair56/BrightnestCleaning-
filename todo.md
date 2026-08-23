@@ -223,4 +223,8 @@
 - [x] Diagnose why the generated blog image paths return broken images on the live Vercel build.
 - [x] Replace broken blog image references with production-safe first-party asset URLs.
 - [x] Lock the public navbar into a compact single-rail strict layout on desktop and mobile.
-- [x] Re-run build and responsive preview checks for homepage and blog.
+- [ ] Re-run build and responsive preview checks for homepage and blog.
+- [ ] Verify Vercel is connected to GitHub repository `muhammaduzair56/BrightnestCleaning-`, branch `main`, and root directory `/`.
+- [ ] Verify the live deployment commit matches the latest strict-navbar/image fix.
+- [ ] Verify production image URLs return successful responses on the live domain.
+- [ ] Confirm navbar and blog images after the correct Vercel redeploy.
