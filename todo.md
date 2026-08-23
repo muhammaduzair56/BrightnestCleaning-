@@ -346,3 +346,22 @@
 - [ ] Push the optimization release to GitHub `main`.
 - [ ] Verify the remote commit and provide the Vercel redeploy handoff.
 
+
+## GitHub push result
+
+- [x] The verified optimization release was pushed to GitHub `main` successfully.
+- [x] Remote `github/main` now points to commit `3197e8493425732571f761d633e64b0ebbd2f5bf` (`perf: optimize images and improve lighthouse scores`).
+- [x] Vercel can now detect the latest commit; production redeploy remains a Vercel dashboard action.
+
+
+## Restore supplied BrightNest logo
+
+- [ ] Replace the current generated logo references with the user-provided original logo.
+- [ ] Verify header, footer, favicon, and responsive rendering.
+- [ ] Save a recoverable checkpoint after validation.
+
+## Logo restoration validation
+
+- [x] Replaced the generated logo URL with the exact supplied original logo in homepage, blog, dashboard, and favicon metadata.
+- [x] Verified the logo in desktop and 375px mobile previews; TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint after validation.

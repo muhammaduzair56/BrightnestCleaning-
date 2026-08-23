@@ -417,7 +417,7 @@ export default function Home() {
             aria-label="Back to top"
           >
             <img
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/SkBXPeHKpJrOzCnO.webp"
+              src="/manus-storage/brightnest-original-logo_bd6c11b5.png"
               alt="BrightNest Cleaning UK logo"
               className="h-[64px] w-[170px] origin-left scale-[1.14] object-contain object-left transition-transform duration-200 group-hover:scale-[1.18] group-active:scale-95 sm:h-[68px] sm:w-[184px]"
             />
@@ -1069,7 +1069,7 @@ export default function Home() {
       <footer className="bg-[#173137] px-5 pb-7 pt-10 text-[#f8f6ef] sm:pt-14 lg:px-10 lg:pt-18">
         <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
-            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/SkBXPeHKpJrOzCnO.webp" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
+            <img src="/manus-storage/brightnest-original-logo_bd6c11b5.png" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
             <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/75">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>
           </div>
           <div>
