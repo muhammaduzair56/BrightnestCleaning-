@@ -362,20 +362,21 @@ export default function Home() {
             />
           </button>
 
-          <nav className="hidden items-center gap-6 xl:gap-8 lg:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Primary navigation">
             {navItems.map(([label, id]) => (
               <button
                 key={id}
                 onClick={() => scrollToSection(id)}
-                className="text-sm font-bold text-[#173137]/75 transition-colors hover:text-[#2f9f91]"
+                className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#2f9f91] hover:after:scale-x-100"
               >
                 {label}
               </button>
             ))}
+            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#2f9f91] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]" aria-label="Read the BrightNest blog">Blog</Link>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <Link href="/dashboard" className="text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#2f9f91]">My bookings</Link>
+            <Link href="/dashboard" className="border-l border-[#173137]/15 pl-4 text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#2f9f91]">My bookings</Link>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
               <ShieldCheck className="h-4 w-4 text-[#2f9f91]" />
               Birmingham-based
@@ -409,6 +410,9 @@ export default function Home() {
                   {label} <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
                 </button>
               ))}
+              <Link href="/blog" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#2f9f91]" onClick={() => setMobileOpen(false)}>
+                Blog <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
+              </Link>
               <Link href="/dashboard" className="mt-4 flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>
                 My bookings <ArrowRight className="h-4 w-4 text-[#2f9f91]" />
               </Link>
@@ -972,6 +976,7 @@ export default function Home() {
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Explore</p>
             <div className="mt-5 flex flex-col gap-3 text-sm font-bold text-white/70">
               {navItems.map(([label, id]) => <button key={id} onClick={() => scrollToSection(id)} className="text-left transition-colors hover:text-white">{label}</button>)}
+              <Link href="/blog" className="text-left text-[#9ee0d2] transition-colors hover:text-white">Blog</Link>
             </div>
           </div>
           <div>

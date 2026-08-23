@@ -210,3 +210,9 @@
 - A new BrightNest social card has been created, reviewed, and packaged as a first-party 1200×630 JPEG for the new domain.
 - The new domain now serves its own canonical URL and social-card image; its desktop services grid shows distinct 01–09 labels with the service content held below each card header.
 - At the 375-pixel mobile breakpoint, all 14 cards stay within the page width; labels 01–14 sit above their content and every content block fits its card.
+
+- [ ] Review the supplied Martilla reference navigation for structural cues without copying its branding, assets, or copy.
+- [ ] Refine BrightNest navigation into a strict desktop/mobile system with clear active states and accessible mobile behavior.
+- [ ] Add an original `/blog` route with BrightNest-specific article cards, summaries, and metadata.
+- [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.
+- [ ] Validate `/blog`, navbar links, mobile menu behavior, image loading, and production build.
