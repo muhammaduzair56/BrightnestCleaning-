@@ -297,3 +297,11 @@
 - [x] Create a complete source ZIP excluding secrets, generated build artifacts, caches, logs, and machine-specific metadata.
 - [x] Validate the documentation, ZIP integrity and contents, and final project build before delivery.
 
+
+## Production blog image repair
+
+- [x] Trace the four broken article image sources in the deployed blog and identify whether they use local, expired, or inaccessible URLs: the old `/manus-storage` paths were invalid in the production deployment.
+- [x] Replace broken article and social-preview image references with durable production-safe uploaded assets.
+- [x] Validate all eight blog cards and representative article routes on desktop and mobile; images render in both previews.
+- [ ] Push the image repair to GitHub and save a recoverable checkpoint for Vercel redeployment.
+

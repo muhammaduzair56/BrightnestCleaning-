@@ -91,8 +91,8 @@ const articles: Article[] = [
     readTime: "4 min read",
     title: "A calmer laundry rhythm for busy homes",
     excerpt: "Small changes that make washing, drying and putting away feel less like a second job.",
-    image: "/manus-storage/brightnest-social-laundry_0ce97a80.jpg",
-    socialImage: "/manus-storage/brightnest-social-laundry_0ce97a80.jpg",
+    image: "/manus-storage/brightnest-social-laundry_2e5d0771.jpg",
+    socialImage: "/manus-storage/brightnest-social-laundry_2e5d0771.jpg",
     intro: "Laundry becomes easier to live with when it has a gentle rhythm. The aim is not to do everything at once, but to keep the next load obvious and manageable.",
     sections: [
       { heading: "Create one clear starting point", paragraphs: ["Keep one basket for everyday clothes and a separate place for towels or bedding. When sorting has a home, the routine starts with less decision-making."] },
@@ -107,8 +107,8 @@ const articles: Article[] = [
     readTime: "5 min read",
     title: "The small bathroom reset that changes the whole morning",
     excerpt: "A practical order for keeping taps, mirrors, surfaces and soft details feeling fresh between deeper cleans.",
-    image: "/manus-storage/brightnest-social-bathroom_0797a096.jpg",
-    socialImage: "/manus-storage/brightnest-social-bathroom_0797a096.jpg",
+    image: "/manus-storage/brightnest-social-bathroom_f8702c17.jpg",
+    socialImage: "/manus-storage/brightnest-social-bathroom_f8702c17.jpg",
     intro: "Bathrooms feel calmer when the routine follows the way moisture moves through the room: clear the surfaces, dry the wet areas, then finish with the details you see first.",
     sections: [
       { heading: "Clear before you spray", paragraphs: ["Move bottles and small items aside so the basin, ledges and bath edge can be cleaned in one continuous pass. Put back only what you use every day."] },
@@ -123,8 +123,8 @@ const articles: Article[] = [
     readTime: "4 min read",
     title: "A small-office reset for clearer working days",
     excerpt: "How to keep a home office or compact workplace ready without making cleaning another task on the list.",
-    image: "/manus-storage/brightnest-social-office_b6cb93f1.jpg",
-    socialImage: "/manus-storage/brightnest-social-office_b6cb93f1.jpg",
+    image: "/manus-storage/brightnest-social-office_0238ecef.jpg",
+    socialImage: "/manus-storage/brightnest-social-office_0238ecef.jpg",
     intro: "A workspace works better when the visual noise is reduced. A short reset at the end of the day protects the next morning without taking over the evening.",
     sections: [
       { heading: "Clear the working surface", paragraphs: ["Return notebooks, chargers and cups to one defined place. Wipe the desk once it is clear, paying attention to the edges where dust settles."] },
@@ -139,8 +139,8 @@ const articles: Article[] = [
     readTime: "5 min read",
     title: "Clearer windows, brighter rooms: a simple seasonal edit",
     excerpt: "A considered window-care routine for homes that want more daylight without a complicated checklist.",
-    image: "/manus-storage/brightnest-social-windows_a1b03382.jpg",
-    socialImage: "/manus-storage/brightnest-social-windows_a1b03382.jpg",
+    image: "/manus-storage/brightnest-social-windows_e8044057.jpg",
+    socialImage: "/manus-storage/brightnest-social-windows_e8044057.jpg",
     intro: "Clean windows change the feeling of a room before anything else does. A simple seasonal pass focuses on the glass, frames and ledges that collect dust together.",
     sections: [
       { heading: "Choose the right moment", paragraphs: ["Work on a bright but not fiercely sunny day where possible. Direct heat can dry solution too quickly and leave more marks behind."] },
