@@ -222,6 +222,10 @@
 - [x] Add Bin cleaning as a selectable booking service/add-on.
 - [x] Add Bedrooms and Bathrooms count fields to booking step one and preserve payload compatibility.
 - [x] Validate expanded booking form on desktop/mobile and production build.
+- [x] Add bedrooms, bathrooms, and bin-cleaning fields to stored booking data and admin booking views.
+- [x] Add dynamic booking price summary based on service, rooms, and selected add-ons.
+- [x] Require at least one bedroom and bathroom for applicable property services, while treating Bin cleaning as non-room-based.
+- [x] Validate admin display, price updates, Bin cleaning exception, and responsive form behavior.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

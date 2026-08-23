@@ -14,6 +14,9 @@ export type BookingPayload = {
   frequency: string;
   preferred_date: string;
   preferred_time: string;
+  bedrooms: number;
+  bathrooms: number;
+  bin_cleaning: boolean;
   privacy_consent: true;
   notes?: string;
 };

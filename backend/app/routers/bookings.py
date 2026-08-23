@@ -219,7 +219,7 @@ def run_recurring_bookings(db: Session = Depends(get_db), admin: AdminUser = Dep
         if not interval_days:
             plan.active = False
             continue
-        next_booking = Booking(customer_name=source.customer_name, customer_email=source.customer_email, customer_phone=source.customer_phone, postcode=source.postcode, service_type=source.service_type, frequency=source.frequency, preferred_date=plan.next_date, preferred_time=source.preferred_time, notes=source.notes, status=BookingStatus.NEW, currency=source.currency, payment_status=source.payment_status)
+        next_booking = Booking(customer_name=source.customer_name, customer_email=source.customer_email, customer_phone=source.customer_phone, postcode=source.postcode, service_type=source.service_type, frequency=source.frequency, preferred_date=plan.next_date, preferred_time=source.preferred_time, bedrooms=source.bedrooms, bathrooms=source.bathrooms, bin_cleaning=source.bin_cleaning, notes=source.notes, status=BookingStatus.NEW, currency=source.currency, payment_status=source.payment_status)
         db.add(next_booking)
         plan.last_generated_at = datetime.now(timezone.utc)
         plan.next_date = plan.next_date + timedelta(days=interval_days)

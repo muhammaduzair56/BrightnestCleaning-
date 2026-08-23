@@ -78,6 +78,9 @@ class Booking(Base):
     frequency: Mapped[str] = mapped_column(String(32), nullable=False)
     preferred_date: Mapped[date] = mapped_column(Date, nullable=False, index=True)
     preferred_time: Mapped[time] = mapped_column(Time, nullable=False)
+    bedrooms: Mapped[int] = mapped_column(nullable=False, default=1)
+    bathrooms: Mapped[int] = mapped_column(nullable=False, default=1)
+    bin_cleaning: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     notes: Mapped[str | None] = mapped_column(Text)
     status: Mapped[BookingStatus] = mapped_column(
         Enum(BookingStatus, name="booking_status", values_callable=enum_values),

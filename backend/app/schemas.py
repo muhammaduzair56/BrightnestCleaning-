@@ -39,6 +39,9 @@ class BookingCreate(BaseModel):
     frequency: Literal["One-off visit", "Weekly", "Fortnightly", "Monthly"]
     preferred_date: date
     preferred_time: time
+    bedrooms: int = Field(default=1, ge=1, le=50)
+    bathrooms: int = Field(default=1, ge=1, le=30)
+    bin_cleaning: bool = False
     privacy_consent: Literal[True]
     notes: str | None = Field(default=None, max_length=2000)
 
@@ -114,6 +117,9 @@ class BookingRead(BaseModel):
     frequency: str
     preferred_date: date
     preferred_time: time
+    bedrooms: int
+    bathrooms: int
+    bin_cleaning: bool
     notes: str | None
     status: BookingStatus
     admin_notes: str | None
