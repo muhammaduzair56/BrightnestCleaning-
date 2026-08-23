@@ -543,7 +543,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="services" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
+        <section id="services" className="scroll-mt-24 px-5 py-12 sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto max-w-[1440px]">
             <div className="grid gap-6 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
               <div>
@@ -589,7 +589,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-24 bg-[#173137] px-5 py-16 text-[#f8f6ef] sm:py-24 lg:px-10 lg:py-32">
+        <section id="how-it-works" className="scroll-mt-24 bg-[#173137] px-5 py-12 text-[#f8f6ef] sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-8 sm:gap-14 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <p className="eyebrow text-[#9ee0d2]">Simple by design</p>
@@ -616,7 +616,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="difference" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
+        <section id="difference" className="scroll-mt-24 px-5 py-12 sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-5 sm:gap-8 lg:grid-cols-[0.95fr_0.7fr_0.82fr] lg:items-stretch">
             <div className="rounded-[26px] bg-[#e7ede7] p-6 sm:rounded-[30px] sm:p-10 lg:rounded-[38px]">
               <p className="eyebrow">The BrightNest approach</p>
@@ -653,7 +653,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-16 text-[#f8f6ef] sm:py-24 lg:px-10 lg:py-32">
+        <section id="client-feedback" className="scroll-mt-24 bg-[#173137] px-5 py-12 text-[#f8f6ef] sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-7 sm:gap-10 lg:grid-cols-[0.9fr_0.7fr] lg:items-center lg:gap-20">
             <div className="max-w-[610px]">
               <p className="eyebrow text-[#9ee0d2]">Customer feedback</p>
@@ -683,7 +683,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="add-ons" className="scroll-mt-24 px-5 pb-16 sm:pb-24 lg:px-10 lg:pb-32">
+        <section id="add-ons" className="scroll-mt-24 px-5 pb-12 sm:pb-20 lg:px-10 lg:pb-24">
           <div className="mx-auto max-w-[1440px] overflow-hidden rounded-[30px] bg-[#173137] px-5 py-8 text-[#f8f6ef] sm:rounded-[38px] sm:px-9 sm:py-11 lg:px-14 lg:py-14">
             <div className="mx-auto max-w-[760px] text-center">
               <span className="mx-auto mb-4 block h-8 w-8 rounded-full border border-[#9ee0d2]/60" aria-hidden="true" />
@@ -719,24 +719,24 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="booking" className="scroll-mt-24 bg-[#f2efe4] px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
+        <section id="booking" className="scroll-mt-24 bg-[#f2efe4] px-5 py-12 sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <div className="grid gap-7 sm:gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
+            <div className="grid gap-6 sm:gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-12">
               <div className="lg:pt-6">
                 <p className="eyebrow">Booking request</p>
-                <h2 className="font-display mt-5 max-w-[490px] text-[45px] leading-[0.96] tracking-[-0.06em] sm:text-[63px]">A few details, then a cleaner plan.</h2>
-                <p className="mt-7 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. Starting rates are shown in the service guide; specialist requests are quoted around your space and scope.</p>
-                <div className="mt-7 flex gap-4 border-t border-[#173137]/15 pt-5 text-sm font-bold leading-6 text-[#173137]/70 sm:mt-10 sm:pt-6">
+                <h2 className="font-display mt-4 max-w-[490px] text-[45px] leading-[0.96] tracking-[-0.06em] sm:text-[63px]">A few details, then a cleaner plan.</h2>
+                <p className="mt-6 max-w-[470px] text-base leading-7 text-[#173137]/70">Choose your preferred visit and tell us what matters at home. Starting rates are shown in the service guide; specialist requests are quoted around your space and scope.</p>
+                <div className="mt-6 flex gap-4 border-t border-[#173137]/15 pt-5 text-sm font-bold leading-6 text-[#173137]/70 sm:mt-8 sm:pt-6">
                   <ShieldCheck className="h-5 w-5 shrink-0 text-[#2f9f91]" />
                   A preferred time, postcode and a few home details help shape the right cleaning request.
                 </div>
               </div>
 
-              <div className="rounded-[30px] bg-[#173137] p-5 text-[#f8f6ef] shadow-2xl shadow-[#173137]/10 sm:p-8 lg:rounded-[38px] lg:p-10">
+              <div className="rounded-[30px] bg-[#173137] p-5 text-[#f8f6ef] shadow-2xl shadow-[#173137]/10 sm:p-7 lg:rounded-[38px] lg:p-8">
                 {!submitted ? (
                   <form onSubmit={advanceBooking} aria-busy={isSubmitting}>
                     <fieldset className="booking-fieldset" disabled={isSubmitting}>
-                    <div className="mb-6 grid grid-cols-3 gap-2 sm:mb-9 sm:gap-4">
+                    <div className="mb-5 grid grid-cols-3 gap-2 sm:mb-7 sm:gap-4">
                       {[
                         [1, "Service & visit"],
                         [2, "Your details"],
@@ -759,7 +759,7 @@ export default function Home() {
                     </div>
 
                     {step === 1 && (
-                      <div className="booking-panel">
+                      <div className="booking-panel booking-panel-interactive">
                         <div>
                           <label id="service-picker-label" className="field-label">Which service feels right?</label>
                           <Drawer open={servicePickerOpen} onOpenChange={setServicePickerOpen}>
@@ -812,7 +812,7 @@ export default function Home() {
                             <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/48">Include en-suites if helpful.</p>
                           </div>
                         </div>}
-                        {!binCleaningOnly && <label className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
+                        {!binCleaningOnly && <label className="booking-addon flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
                           <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
                           <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/48">We’ll confirm the exact scope and quote with your booking request.</small></span>
                         </label>}
@@ -928,7 +928,7 @@ export default function Home() {
                     )}
 
                     {step === 2 && (
-                      <div className="booking-panel">
+                      <div className="booking-panel booking-panel-interactive">
                         <div className="grid gap-5 sm:grid-cols-2">
                           <div>
                             <label htmlFor="name" className="field-label">Your name</label>
@@ -964,7 +964,7 @@ export default function Home() {
                     )}
 
                     {step === 3 && (
-                      <div className="booking-panel">
+                      <div className="booking-panel booking-panel-interactive">
                         <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Your visit snapshot</p>
                         <div className="mt-4 divide-y divide-white/12 rounded-[18px] border border-white/15 bg-white/5 px-5">
                           {[
@@ -1005,7 +1005,7 @@ export default function Home() {
                     {formError && <p role="alert" className="mt-5 rounded-xl bg-[#f1c9ad] px-4 py-3 text-sm font-bold text-[#173137]">{formError}</p>}
                     <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                       {step > 1 ? <button type="button" className="btn-ghost-light" disabled={isSubmitting} onClick={() => setStep((current) => (current - 1) as BookingStep)}>Back</button> : <span />}
-                      <button type="submit" className="btn-mint justify-center" disabled={isSubmitting}>
+                      <button type="submit" className="btn-mint booking-submit justify-center" disabled={isSubmitting}>
                         {isSubmitting ? <><LoaderCircle className="h-4 w-4 animate-spin" /> Sending request…</> : <>{step === 3 ? "Send request" : "Continue"} <ArrowRight className="h-4 w-4" /></>}
                       </button>
                     </div>
@@ -1034,8 +1034,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="faqs" className="scroll-mt-24 px-5 py-16 sm:py-24 lg:px-10 lg:py-32">
-          <div className="mx-auto grid max-w-[1440px] gap-7 sm:gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:gap-16">
+        <section id="faqs" className="scroll-mt-24 px-5 py-12 sm:py-20 lg:px-10 lg:py-24">
+          <div className="mx-auto grid max-w-[1440px] gap-6 sm:gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-12">
             <div>
               <p className="eyebrow">Helpful answers</p>
               <h2 className="font-display mt-5 max-w-[440px] text-[44px] leading-[0.98] tracking-[-0.055em] sm:text-[57px]">A little more clarity, before you book.</h2>
