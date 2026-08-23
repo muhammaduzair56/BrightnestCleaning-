@@ -27,7 +27,8 @@ class Settings(BaseSettings):
     frontend_base_url: str = "http://localhost:5173"
     redis_url: str | None = None
     smtp_host: str | None = None
-    smtp_port: int = 587
+    smtp_port: int = 2525
+    smtp_timeout_seconds: int = 15
     smtp_username: str | None = None
     smtp_password: SecretStr | None = None
     admin_notification_email: EmailStr

@@ -258,6 +258,8 @@
 - [x] Run full validation and prepare the Railway redeploy with SMTP variables. Backend: 13 tests passed; frontend typecheck/build passed; Python compilation and diff checks passed.
 - [ ] Guide fresh Resend account creation using `brightnestcleaninguk@gmail.com` without exposing credentials.
 - [ ] Provide Railway variable mapping, redeploy steps, and safe post-deploy verification.
+- [x] Diagnose deployed Brevo SMTP connection timeout from Railway logs for booking and magic-link notifications: Railway reached the API, but SMTP connection to port 587 timed out.
+- [x] Apply and validate a transport-level SMTP timeout/connectivity fix before the next Railway redeploy: configurable 15-second timeout, default port 2525, and automatic 587-to-2525 fallback.
 - [x] Include quote-aware add-on pricing, icons, and a clear booking handoff.
 - [x] Verify the add-on section on desktop and mobile without copying Martilla’s branding or copy.
 - [ ] Source or generate new generic cleaning/home imagery that is not copied from the reference site.

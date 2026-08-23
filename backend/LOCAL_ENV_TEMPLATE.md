@@ -17,7 +17,8 @@ ALLOWED_ORIGINS=http://localhost:5173
 TRUSTED_HOSTS=localhost,127.0.0.1
 ADMIN_NOTIFICATION_EMAIL=your-private-admin-email@example.com
 SMTP_HOST=smtp-relay.brevo.com
-SMTP_PORT=587
+SMTP_PORT=2525
+SMTP_TIMEOUT_SECONDS=15
 SMTP_USERNAME=your-brevo-smtp-login
 SMTP_PASSWORD=replace-with-your-private-brevo-smtp-key
 EMAIL_FROM=BrightNest Cleaning UK <verified-sender@your-domain.example>
@@ -27,6 +28,8 @@ REDIS_URL=
 ENABLE_DOCS=true
 LOG_LEVEL=INFO
 ```
+
+SMTP_PORT=2525 is the recommended Railway fallback when port 587 times out. The backend also retries port 2525 automatically if port 587 is configured but unreachable.
 
 SMTP_PASSWORD is a secret SMTP key, not a Brevo API key or a normal account password. Keep it only in the private local `.env` file or Railway Variables.
 

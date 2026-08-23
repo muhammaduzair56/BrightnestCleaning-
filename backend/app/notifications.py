@@ -42,15 +42,26 @@ def _send_email_sync(*, recipients: list[str], subject: str, html: str, reply_to
     smtp_port = settings.smtp_port
     smtp_username = settings.smtp_username
     smtp_password = settings.smtp_password.get_secret_value()
-    if smtp_port == 465:
-        smtp_client: smtplib.SMTP = smtplib.SMTP_SSL(
-            smtp_host,
-            smtp_port,
-            context=ssl.create_default_context(),
-            timeout=30,
-        )
-    else:
-        smtp_client = smtplib.SMTP(smtp_host, smtp_port, timeout=30)
+    smtp_timeout = settings.smtp_timeout_seconds
+
+    def open_client(port: int) -> smtplib.SMTP:
+        if port == 465:
+            return smtplib.SMTP_SSL(
+                smtp_host,
+                port,
+                context=ssl.create_default_context(),
+                timeout=smtp_timeout,
+            )
+        return smtplib.SMTP(smtp_host, port, timeout=smtp_timeout)
+
+    try:
+        smtp_client = open_client(smtp_port)
+    except (OSError, TimeoutError):
+        if smtp_port != 587:
+            raise
+        logger.warning("SMTP port 587 was unreachable; retrying Brevo on port 2525")
+        smtp_port = 2525
+        smtp_client = open_client(smtp_port)
 
     with smtp_client as client:
         if smtp_port != 465:
