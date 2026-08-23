@@ -391,3 +391,21 @@
 - [x] Updated all seven logo and favicon references.
 - [x] Verified the supplied image in the 375px mobile header; TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint.
+
+## Push supplied Photoroom logo update
+
+- [ ] Commit the latest supplied-logo replacement.
+- [ ] Push it to GitHub `main`.
+- [ ] Verify the remote commit and provide the Vercel redeploy handoff.
+
+## Photoroom logo GitHub push result
+
+- [x] Supplied Photoroom logo update is included in the pushed release.
+- [x] GitHub `main` now points to `5978196b05334aa7510d19f5ba6248a9d0ce67fd`.
+- [x] Vercel can now redeploy from the latest GitHub `main` commit.
+
+## Fix live Vercel broken logo
+
+- [ ] Replace the inaccessible private logo path with a publicly reachable asset URL.
+- [ ] Validate the logo URL and production build.
+- [ ] Push the fix to GitHub `main` and provide Vercel redeploy instructions.
