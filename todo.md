@@ -422,3 +422,26 @@
 - [x] Kept the drawer header fixed within the scroll layout and preserved existing date-picker behavior.
 - [x] TypeScript, production build, and laptop full-page layout verification passed.
 - [ ] Save a recoverable checkpoint.
+
+## Push laptop date-picker fix
+
+- [ ] Push the latest date-picker viewport fix to GitHub `main`.
+- [ ] Verify the remote commit and provide Vercel redeploy guidance.
+
+## Laptop date-picker GitHub push result
+
+- [x] Latest date-picker viewport fix pushed to GitHub `main`.
+- [x] Remote `github/main` verified at commit `76e602927dcbd0c760e028d75f17f7b3ecfb4060`.
+- [x] Vercel can now redeploy from the latest `main` commit.
+
+## Keep date-picker header visible while scrolling
+
+- [ ] Make the date-picker drawer header sticky during internal scrolling.
+- [ ] Verify the title remains visible at the top and calendar remains reachable.
+- [ ] Save a recoverable checkpoint after validation.
+
+## Sticky date-picker header validation
+
+- [x] Made the date-picker drawer heading sticky with an opaque background during internal scrolling.
+- [x] Verified laptop and mobile homepage layouts remain intact; TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint.
