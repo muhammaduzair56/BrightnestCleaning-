@@ -457,3 +457,16 @@
 - [x] Set the booking calendar to `showOutsideDays={false}` so previous/next month filler dates are hidden.
 - [x] Confirmed the Calendar component supports the prop; TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint after validation.
+
+## Restore full 30/31-day calendar
+
+- [ ] Restore full month rendering instead of hiding outside dates in a way that clips the month.
+- [ ] Ensure all 30/31 current-month dates are reachable inside the modal.
+- [ ] Validate laptop/mobile layout and save a checkpoint.
+
+## Full 30/31-day calendar validation
+
+- [x] Restored full month rendering with `showOutsideDays` and `fixedWeeks` so all current-month dates are present.
+- [x] Kept one calendar month and existing date-selection/past-date blocking behavior.
+- [x] TypeScript, production build, and laptop responsive preview passed.
+- [ ] Save a recoverable checkpoint.
