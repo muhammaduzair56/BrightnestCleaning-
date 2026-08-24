@@ -445,3 +445,15 @@
 - [x] Made the date-picker drawer heading sticky with an opaque background during internal scrolling.
 - [x] Verified laptop and mobile homepage layouts remain intact; TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint.
+
+## Hide outside-month calendar dates
+
+- [ ] Hide previous- and next-month filler dates from the booking calendar.
+- [ ] Verify the current-month dates display cleanly on desktop and mobile.
+- [ ] Save a recoverable checkpoint after validation.
+
+## Current-month calendar validation
+
+- [x] Set the booking calendar to `showOutsideDays={false}` so previous/next month filler dates are hidden.
+- [x] Confirmed the Calendar component supports the prop; TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint after validation.
