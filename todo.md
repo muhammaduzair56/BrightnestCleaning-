@@ -470,3 +470,46 @@
 - [x] Kept one calendar month and existing date-selection/past-date blocking behavior.
 - [x] TypeScript, production build, and laptop responsive preview passed.
 - [ ] Save a recoverable checkpoint.
+
+## Push live full calendar grid
+
+- [ ] Push the latest full-month 1–31 calendar fix to GitHub `main`.
+- [ ] Confirm Vercel can redeploy from that commit.
+- [ ] Recheck the live calendar after deployment.
+
+## Live full calendar push result
+
+- [x] Full 30/31-day calendar fix pushed to GitHub `main`.
+- [x] GitHub `main` verified at commit `253f44ab8444e3f131883ecc836c5a1351660879`.
+- [ ] Vercel redeploy and live calendar verification remain pending.
+
+## Diagnose live full-calendar mismatch
+
+- [ ] Inspect the live Vercel HTML and JavaScript bundle for the calendar release.
+- [ ] Compare Vercel project configuration with GitHub root/build settings.
+- [ ] Resolve the mismatch and verify the live deployment path.
+
+## Diagnose Ready production calendar
+
+- [ ] Verify the Ready `253f44a` production deployment is serving the expected calendar bundle.
+- [ ] Correct the remaining full-month rendering issue if the bundle is current.
+- [ ] Validate and save the final production correction.
+
+## Verify exact Vercel production deployment
+
+- [ ] Confirm the `253f44a` production deployment domain.
+- [ ] Verify the full-month calendar on that exact domain.
+- [ ] Give exact clicks for opening the current deployment rather than an older browser tab.
+
+## Fix actual calendar clipping cause
+
+- [ ] Replace the restrictive `80vh` drawer cap with the available viewport height.
+- [ ] Keep internal scrolling as a fallback for shorter laptop/mobile screens.
+- [ ] Validate the full month after the height correction and save a checkpoint.
+
+## Full calendar height fix validation
+
+- [x] Removed the restrictive 80vh cap from the booking date-picker drawer.
+- [x] Confirmed the complete six-row month grid and dates through August 31 in local preview.
+- [x] TypeScript and production build pass.
+- [ ] Save a recoverable checkpoint.
