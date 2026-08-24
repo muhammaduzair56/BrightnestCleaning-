@@ -582,3 +582,9 @@
 - [x] Kept the drawer overflow hidden at desktop widths so no outer scrollbar is shown.
 - [x] Verified the DOM exposes all 31 August date buttons in the compact calendar.
 - [x] TypeScript and production build pass.
+
+## Push zoom-safe calendar fix
+
+- [ ] Commit and push the 100% zoom compact calendar correction to GitHub `main`.
+- [ ] Verify the remote revision and provide Vercel redeploy guidance.
+
