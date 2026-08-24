@@ -513,3 +513,39 @@
 - [x] Confirmed the complete six-row month grid and dates through August 31 in local preview.
 - [x] TypeScript and production build pass.
 - [ ] Save a recoverable checkpoint.
+
+## Push calendar height correction
+
+- [ ] Push the latest full-height date-picker drawer fix to GitHub `main`.
+- [ ] Verify the remote commit and provide Vercel redeploy guidance.
+
+## Calendar height correction push result
+
+- [x] Full-height date-picker drawer fix pushed to GitHub `main`.
+- [x] Remote `github/main` verified at commit `0069bfafb17ad76172354d1a2f86ea002fb031f8`.
+- [x] Vercel can redeploy the latest commit.
+
+## Live calendar QA
+
+- [ ] Verify live production is serving the latest `0069bfa` calendar-height fix.
+- [ ] Test full-month dates, date selection, and next-month navigation.
+- [ ] Record the actual production result.
+
+## Live calendar QA result
+
+- [x] Live production date picker opens successfully.
+- [x] Full August grid through August 31 is visible/reachable.
+- [x] Next-month navigation to September works and September 30 is reachable.
+- [x] Selecting September 1 updates the booking field to `Tue 1 September`.
+
+## Recompose calendar drawer for laptop
+
+- [ ] Inspect and group quick choices, rhythm controls, and calendar content.
+- [ ] Use a desktop two-column composition so all month rows fit without clipping.
+- [ ] Preserve mobile stacked layout, validate both widths, and save a checkpoint.
+
+## Correct calendar drawer grid placement
+
+- [ ] Explicitly place the drawer handle in row 1 and sticky header in row 2.
+- [ ] Keep controls and calendar side by side in row 3 on desktop.
+- [ ] Recheck mobile stacking after the grid correction.

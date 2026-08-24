@@ -866,7 +866,7 @@ export default function Home() {
                                   <DrawerTitle className="font-display text-[31px] tracking-[-0.04em] text-[#173137]">Choose preferred date</DrawerTitle>
                                   <DrawerDescription className="mt-1 text-sm leading-5 text-[#173137]/62">Choose a future date that suits your home and schedule.</DrawerDescription>
                                 </DrawerHeader>
-                                <div className="px-4 pt-4 sm:px-6">
+                                <div className="date-picker-controls px-4 pt-4 sm:px-6">
                                   <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#23786f]">Quick choices</p>
                                   <div className="mt-2 grid grid-cols-3 gap-2">
                                     {[{ label: "Soonest", offset: 0 }, { label: "Tomorrow", offset: 1 }, { label: "In 3 days", offset: 3 }].map((option) => <button key={option.label} type="button" className={`rounded-[12px] border px-3 py-2 text-xs font-extrabold transition-colors ${date === quickDate(option.offset) ? "border-[#2f9f91] bg-[#d9f0e8] text-[#173137]" : "border-[#173137]/10 bg-white text-[#173137]/70 hover:border-[#2f9f91]/45 hover:bg-[#edf3ed]"}`} onClick={() => { setDate(quickDate(option.offset)); setFormError(""); setDatePickerOpen(false); }}>{option.label}</button>)}
@@ -876,7 +876,7 @@ export default function Home() {
                                     {visitRhythms.map((item) => <button key={item.value} type="button" className={`rounded-full border px-3 py-2 text-xs font-extrabold transition-colors ${frequency === item.value ? "border-[#2f9f91] bg-[#173137] text-white" : "border-[#173137]/10 bg-white text-[#173137]/68 hover:border-[#2f9f91]/45"}`} onClick={() => { setFrequency(item.value); setFormError(""); }}>{item.value === "Fortnightly" ? "Bi-weekly" : item.value}</button>)}
                                   </div>
                                 </div>
-                                <div className="flex justify-center px-4 py-3 sm:px-6">
+                                <div className="date-picker-calendar-wrap flex justify-center px-4 py-3 sm:px-6">
                                   <Calendar mode="single" selected={selectedDate} showOutsideDays fixedWeeks numberOfMonths={1} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
                                 </div>
                               </DrawerContent>
