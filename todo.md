@@ -565,5 +565,20 @@
 
 ## Push compact calendar correction
 
-- [ ] Commit and push the compact single-column calendar correction to GitHub `main`.
-- [ ] Verify the remote commit and provide Vercel redeploy guidance.
+- [x] Commit and push the compact single-column calendar correction to GitHub `main`.
+- [x] Verify the remote commit and provide Vercel redeploy guidance.
+
+## Fix 100% zoom calendar overflow
+
+- [ ] Remove unnecessary desktop drawer overflow at 100% browser zoom.
+- [ ] Compact header, controls, and calendar spacing while keeping all month dates readable.
+- [ ] Validate desktop 100% and mobile calendar behavior before checkpointing.
+
+
+## 100% zoom calendar fix result
+
+- [x] Removed the oversized desktop calendar panel treatment.
+- [x] Reduced desktop header, control, calendar-card, day-cell, and week-gap spacing.
+- [x] Kept the drawer overflow hidden at desktop widths so no outer scrollbar is shown.
+- [x] Verified the DOM exposes all 31 August date buttons in the compact calendar.
+- [x] TypeScript and production build pass.

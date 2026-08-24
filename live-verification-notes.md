@@ -26,3 +26,11 @@ The local preview at laptop width was opened with the date drawer active after t
 ## Compact calendar verification — 2026-08-24
 
 After removing the desktop two-column rules and setting `showOutsideDays={false}` with `fixedWeeks={false}`, the local date-picker preview is compact and centered. August shows only current-month dates through August 31; the preview no longer displays prior-month filler numbers. Next-month navigation to September shows only September 1–30, with no October filler numbers. The controls remain above the calendar in a single-column flow.
+
+## 100% zoom compact-layout verification — 2026-08-24
+
+After compact spacing changes, the desktop local preview keeps the booking controls in a single-column flow and removes the oversized two-panel composition. The date-picker drawer remains viewport-aware, with reduced header/control spacing and smaller calendar dimensions intended to prevent the outer scrollbar at normal zoom.
+
+## 100% zoom verification after compact sizing — 2026-08-24
+
+The refreshed local preview now uses a compact single-column drawer. The calendar is centered beneath the controls, shows only the selected month’s current dates, and the DOM exposes August date buttons through August 31. The desktop rules reduce the calendar card to 17.5rem, reduce day buttons to 1.5rem, tighten week gaps, and hide drawer overflow at widths >=768px.
