@@ -252,16 +252,12 @@ button:disabled { cursor: not-allowed; }
 .service-picker-drawer > [data-slot="drawer-header"] { position: sticky; top: 0; z-index: 10; flex: 0 0 auto; background: #f8f6ef; }
 .service-picker-drawer > .date-picker-controls, .service-picker-drawer > .date-picker-calendar-wrap { min-width: 0; }
 .service-picker-drawer > .service-picker-list, .service-picker-drawer > .booking-date-calendar { min-height: 0; }
+.date-picker-calendar-wrap { width: 100%; }
 @media (min-width: 768px) {
-  .service-picker-drawer:has(.date-picker-controls) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(23rem, 28rem); grid-template-rows: auto auto minmax(0, 1fr); align-items: start; }
-  .service-picker-drawer:has(.date-picker-controls) > div:first-child { grid-column: 1 / -1; grid-row: 1; }
-  .service-picker-drawer:has(.date-picker-controls) > [data-slot="drawer-header"] { grid-column: 1 / -1; grid-row: 2; width: 100%; }
-  .service-picker-drawer:has(.date-picker-controls) > .date-picker-controls { grid-column: 1; grid-row: 3; width: 100%; padding-bottom: 1.5rem; }
-  .service-picker-drawer:has(.date-picker-controls) > .date-picker-calendar-wrap { grid-column: 2; grid-row: 3; width: 100%; padding: 1rem 2rem 2rem 1rem; }
-  .service-picker-drawer:has(.date-picker-controls) .booking-date-calendar { width: min(100%, 28rem); }
+  .date-picker-calendar-wrap { padding-top: 1rem; padding-bottom: 1.5rem; }
 }
 @media (max-width: 767px) {
-  .service-picker-drawer:has(.date-picker-controls) > .date-picker-calendar-wrap { padding-bottom: 2rem; }
+  .date-picker-calendar-wrap { padding-bottom: 2rem; }
 }
 .service-picker-list { scrollbar-color: #9ee0d2 transparent; }
 .service-picker-option { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid rgba(23,49,55,0.1); padding: 0.95rem 0.7rem; color: #173137; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), padding 180ms cubic-bezier(0.23, 1, 0.32, 1); }

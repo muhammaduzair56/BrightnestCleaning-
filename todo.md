@@ -549,3 +549,16 @@
 - [ ] Explicitly place the drawer handle in row 1 and sticky header in row 2.
 - [ ] Keep controls and calendar side by side in row 3 on desktop.
 - [ ] Recheck mobile stacking after the grid correction.
+
+## Clarified compact calendar requirement
+
+- [ ] Remove the oversized two-panel desktop treatment.
+- [ ] Render only the selected month’s real dates: 31 for August, 30 for 30-day months, and 28/29 for February.
+- [ ] Recheck calendar alignment and compact spacing on laptop and mobile.
+
+## Compact calendar correction result
+
+- [x] Removed the oversized two-panel desktop treatment.
+- [x] Restored compact single-column alignment.
+- [x] August displays current-month dates through 31; September displays 1–30 without outside-month numbers.
+- [x] TypeScript, production build, and local desktop interaction checks passed.

@@ -22,3 +22,7 @@ The live date picker opened successfully. The August 2026 grid displayed all row
 ## Two-column date-picker verification — 2026-08-24
 
 The local preview at laptop width was opened with the date drawer active after the explicit grid-row fix. The drawer handle is at the top, the sticky `Choose preferred date` header is directly below it, quick choices and visit rhythm occupy the left column, and the calendar occupies the right column. The full six-row August grid is visible through August 31 within the drawer. The desktop rule is gated at 768px, preserving the mobile stacked layout.
+
+## Compact calendar verification — 2026-08-24
+
+After removing the desktop two-column rules and setting `showOutsideDays={false}` with `fixedWeeks={false}`, the local date-picker preview is compact and centered. August shows only current-month dates through August 31; the preview no longer displays prior-month filler numbers. Next-month navigation to September shows only September 1–30, with no October filler numbers. The controls remain above the calendar in a single-column flow.

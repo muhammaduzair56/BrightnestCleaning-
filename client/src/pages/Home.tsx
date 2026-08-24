@@ -877,7 +877,7 @@ export default function Home() {
                                   </div>
                                 </div>
                                 <div className="date-picker-calendar-wrap flex justify-center px-4 py-3 sm:px-6">
-                                  <Calendar mode="single" selected={selectedDate} showOutsideDays fixedWeeks numberOfMonths={1} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
+                                  <Calendar mode="single" selected={selectedDate} showOutsideDays={false} fixedWeeks={false} numberOfMonths={1} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
                                 </div>
                               </DrawerContent>
                             </Drawer>
