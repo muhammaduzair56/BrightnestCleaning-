@@ -409,3 +409,16 @@
 - [ ] Replace the inaccessible private logo path with a publicly reachable asset URL.
 - [ ] Validate the logo URL and production build.
 - [ ] Push the fix to GitHub `main` and provide Vercel redeploy instructions.
+
+## Fix laptop date-picker cut-off
+
+- [ ] Make the date-picker modal fit laptop viewport height with safe internal scrolling.
+- [ ] Verify the full calendar and controls on laptop and mobile widths.
+- [ ] Save a recoverable checkpoint after validation.
+
+## Laptop date-picker validation
+
+- [x] Added a dynamic viewport-safe max-height using `100dvh` and internal drawer scrolling.
+- [x] Kept the drawer header fixed within the scroll layout and preserved existing date-picker behavior.
+- [x] TypeScript, production build, and laptop full-page layout verification passed.
+- [ ] Save a recoverable checkpoint.
