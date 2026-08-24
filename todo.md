@@ -562,3 +562,8 @@
 - [x] Restored compact single-column alignment.
 - [x] August displays current-month dates through 31; September displays 1–30 without outside-month numbers.
 - [x] TypeScript, production build, and local desktop interaction checks passed.
+
+## Push compact calendar correction
+
+- [ ] Commit and push the compact single-column calendar correction to GitHub `main`.
+- [ ] Verify the remote commit and provide Vercel redeploy guidance.
