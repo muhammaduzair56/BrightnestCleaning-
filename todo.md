@@ -588,3 +588,17 @@
 - [ ] Commit and push the 100% zoom compact calendar correction to GitHub `main`.
 - [ ] Verify the remote revision and provide Vercel redeploy guidance.
 
+
+## 100% zoom route-wide QA
+
+- [x] Test Home, Blog, article, Privacy, Terms, Dashboard, and Admin routes at desktop 100% zoom.
+- [x] Check document width, horizontal overflow, viewport clipping, and navigation/layout stability.
+- [x] Record findings and fix any regression before final QA handoff.
+
+
+## Mobile responsiveness QA
+
+- [x] Test Home, booking form/date-picker, Blog, article, Privacy, Terms, Dashboard, and Admin at phone width.
+- [x] Check horizontal overflow, navigation, typography, cards, buttons, and touch-friendly controls.
+- [x] Record findings and fix any mobile regression before handoff.
+
