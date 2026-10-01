@@ -102,6 +102,8 @@ export const homeSchema = [
     url: SITE_URL,
     description: DEFAULT_DESCRIPTION,
     image: DEFAULT_IMAGE,
+    telephone: "+447859293986",
+    contactPoint: { "@type": "ContactPoint", telephone: "+447859293986", contactType: "customer service", areaServed: "GB", availableLanguage: ["en-GB"] },
     areaServed: [{ "@type": "City", name: "Birmingham" }, { "@type": "AdministrativeArea", name: "West Midlands" }],
     serviceType: ["Domestic cleaning", "Deep cleaning", "End of tenancy cleaning", "Office cleaning", "Window cleaning"],
     priceRange: "££",

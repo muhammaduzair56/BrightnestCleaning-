@@ -12,6 +12,7 @@ import {
   Info,
   LoaderCircle,
   Menu,
+  MessageCircle,
   Building2,
   Brush,
   Hammer,
@@ -19,6 +20,7 @@ import {
   ShieldCheck,
   Sparkles,
   X,
+  Phone,
 } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -27,6 +29,7 @@ import { applySeo, homeSchema } from "@/lib/seo";
 import { Calendar } from "@/components/ui/calendar";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, WHATSAPP_HREF } from "@/lib/contact";
 
 type BookingStep = 1 | 2 | 3;
 
@@ -443,6 +446,7 @@ export default function Home() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Link href="/dashboard" className="border-l border-[#173137]/15 pl-4 text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#23786f]">My bookings</Link>
+            <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#173137]/70 transition-colors hover:text-[#23786f]" aria-label={`Call BrightNest on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-3.5 w-3.5" /> Call us</a>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
               <ShieldCheck className="h-4 w-4 text-[#23786f]" />
               Birmingham-based
@@ -469,6 +473,8 @@ export default function Home() {
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("services"); }}>Services <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("how-it-works"); }}>How it works <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); bookService(); }}>Contact <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <a href={CONTACT_PHONE_HREF} className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>Call {CONTACT_PHONE_DISPLAY} <Phone className="h-4 w-4 text-[#23786f]" /></a>
+              <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>WhatsApp us <MessageCircle className="h-4 w-4 text-[#23786f]" /></a>
               <Link href="/blog" className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#23786f]" onClick={() => setMobileOpen(false)}>
                 Blog <ArrowRight className="h-4 w-4 text-[#23786f]" />
               </Link>
@@ -1093,6 +1099,10 @@ export default function Home() {
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Book</p>
             <p className="mt-5 text-sm leading-7 text-white/75">Need a tailored home or specialist cleaning request?</p>
             <button onClick={() => bookService()} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white underline decoration-[#9ee0d2] decoration-2 underline-offset-4">Start your request <ArrowRight className="h-4 w-4" /></button>
+            <div className="mt-6 flex flex-col gap-3 text-sm font-extrabold">
+              <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-2 text-white/85 transition-colors hover:text-[#9ee0d2]" aria-label={`Call BrightNest on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-4 w-4 text-[#9ee0d2]" /> {CONTACT_PHONE_DISPLAY}</a>
+              <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/85 transition-colors hover:text-[#9ee0d2]"><MessageCircle className="h-4 w-4 text-[#9ee0d2]" /> Message us on WhatsApp</a>
+            </div>
           </div>
         </div>
         <div className="trust-strip mx-auto grid max-w-[1440px] gap-3 border-b border-white/15 py-6 sm:grid-cols-3 sm:gap-5">
