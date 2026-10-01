@@ -6,6 +6,7 @@ import { CustomerBooking, CustomerDashboard, CustomerChangePayload, configuredAp
 import { ArrowLeft, ArrowUpRight, CalendarDays, CheckCircle2, Clock3, Download, KeyRound, LoaderCircle, LogOut, Mail, ReceiptText, RefreshCw, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
+import { applySeo } from "@/lib/seo";
 
 const statusLabels: Record<CustomerBooking["status"], string> = {
   new: "Request received",
@@ -129,6 +130,10 @@ function BookingGroup({ title, intro, bookings, empty, token, onChanged, showRec
 }
 
 export default function Dashboard() {
+  useEffect(() => {
+    applySeo({ title: "My bookings | BrightNest Cleaning UK", description: "Private customer booking dashboard for BrightNest Cleaning UK.", path: "/dashboard", noindex: true });
+  }, []);
+
   const [token, setToken] = useState(readStoredToken);
   const [dashboard, setDashboard] = useState<CustomerDashboard | null>(null);
   const [email, setEmail] = useState("");

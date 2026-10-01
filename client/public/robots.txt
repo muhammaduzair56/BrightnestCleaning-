@@ -1,5 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /dashboard
 Disallow: /api/
+Disallow: /*?token=
+Disallow: /*?access_token=
+
 Sitemap: https://brightnestcleaning.vercel.app/sitemap.xml
+Host: https://brightnestcleaning.vercel.app

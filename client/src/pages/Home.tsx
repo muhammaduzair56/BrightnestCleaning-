@@ -23,6 +23,7 @@ import {
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ApiError, bookingApi, type BookingAvailability } from "@/lib/api";
+import { applySeo, homeSchema } from "@/lib/seo";
 import { Calendar } from "@/components/ui/calendar";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
@@ -303,6 +304,15 @@ export default function Home() {
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
   const selectedTime = timeSlots.find((item) => item.value === time);
   const selectedDate = date ? new Date(`${date}T12:00:00`) : undefined;
+
+  useEffect(() => {
+    applySeo({
+      title: "Cleaning Services Birmingham | BrightNest Cleaning UK",
+      description: "Book thoughtful domestic and specialist cleaning across Birmingham and surrounding areas. Regular, deep, end-of-tenancy, office and tailored cleaning from BrightNest.",
+      path: "/",
+      jsonLd: homeSchema,
+    });
+  }, []);
 
   useEffect(() => {
     if (!date) {

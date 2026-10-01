@@ -5,6 +5,7 @@
 import { ArrowLeft, ArrowRight, CalendarDays, Check, CheckCircle2, Clock3, Copy, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useRoute } from "wouter";
+import { applySeo, SITE_URL } from "@/lib/seo";
 
 type Article = {
   id: string;
@@ -166,22 +167,43 @@ const articles: Article[] = [
 
 function ArticleMetadata({ article }: { article?: Article }) {
   useEffect(() => {
-    const title = article ? `${article.title} | BrightNest Cleaning UK` : "BrightNest Notes | Cleaning advice for a lighter week";
-    const description = article?.excerpt ?? "Practical cleaning notes for homes, hosts and busy households across Birmingham from BrightNest Cleaning UK.";
-    const canonical = `${window.location.origin}${article ? `/blog/${article.id}` : "/blog"}`;
-    const image = new URL(article?.socialImage ?? "/blog/brightnest-blog-winter-home.webp", window.location.origin).href;
-    document.title = title;
-    const values: Record<string, string> = { description, "og:title": title, "og:description": description, "og:type": article ? "article" : "website", "og:url": canonical, "og:image": image, "twitter:card": "summary_large_image", "twitter:title": title, "twitter:description": description, "twitter:image": image };
-    Object.entries(values).forEach(([name, content]) => {
-      const selector = name.startsWith("og:") ? `meta[property="${name}"]` : `meta[name="${name}"]`;
-      let tag = document.head.querySelector<HTMLMetaElement>(selector);
-      if (!tag) { tag = document.createElement("meta"); name.startsWith("og:") ? tag.setAttribute("property", name) : tag.setAttribute("name", name); document.head.appendChild(tag); }
-      tag.setAttribute("content", content);
-    });
-    let canonicalTag = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (!canonicalTag) { canonicalTag = document.createElement("link"); canonicalTag.rel = "canonical"; document.head.appendChild(canonicalTag); }
-    canonicalTag.href = canonical;
-    return () => { document.title = "BrightNest Cleaning UK"; };
+    const title = article ? `${article.title} | BrightNest Cleaning UK` : "Cleaning Advice & Home Care Journal | BrightNest Cleaning UK";
+    const description = article?.excerpt ?? "Practical cleaning advice for Birmingham homes, hosts, landlords and busy households from BrightNest Cleaning UK.";
+    const path = article ? `/blog/${article.id}` : "/blog";
+    const publishedTime = article ? new Date(article.date).toISOString() : undefined;
+    const articleSchema = article
+      ? {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "@id": `${SITE_URL}${path}#article`,
+          headline: article.title,
+          description: article.excerpt,
+          image: article.socialImage ?? article.image,
+          datePublished: publishedTime,
+          dateModified: publishedTime,
+          author: { "@type": "Organization", name: "BrightNest Cleaning UK", url: SITE_URL },
+          publisher: { "@type": "Organization", name: "BrightNest Cleaning UK", url: SITE_URL },
+          mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${path}` },
+          inLanguage: "en-GB",
+        }
+      : {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: title,
+          description,
+          url: `${SITE_URL}${path}`,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+        };
+    const breadcrumb = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+        ...(article ? [{ "@type": "ListItem", position: 3, name: article.title, item: `${SITE_URL}${path}` }] : []),
+      ],
+    };
+    applySeo({ title, description, path, type: article ? "article" : "website", image: article?.socialImage ?? article?.image, publishedTime, modifiedTime: publishedTime, jsonLd: [articleSchema, breadcrumb] });
   }, [article]);
   return null;
 }

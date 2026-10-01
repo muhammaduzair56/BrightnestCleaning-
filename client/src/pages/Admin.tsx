@@ -6,6 +6,7 @@ import { AdminAnalytics, AdminAnalyticsMonth, AdminChangeRequest, Booking, Booki
 import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck, CalendarClock, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
+import { applySeo } from "@/lib/seo";
 
 const statusLabels: Record<BookingStatus | "all", string> = {
   all: "All requests",
@@ -63,6 +64,10 @@ export default function Admin() {
   const [changeRequests, setChangeRequests] = useState<AdminChangeRequest[]>([]);
   const [selectedChangeRequest, setSelectedChangeRequest] = useState<AdminChangeRequest | null>(null);
   const [resolutionNote, setResolutionNote] = useState("");
+
+  useEffect(() => {
+    applySeo({ title: "Admin portal | BrightNest Cleaning UK", description: "Private BrightNest operations portal.", path: "/admin", noindex: true });
+  }, []);
   const [requestLoading, setRequestLoading] = useState(false);
   const [requestSaving, setRequestSaving] = useState(false);
   const [adminNotes, setAdminNotes] = useState("");
