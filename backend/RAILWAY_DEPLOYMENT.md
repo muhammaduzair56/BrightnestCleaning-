@@ -52,8 +52,8 @@ Add these optional variables when the corresponding production destinations are 
 
 | Name | Purpose |
 | --- | --- |
-| `COVERAGE_POSTCODE_PREFIXES` | Server-authoritative comma-separated prefixes BrightNest actually serves, for example `B6,B7,B8`. Do not use a broad prefix unless the whole range is genuinely covered. |
-| `VITE_COVERAGE_POSTCODE_PREFIXES` | Matching frontend prefixes for immediate form feedback; the backend remains authoritative. |
+| `COVERAGE_POSTCODE_PREFIXES` | Server-authoritative comma-separated prefixes BrightNest serves. Set `ALL` for full UK postcode mode, or use prefixes such as `B6,B7,B8` while expanding regionally. |
+| `VITE_COVERAGE_POSTCODE_PREFIXES` | Matching frontend value for immediate form feedback. Set `ALL` for full UK mode; the backend remains authoritative. |
 | `VITE_GOOGLE_REVIEWS_URL` | Public Google Business Profile review URL. The site shows a link only when configured and never fabricates reviews. |
 | `VITE_TRUSTPILOT_URL` | Public Trustpilot profile URL, also shown only when configured. |
 

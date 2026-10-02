@@ -257,7 +257,7 @@ export default function Admin() {
       </aside>
       <main className="min-w-0 bg-[#f8f6ef] p-5 sm:p-8 lg:p-12">
         <div className="flex flex-col justify-between gap-6 border-b border-[#173137]/10 pb-8 sm:flex-row sm:items-end">
-          <div><p className="eyebrow">Birmingham operations</p><h1 className="font-display mt-3 text-[42px] tracking-[-0.06em] sm:text-[56px]">Booking requests</h1><p className="mt-3 text-sm text-[#173137]/65">Keep each home’s next step clear, timely and considered.</p></div>
+          <div><p className="eyebrow">UK-wide operations</p><h1 className="font-display mt-3 text-[42px] tracking-[-0.06em] sm:text-[56px]">Booking requests</h1><p className="mt-3 text-sm text-[#173137]/65">Keep each home’s next step clear, timely and considered.</p></div>
           <button className="btn-primary" onClick={() => void loadData()} disabled={loading}><RefreshCcw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button>
         </div>
         {error && <p className="admin-error mt-6" role="alert">{error}</p>}

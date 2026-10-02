@@ -119,7 +119,7 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
         _paragraph(f"Customer notes: {booking.notes or 'No additional notes recorded.'}", small),
         Spacer(1, 18 * mm),
         _paragraph("BrightNest Cleaning UK", body),
-        _paragraph("Thoughtful cleaning across Birmingham and surrounding areas.", subtitle),
+        _paragraph("Thoughtful cleaning across the UK.", subtitle),
     ])
 
     def footer(canvas, doc):

@@ -228,7 +228,7 @@ const faqs = [
   {
     question: "Do you cover my area?",
     answer:
-      "BrightNest currently presents services for Birmingham and surrounding areas. Add your postcode in the request form so service coverage can be confirmed.",
+      "BrightNest accepts cleaning requests across the UK. Add your postcode in the request form so the team can confirm service availability and travel details.",
   },
   {
     question: "Can I ask for a tailored clean?",
@@ -288,7 +288,7 @@ export default function Home() {
   const [timePickerOpen, setTimePickerOpen] = useState(false);
   const [availability, setAvailability] = useState<BookingAvailability | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
-  const coveragePrefixes = (import.meta.env.VITE_COVERAGE_POSTCODE_PREFIXES || "B").split(",").map((prefix: string) => prefix.trim().toUpperCase()).filter(Boolean);
+  const coveragePrefixes = (import.meta.env.VITE_COVERAGE_POSTCODE_PREFIXES || "ALL").split(",").map((prefix: string) => prefix.trim().toUpperCase()).filter(Boolean);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -297,7 +297,8 @@ export default function Home() {
   const emailError = emailTouched ? (!email.trim() ? "Please enter an email address." : !emailIsValid ? "Enter a valid email address, for example you@example.com." : "") : "";
   const phoneError = phoneTouched ? (!phone.trim() ? "Please enter a phone number." : !phoneIsValid ? "Use a UK number beginning 0 or +44." : "") : "";
   const normalizedPostcode = postcode.replace(/\s+/g, "").toUpperCase();
-  const postcodeIsCovered = normalizedPostcode.length > 0 && coveragePrefixes.some((prefix: string) => normalizedPostcode.startsWith(prefix));
+  const isValidUkPostcode = /^(?:GIR0AA|[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2})$/.test(normalizedPostcode);
+  const postcodeIsCovered = isValidUkPostcode && (coveragePrefixes.some((prefix: string) => ["ALL", "UK", "*"].includes(prefix)) || coveragePrefixes.some((prefix: string) => normalizedPostcode.startsWith(prefix)));
   const selectedService = services.find((item) => item.title === service);
   const binCleaningOnly = service === "Bin cleaning";
   const baseHourlyRate = Number(selectedService?.price.match(/£(\d+)/)?.[1] ?? 0);
@@ -310,8 +311,8 @@ export default function Home() {
 
   useEffect(() => {
     applySeo({
-      title: "Cleaning Services Birmingham | BrightNest Cleaning UK",
-      description: "Book thoughtful domestic and specialist cleaning across Birmingham and surrounding areas. Regular, deep, end-of-tenancy, office and tailored cleaning from BrightNest.",
+      title: "Cleaning Services UK | BrightNest Cleaning UK",
+      description: "Book thoughtful domestic and specialist cleaning across the UK. Regular, deep, end-of-tenancy, office and tailored cleaning from BrightNest.",
       path: "/",
       jsonLd: homeSchema,
     });
@@ -419,7 +420,7 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-clip bg-[#f8f6ef] text-[#173137]">
       <div className="bg-[#173137] px-4 py-2.5 text-center text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#f8f6ef] sm:text-xs">
-        Thoughtful domestic & specialist cleaning across Birmingham & surrounding areas
+        Thoughtful domestic & specialist cleaning across the UK
       </div>
 
       <header className="sticky top-0 z-40 px-3 pt-3 sm:px-5 lg:px-8">
@@ -449,7 +450,7 @@ export default function Home() {
             <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#173137]/70 transition-colors hover:text-[#23786f]" aria-label={`Call BrightNest on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-3.5 w-3.5" /> Call us</a>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
               <ShieldCheck className="h-4 w-4 text-[#23786f]" />
-              Birmingham-based
+              UK-wide requests
             </span>
             <button className="btn-primary" onClick={() => bookService()}>
               Book a clean <ArrowRight className="h-4 w-4" />
@@ -539,7 +540,7 @@ export default function Home() {
               />
               <div className="absolute inset-x-5 top-5 flex items-start justify-between sm:inset-x-7 sm:top-7">
                 <div className="rounded-full border border-white/60 bg-white/80 px-3.5 py-2 backdrop-blur-md">
-                  <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#173137]">Birmingham & nearby</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#173137]">Across the UK</p>
                 </div>
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-[#2f9f91] text-white shadow-lg shadow-[#2f9f91]/25">
                   <Sparkles className="h-5 w-5" />
@@ -569,7 +570,7 @@ export default function Home() {
                 <h2 className="font-display mt-5 max-w-[510px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[58px]">A clean that fits the way you live.</h2>
               </div>
               <p className="max-w-[570px] text-base leading-7 text-[#173137]/70 lg:pb-2 lg:text-lg">
-                From Birmingham family homes to carefully prepared short-lets, choose the service that gives your home its breathing space back. Routine services have clear starting rates; specialist work is quoted around your exact needs.
+                From family homes to carefully prepared short-lets across the UK, choose the service that gives your space its breathing room back. Routine services have clear starting rates; specialist work is quoted around your exact needs.
               </p>
             </div>
 
@@ -950,8 +951,8 @@ export default function Home() {
                           </div>
                           <div>
                             <label htmlFor="postcode" className="field-label">Your postcode</label>
-                            <input id="postcode" value={postcode} onChange={(event) => setPostcode(event.target.value)} placeholder="e.g. B1 1AA" className={`field-control ${postcode && postcodeIsCovered ? "field-control-valid" : postcode && !postcodeIsCovered ? "field-control-error" : ""}`} aria-invalid={Boolean(postcode && !postcodeIsCovered)} aria-describedby="postcode-help" required />
-                            <p id="postcode-help" className={`field-validation-message ${postcode && postcodeIsCovered ? "field-validation-message-valid" : postcode && !postcodeIsCovered ? "field-validation-message-error" : ""}`} aria-live="polite">{postcode && postcodeIsCovered ? "Coverage area found." : postcode && !postcodeIsCovered ? "Please contact us to confirm coverage for this area." : "Birmingham and selected surrounding areas."}</p>
+                            <input id="postcode" value={postcode} onChange={(event) => setPostcode(event.target.value)} placeholder="e.g. SW1A 1AA" className={`field-control ${postcode && postcodeIsCovered ? "field-control-valid" : postcode && !postcodeIsCovered ? "field-control-error" : ""}`} aria-invalid={Boolean(postcode && !postcodeIsCovered)} aria-describedby="postcode-help" required />
+                            <p id="postcode-help" className={`field-validation-message ${postcode && postcodeIsCovered ? "field-validation-message-valid" : postcode && !postcodeIsCovered ? "field-validation-message-error" : ""}`} aria-live="polite">{postcode && postcodeIsCovered ? "UK postcode accepted — availability will be confirmed by the team." : postcode && !postcodeIsCovered ? "Enter a valid UK postcode, for example SW1A 1AA." : "Cleaning requests are welcome across the UK."}</p>
                           </div>
                         </div>
                         <div>
@@ -1086,7 +1087,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
             <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/ivFzfhveYSYAwvzT.png" alt="BrightNest Cleaning UK logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
-            <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/75">Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas.</p>
+            <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/75">Thoughtful domestic and specialist cleaning across the UK.</p>
           </div>
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#9ee0d2]">Explore</p>
@@ -1107,7 +1108,7 @@ export default function Home() {
         </div>
         <div className="trust-strip mx-auto grid max-w-[1440px] gap-3 border-b border-white/15 py-6 sm:grid-cols-3 sm:gap-5">
           <div className="trust-strip-item"><ShieldCheck className="h-4 w-4 text-[#9ee0d2]" /><span><strong>Privacy-first requests</strong><small>Your details are used to review and respond to your enquiry.</small></span></div>
-          <div className="trust-strip-item"><HomeIcon className="h-4 w-4 text-[#9ee0d2]" /><span><strong>Postcode coverage check</strong><small>We confirm Birmingham and selected surrounding areas before booking.</small></span></div>
+          <div className="trust-strip-item"><HomeIcon className="h-4 w-4 text-[#9ee0d2]" /><span><strong>UK postcode check</strong><small>We review every UK postcode and confirm availability before booking.</small></span></div>
           <div className="trust-strip-item"><CalendarDays className="h-4 w-4 text-[#9ee0d2]" /><span><strong>No payment with a request</strong><small>Preferred dates are reviewed before any visit is confirmed.</small></span></div>
         </div>
         <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/65 sm:flex-row sm:items-center sm:justify-between">

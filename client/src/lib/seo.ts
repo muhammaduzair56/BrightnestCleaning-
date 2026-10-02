@@ -3,7 +3,7 @@ export const SITE_NAME = "BrightNest Cleaning UK";
 export const DEFAULT_IMAGE = `${SITE_URL}/brightnest-social-preview.jpg`;
 
 const DEFAULT_DESCRIPTION =
-  "Thoughtful domestic and specialist cleaning across Birmingham and surrounding areas. Request a regular, deep, end-of-tenancy or tailored clean from BrightNest Cleaning UK.";
+  "Thoughtful domestic and specialist cleaning across the UK. Request a regular, deep, end-of-tenancy or tailored clean from BrightNest Cleaning UK.";
 
 type SeoOptions = {
   title: string;
@@ -104,7 +104,7 @@ export const homeSchema = [
     image: DEFAULT_IMAGE,
     telephone: "+447859293986",
     contactPoint: { "@type": "ContactPoint", telephone: "+447859293986", contactType: "customer service", areaServed: "GB", availableLanguage: ["en-GB"] },
-    areaServed: [{ "@type": "City", name: "Birmingham" }, { "@type": "AdministrativeArea", name: "West Midlands" }],
+    areaServed: { "@type": "Country", name: "United Kingdom" },
     serviceType: ["Domestic cleaning", "Deep cleaning", "End of tenancy cleaning", "Office cleaning", "Window cleaning"],
     priceRange: "££",
     openingHours: "Mo-Su 08:00-18:00",

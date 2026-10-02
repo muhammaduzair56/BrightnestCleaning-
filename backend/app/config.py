@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     refresh_token_days: int = 7
     customer_magic_link_minutes: int = 30
     booking_slot_capacity: int = 1
-    coverage_postcode_prefixes: Annotated[list[str], NoDecode] = ["B"]
+    coverage_postcode_prefixes: Annotated[list[str], NoDecode] = ["ALL"]
     frontend_base_url: str = "http://localhost:5173"
     redis_url: str | None = None
     smtp_host: str | None = None

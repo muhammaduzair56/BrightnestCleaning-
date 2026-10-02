@@ -602,3 +602,11 @@
 - [x] Check horizontal overflow, navigation, typography, cards, buttons, and touch-friendly controls.
 - [x] Record findings and fix any mobile regression before handoff.
 
+
+
+## UK-wide expansion (current)
+
+- [ ] Audit frontend/backend postcode coverage validation and Birmingham-specific copy
+- [ ] Update UK-wide booking coverage, copy, SEO schema, sitemap and robots
+- [ ] Run typecheck/build and verify booking postcode behavior
+- [ ] Save checkpoint and push verified changes to GitHub main
