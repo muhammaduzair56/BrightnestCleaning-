@@ -32,8 +32,13 @@ Create these under **Service → Variables**. Set sensitive values as masked/sec
 | `DATABASE_URL` | Existing Neon pooled PostgreSQL URL, including SSL options | Yes |
 | `JWT_SECRET` | New random secret, 32+ characters | Yes |
 | `ADMIN_NOTIFICATION_EMAIL` | `brightnestcleaninguk@gmail.com` | Yes |
-| `EMAIL_FROM` | Sender on a verified Resend domain | Yes |
-| `RESEND_API_KEY` | Existing server-only Resend key | For booking notifications and customer magic links |
+| `EMAIL_FROM` | Sender accepted by Brevo, ideally on a verified domain | Yes |
+| `EMAIL_LOGO_URL` | Public HTTPS BrightNest logo URL for branded customer emails | Optional; default is built in |
+| `SMTP_HOST` | `smtp-relay.brevo.com` | Yes for email delivery |
+| `SMTP_PORT` | `2525` | Recommended |
+| `SMTP_TIMEOUT_SECONDS` | `15` | Recommended |
+| `SMTP_USERNAME` | Brevo SMTP login | Yes for email delivery |
+| `SMTP_PASSWORD` | Private Brevo SMTP key | Yes for email delivery |
 | `FRONTEND_BASE_URL` | `https://brightnestcleaning.vercel.app` | Yes for customer dashboard links |
 | `CUSTOMER_MAGIC_LINK_MINUTES` | `30` | Recommended |
 | `BOOTSTRAP_ADMIN_EMAIL` | Private admin login email | Initial admin setup |

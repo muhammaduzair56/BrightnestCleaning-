@@ -22,6 +22,7 @@ SMTP_TIMEOUT_SECONDS=15
 SMTP_USERNAME=your-brevo-smtp-login
 SMTP_PASSWORD=replace-with-your-private-brevo-smtp-key
 EMAIL_FROM=BrightNest Cleaning UK <verified-sender@your-domain.example>
+EMAIL_LOGO_URL=https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/ivFzfhveYSYAwvzT.png
 BOOTSTRAP_ADMIN_EMAIL=your-private-admin-email@example.com
 BOOTSTRAP_ADMIN_PASSWORD=replace-with-a-unique-local-password
 REDIS_URL=
@@ -32,5 +33,7 @@ LOG_LEVEL=INFO
 SMTP_PORT=2525 is the recommended Railway fallback when port 587 times out. The backend also retries port 2525 automatically if port 587 is configured but unreachable.
 
 SMTP_PASSWORD is a secret SMTP key, not a Brevo API key or a normal account password. Keep it only in the private local `.env` file or Railway Variables.
+
+`EMAIL_LOGO_URL` is optional. Keep it pointed to a public HTTPS logo asset if you replace the default BrightNest logo; never use a local filesystem path.
 
 The database URL must come from the same Neon project and branch that you intend to test. Keep the actual URL only in the private local `.env` file or in Railway Variables. Do not paste it into GitHub, ZIP archives, screenshots, or chat.

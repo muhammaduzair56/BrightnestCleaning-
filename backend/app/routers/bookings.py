@@ -14,7 +14,7 @@ from app.cache import cache
 from app.config import get_settings
 from app.database import get_db
 from app.models import AdminUser, AuditEvent, Booking, BookingStatus, CustomerChangeRequest, CustomerChangeRequestStatus, ReferralCode, RecurringBookingPlan
-from app.notifications import notify_customer_change_resolution, notify_new_booking
+from app.notifications import notify_customer_booking_confirmation, notify_customer_change_resolution, notify_new_booking
 from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, AvailabilitySlot, BookingAccepted, BookingAvailabilityResponse, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
 from app.security import get_current_admin
 
@@ -106,6 +106,7 @@ async def create_booking(payload: BookingCreate, background_tasks: BackgroundTas
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Booking service is temporarily unavailable") from exc
     await _invalidate_booking_cache()
     background_tasks.add_task(notify_new_booking, booking.id)
+    background_tasks.add_task(notify_customer_booking_confirmation, booking.id)
     return BookingAccepted(booking_id=booking.id, message="Your booking request has been received.")
 
 
