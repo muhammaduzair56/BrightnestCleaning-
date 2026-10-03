@@ -157,6 +157,15 @@ const featuredServiceTitles = new Set([
   "Office & commercial",
 ]);
 
+const propertyDetailServices = new Set([
+  "Regular home cleaning",
+  "Deep cleaning",
+  "End of tenancy",
+  "Move-in / move-out",
+  "Post-renovation",
+  "Airbnb / short-term rental",
+]);
+
 const addOnServices = [
   { title: "Single oven", note: "A careful kitchen-detail add-on", includes: "Interior shelves, racks and reachable surfaces.", price: "£80 extra" },
   { title: "Window cleaning inside", note: "A clearer finish for reachable glass", includes: "Inside glass and frames for accessible windows.", price: "£15 per window" },
@@ -307,6 +316,7 @@ export default function Home() {
   const isValidUkPostcode = /^(?:GIR0AA|[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2})$/.test(normalizedPostcode);
   const postcodeIsCovered = isValidUkPostcode && (coveragePrefixes.some((prefix: string) => ["ALL", "UK", "*"].includes(prefix)) || coveragePrefixes.some((prefix: string) => normalizedPostcode.startsWith(prefix)));
   const selectedService = services.find((item) => item.title === service);
+  const needsPropertyDetails = propertyDetailServices.has(service);
   const binCleaningOnly = service === "Bin cleaning";
   const baseHourlyRate = Number(selectedService?.price.match(/£(\d+)/)?.[1] ?? 0);
   const roomAdjustment = Math.max(0, Number(bedrooms) - 1) * 10 + Math.max(0, Number(bathrooms) - 1) * 8;
@@ -364,7 +374,7 @@ export default function Home() {
       return;
     }
 
-    if (step === 1 && !binCleaningOnly && (Number(bedrooms) < 1 || Number(bathrooms) < 1)) {
+    if (step === 1 && needsPropertyDetails && (Number(bedrooms) < 1 || Number(bathrooms) < 1)) {
       setFormError("Please select at least one bedroom and one bathroom for this property service.");
       return;
     }
@@ -401,9 +411,9 @@ export default function Home() {
         frequency,
         preferred_date: date,
         preferred_time: time,
-        bedrooms: Number(bedrooms),
-        bathrooms: Number(bathrooms),
-        bin_cleaning: binCleaning,
+        bedrooms: needsPropertyDetails ? Number(bedrooms) : 0,
+        bathrooms: needsPropertyDetails ? Number(bathrooms) : 0,
+        bin_cleaning: binCleaningOnly || binCleaning,
         privacy_consent: true,
         notes: notes.trim() || undefined,
       });
@@ -823,7 +833,7 @@ export default function Home() {
                           </Drawer>
                           <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
                         </div>
-                        {binCleaningOnly ? <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">Bin cleaning selected</strong><span className="mt-1 block text-xs font-bold text-white/72">Bedrooms and bathrooms are not needed for this service. We’ll confirm the bin count and access details with you.</span></div> : <div className="grid gap-5 sm:grid-cols-2">
+                        {needsPropertyDetails ? <div className="grid gap-5 sm:grid-cols-2">
                           <div>
                             <label htmlFor="bedrooms" className="field-label">Bedrooms</label>
                             <select id="bedrooms" value={bedrooms} onChange={(event) => setBedrooms(event.target.value)} className="field-control" aria-describedby="bedrooms-help" required>
@@ -838,12 +848,12 @@ export default function Home() {
                             </select>
                             <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/72">Include en-suites if helpful.</p>
                           </div>
-                        </div>}
+                        </div> : <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">{binCleaningOnly ? "Bin cleaning selected" : "Specialist service selected"}</strong><span className="mt-1 block text-xs font-bold text-white/72">Bedrooms and bathrooms are not needed for this request. We’ll confirm the exact scope, access and quote with you.</span></div>}
                         {!binCleaningOnly && <label className="booking-addon flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
                           <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
                           <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/72">We’ll confirm the exact scope and quote with your booking request.</small></span>
                         </label>}
-                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Indicative price</p><p className="mt-1 text-xs leading-5 text-white/72">Based on a two-hour starting visit and the details selected.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{!binCleaningOnly && <span>{bedrooms} bed · {bathrooms} bath</span>}{binCleaning && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
+                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Indicative price</p><p className="mt-1 text-xs leading-5 text-white/72">Based on a two-hour starting visit and the details selected.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>

@@ -29,6 +29,15 @@ SERVICE_TYPES = {
     "Tailored / other request",
 }
 
+PROPERTY_DETAIL_SERVICE_TYPES = {
+    "Regular home cleaning",
+    "Deep cleaning",
+    "End of tenancy",
+    "Move-in / move-out",
+    "Post-renovation",
+    "Airbnb / short-term rental",
+}
+
 
 class BookingCreate(BaseModel):
     customer_name: str = Field(min_length=2, max_length=120)
@@ -39,8 +48,8 @@ class BookingCreate(BaseModel):
     frequency: Literal["One-off visit", "Weekly", "Fortnightly", "Monthly"]
     preferred_date: date
     preferred_time: time
-    bedrooms: int = Field(default=1, ge=1, le=50)
-    bathrooms: int = Field(default=1, ge=1, le=30)
+    bedrooms: int = Field(default=1, ge=0, le=50)
+    bathrooms: int = Field(default=1, ge=0, le=30)
     bin_cleaning: bool = False
     privacy_consent: Literal[True]
     notes: str | None = Field(default=None, max_length=2000)
@@ -74,6 +83,12 @@ class BookingCreate(BaseModel):
         if value not in SERVICE_TYPES:
             raise ValueError("Unsupported service type")
         return value
+
+    @model_validator(mode="after")
+    def validate_property_details(self) -> "BookingCreate":
+        if self.service_type in PROPERTY_DETAIL_SERVICE_TYPES and (self.bedrooms < 1 or self.bathrooms < 1):
+            raise ValueError("Bedrooms and bathrooms are required for this property cleaning service")
+        return self
 
 
 class BookingUpdate(BaseModel):
