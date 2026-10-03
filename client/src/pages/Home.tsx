@@ -37,6 +37,7 @@ const services = [
   {
     eyebrow: "Everyday care",
     title: "Regular home cleaning",
+    path: "/services/regular-home-cleaning",
     price: "From £25/hr",
     description: "A dependable rhythm for the places you live in most.",
     tone: "mint",
@@ -44,6 +45,7 @@ const services = [
   {
     eyebrow: "Room by room",
     title: "Deep cleaning",
+    path: "/services/deep-cleaning",
     price: "From £30/hr",
     description: "A thorough reset for overlooked corners, surfaces and details.",
     tone: "ink",
@@ -51,6 +53,7 @@ const services = [
   {
     eyebrow: "Moving made easier",
     title: "End of tenancy",
+    path: "/services/end-of-tenancy-cleaning",
     price: "From £35/hr",
     description: "A considered clean for a smoother handover and fresh start.",
     tone: "apricot",
@@ -58,6 +61,7 @@ const services = [
   {
     eyebrow: "A fresh start",
     title: "Move-in / move-out",
+    path: "/services/move-in-move-out-cleaning",
     price: "From £35/hr",
     description: "A detail-first reset before you settle in or hand over the keys.",
     tone: "linen",
@@ -79,6 +83,7 @@ const services = [
   {
     eyebrow: "Working spaces",
     title: "Office & commercial",
+    path: "/services/office-commercial-cleaning",
     price: "From £30/hr",
     description: "A considered clean for busy workspaces, shared areas and daily routines.",
     tone: "ink",
@@ -86,6 +91,7 @@ const services = [
   {
     eyebrow: "Specialist care",
     title: "Window cleaning",
+    path: "/services/window-cleaning",
     price: "Quote based",
     description: "A tailored quote for the glass, access and finish your property needs.",
     tone: "mint",
@@ -93,6 +99,7 @@ const services = [
   {
     eyebrow: "Kitchen detail",
     title: "Oven cleaning",
+    path: "/services/oven-cleaning",
     price: "Quote based",
     description: "A focussed appliance clean for the room that works hardest.",
     tone: "linen",
@@ -440,7 +447,7 @@ export default function Home() {
           <nav className="hidden items-center gap-4 lg:flex xl:gap-6" aria-label="Primary navigation">
             <button onClick={() => scrollToSection("top")} className="relative py-2 text-sm font-bold text-[#23786f] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]">Home</button>
             <button onClick={() => scrollToSection("difference")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">About us</button>
-            <button onClick={() => scrollToSection("services")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Services</button>
+            <Link href="/services" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Services</Link>
             <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100" aria-label="Read the BrightNest blog">Blog</Link>
             <button onClick={() => bookService()} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Contact</button>
           </nav>
@@ -471,7 +478,7 @@ export default function Home() {
             <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold text-[#23786f]" onClick={() => { setMobileOpen(false); scrollToSection("top"); }}>Home <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("difference"); }}>About us <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
-              <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("services"); }}>Services <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
+              <Link href="/services" onClick={() => setMobileOpen(false)} className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold">Services <ArrowRight className="h-4 w-4 text-[#23786f]" /></Link>
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); scrollToSection("how-it-works"); }}>How it works <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
               <button className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => { setMobileOpen(false); bookService(); }}>Contact <ArrowRight className="h-4 w-4 text-[#23786f]" /></button>
               <a href={CONTACT_PHONE_HREF} className="flex items-center justify-between border-b border-[#173137]/10 py-4 text-left text-base font-bold" onClick={() => setMobileOpen(false)}>Call {CONTACT_PHONE_DISPLAY} <Phone className="h-4 w-4 text-[#23786f]" /></a>
@@ -588,9 +595,11 @@ export default function Home() {
                     <h3 className="font-display mt-2 text-[31px] leading-[0.98] tracking-[-0.045em]">{item.title}</h3>
                     <p className="mt-3 text-sm font-extrabold tracking-[-0.01em] text-current">{item.price}</p>
                     <p className="mt-3 max-w-[340px] text-sm leading-6 opacity-75">{item.description}</p>
-                    <button className="mt-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.13em] underline decoration-current/35 underline-offset-4" onClick={() => bookService(item.title)}>
+                    {item.path ? <Link href={item.path} className="mt-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.13em] underline decoration-current/35 underline-offset-4">
+                      Explore service <ArrowRight className="h-3.5 w-3.5" />
+                    </Link> : <button className="mt-5 inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.13em] underline decoration-current/35 underline-offset-4" onClick={() => bookService(item.title)}>
                       Request this service <ArrowRight className="h-3.5 w-3.5" />
-                    </button>
+                    </button>}
                   </div>
                 </article>
               ))}

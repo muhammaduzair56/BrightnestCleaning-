@@ -13,6 +13,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const Services = lazy(() => import("./pages/Services"));
 
 function RouteLoadingFallback() {
   return (
@@ -30,6 +31,8 @@ function Router() {
         <Route path={"/"} component={Home} />
         <Route path="/blog/:id" component={Blog} />
         <Route path={"/blog"} component={Blog} />
+        <Route path="/services/:slug" component={Services} />
+        <Route path="/services" component={Services} />
         <Route path="/admin" component={Admin} />
       <Route path="/dashboard" component={Dashboard} />
         <Route path={"/privacy-policy"} component={PrivacyPolicy} />

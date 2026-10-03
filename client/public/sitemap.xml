@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://brightnestcleaning.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/regular-home-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/deep-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/end-of-tenancy-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/move-in-move-out-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/office-commercial-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/window-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/oven-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brightnestcleaning.vercel.app/services/bin-cleaning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://brightnestcleaning.vercel.app/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://brightnestcleaning.vercel.app/blog/deep-cleaning-reset</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://brightnestcleaning.vercel.app/blog/gentler-products</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
