@@ -22,14 +22,15 @@ import {
   X,
   Phone,
 } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, lazy, Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ApiError, bookingApi, type BookingAvailability } from "@/lib/api";
 import { applySeo, homeSchema } from "@/lib/seo";
-import { Calendar } from "@/components/ui/calendar";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
 import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, WHATSAPP_HREF } from "@/lib/contact";
+
+const BookingCalendar = lazy(() => import("@/components/ui/calendar").then((module) => ({ default: module.Calendar })));
 
 type BookingStep = 1 | 2 | 3;
 
@@ -916,7 +917,9 @@ export default function Home() {
                                   </div>
                                 </div>
                                 <div className="date-picker-calendar-wrap flex justify-center px-4 py-1 sm:px-6">
-                                  <Calendar mode="single" selected={selectedDate} showOutsideDays={false} fixedWeeks={false} numberOfMonths={1} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
+                                  <Suspense fallback={<div className="booking-date-calendar grid min-h-[280px] place-items-center text-sm text-[#173137]/60">Loading calendar…</div>}>
+                                    <BookingCalendar mode="single" selected={selectedDate} showOutsideDays={false} fixedWeeks={false} numberOfMonths={1} disabled={{ before: today }} onSelect={(pickedDate) => { if (!pickedDate) return; setDate(toDateKey(pickedDate)); setFormError(""); setDatePickerOpen(false); }} className="booking-date-calendar" />
+                                  </Suspense>
                                 </div>
                               </DrawerContent>
                             </Drawer>

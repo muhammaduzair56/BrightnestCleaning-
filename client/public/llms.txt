@@ -1,21 +1,34 @@
 # BrightNest Cleaning UK
 
-> Premium domestic and specialist cleaning booking service serving cleaning requests across the UK.
+> BrightNest Cleaning UK provides thoughtful domestic and specialist cleaning across the United Kingdom, with a simple booking request flow and final confirmation by the BrightNest team.
+
+BrightNest accepts requests for regular home cleaning, deep cleaning, end-of-tenancy cleaning, move-in/move-out cleaning, office cleaning and specialist services. Customers enter a valid UK postcode, choose a preferred date and time, and receive confirmation after the request is reviewed. No payment is taken at the initial request stage.
 
 ## Website
-- Home: https://brightnestcleaning.vercel.app/
-- Services: https://brightnestcleaning.vercel.app/services
-- Booking: https://brightnestcleaning.vercel.app/#booking
-- Blog: https://brightnestcleaning.vercel.app/blog
-- Privacy: https://brightnestcleaning.vercel.app/privacy-policy
-- Terms: https://brightnestcleaning.vercel.app/terms-of-service
 
-## Useful information
-- Customers can request regular, deep, end-of-tenancy, move-in/move-out, post-renovation, office and specialist cleaning.
-- Valid UK postcodes can be entered in the booking form; final availability and scope are confirmed by BrightNest.
-- Booking requests do not take payment immediately. BrightNest reviews the request and confirms the quote and next steps.
-- Contact: +44 7859 293986
-- WhatsApp: https://wa.me/447859293986
+- [BrightNest home](https://brightnestcleaning.vercel.app/): Brand overview, service highlights and booking request entry point.
+- [Cleaning services](https://brightnestcleaning.vercel.app/services): Dedicated service information pages.
+- [Booking request](https://brightnestcleaning.vercel.app/#booking): Public booking form for UK cleaning requests.
+- [Cleaning advice blog](https://brightnestcleaning.vercel.app/blog): Practical cleaning notes for homes, hosts and workplaces.
 
-## Guidance for agents
-Use the public website pages for service descriptions and booking information. Do not attempt to access /admin or /dashboard without the customer's authenticated session.
+## Services
+
+- [Regular home cleaning](https://brightnestcleaning.vercel.app/services/regular-home-cleaning): Recurring and one-off domestic cleaning.
+- [Deep cleaning](https://brightnestcleaning.vercel.app/services/deep-cleaning): Detailed room-by-room cleaning.
+- [End-of-tenancy cleaning](https://brightnestcleaning.vercel.app/services/end-of-tenancy-cleaning): Cleaning for a smoother handover.
+- [Office and commercial cleaning](https://brightnestcleaning.vercel.app/services/office-commercial-cleaning): Cleaning for workspaces and shared areas.
+
+## Policies
+
+- [Privacy policy](https://brightnestcleaning.vercel.app/privacy-policy): Privacy and personal-data information.
+- [Terms of service](https://brightnestcleaning.vercel.app/terms-of-service): Booking, cancellation and service terms.
+
+## Contact
+
+- Phone: [+44 7859 293986](tel:+447859293986)
+- WhatsApp: [Message BrightNest on WhatsApp](https://wa.me/447859293986)
+
+## Optional
+
+- [Sitemap](https://brightnestcleaning.vercel.app/sitemap.xml): Public URL inventory for search engines.
+- [AI resource catalog](https://brightnestcleaning.vercel.app/.well-known/ai-catalog.json): Machine-readable discovery metadata.

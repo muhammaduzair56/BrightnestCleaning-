@@ -1,4 +1,11 @@
 {
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "BrightNest Cleaning UK",
+    "identifier": "brightnestcleaning.vercel.app",
+    "documentationUrl": "https://brightnestcleaning.vercel.app/llms.txt",
+    "logoUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pQUupKLjmRbDVtER.webp"
+  },
   "entries": [
     {
       "identifier": "urn:air:brightnestcleaning.vercel.app:website:cleaning-services",
@@ -6,13 +13,9 @@
       "type": "text/html",
       "url": "https://brightnestcleaning.vercel.app/",
       "description": "Public BrightNest Cleaning UK website with domestic and specialist cleaning information and a UK-wide booking request flow.",
-      "representativeQueries": [
-        "What cleaning services does BrightNest offer?",
-        "How can I request a cleaning service from BrightNest?",
-        "Does BrightNest accept cleaning requests across the UK?"
-      ],
-      "capabilities": ["service-discovery", "booking-information"],
-      "tags": ["cleaning", "UK", "domestic cleaning", "specialist cleaning"]
+      "tags": ["cleaning", "UK", "domestic cleaning", "specialist cleaning"],
+      "version": "1.0",
+      "updatedAt": "2026-10-04T00:00:00Z"
     }
   ]
 }

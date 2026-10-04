@@ -96,6 +96,16 @@ export function applySeo({
 export const homeSchema = [
   {
     "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: DEFAULT_IMAGE,
+    telephone: "+447859293986",
+    contactPoint: { "@type": "ContactPoint", telephone: "+447859293986", contactType: "customer service", areaServed: "GB", availableLanguage: ["en-GB"] },
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "CleaningService",
     "@id": `${SITE_URL}/#business`,
     name: SITE_NAME,
