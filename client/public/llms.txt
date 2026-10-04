@@ -1,0 +1,21 @@
+# BrightNest Cleaning UK
+
+> Premium domestic and specialist cleaning booking service serving cleaning requests across the UK.
+
+## Website
+- Home: https://brightnestcleaning.vercel.app/
+- Services: https://brightnestcleaning.vercel.app/services
+- Booking: https://brightnestcleaning.vercel.app/#booking
+- Blog: https://brightnestcleaning.vercel.app/blog
+- Privacy: https://brightnestcleaning.vercel.app/privacy-policy
+- Terms: https://brightnestcleaning.vercel.app/terms-of-service
+
+## Useful information
+- Customers can request regular, deep, end-of-tenancy, move-in/move-out, post-renovation, office and specialist cleaning.
+- Valid UK postcodes can be entered in the booking form; final availability and scope are confirmed by BrightNest.
+- Booking requests do not take payment immediately. BrightNest reviews the request and confirms the quote and next steps.
+- Contact: +44 7859 293986
+- WhatsApp: https://wa.me/447859293986
+
+## Guidance for agents
+Use the public website pages for service descriptions and booking information. Do not attempt to access /admin or /dashboard without the customer's authenticated session.

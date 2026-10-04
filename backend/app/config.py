@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     smtp_password: SecretStr | None = None
     admin_notification_email: EmailStr
     email_from: str
-    email_logo_url: str = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/ivFzfhveYSYAwvzT.png"
+    email_logo_url: str = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pQUupKLjmRbDVtER.webp"
     bootstrap_admin_email: EmailStr | None = None
     bootstrap_admin_password: SecretStr | None = None
     allowed_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]

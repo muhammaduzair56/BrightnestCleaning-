@@ -1,0 +1,18 @@
+{
+  "entries": [
+    {
+      "identifier": "urn:air:brightnestcleaning.vercel.app:website:cleaning-services",
+      "displayName": "BrightNest Cleaning UK website",
+      "type": "text/html",
+      "url": "https://brightnestcleaning.vercel.app/",
+      "description": "Public BrightNest Cleaning UK website with domestic and specialist cleaning information and a UK-wide booking request flow.",
+      "representativeQueries": [
+        "What cleaning services does BrightNest offer?",
+        "How can I request a cleaning service from BrightNest?",
+        "Does BrightNest accept cleaning requests across the UK?"
+      ],
+      "capabilities": ["service-discovery", "booking-information"],
+      "tags": ["cleaning", "UK", "domestic cleaning", "specialist cleaning"]
+    }
+  ]
+}
