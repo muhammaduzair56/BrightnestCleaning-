@@ -355,7 +355,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
   .service-card-content button { align-items: flex-start; font-size: 0.58rem; line-height: 1.4; text-align: left; }
   .service-card-content p { line-height: 1.45; }
   .service-card-content .text-sm { font-size: 0.72rem; }
-  .guide-note > span[role="tooltip"] { left: auto; right: 0; width: min(18rem, calc(100vw - 2rem)); max-width: calc(100vw - 2rem); transform: translateY(4px) !important; }
+  .guide-note > span[role="tooltip"] { position: fixed; inset-inline: 1rem; bottom: 1rem; z-index: 50; width: auto; max-width: none; transform: translateY(4px) !important; }
   .guide-note:hover > span[role="tooltip"], .guide-note:focus-within > span[role="tooltip"], .guide-note.guide-note-open > span[role="tooltip"] { transform: translateY(0) !important; }
   .faq-item summary { padding-block: 1rem; }
   .trust-strip { padding-block: 1.35rem; }
