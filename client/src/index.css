@@ -221,7 +221,7 @@ button:disabled { cursor: not-allowed; }
 .guide-note-trigger { display: inline-grid; height: 2rem; width: 2rem; place-items: center; border-radius: 999px; color: inherit; outline: none; }
 .guide-note-trigger:hover, .guide-note-trigger:focus-visible { background: rgba(47,159,145,0.1); }
 .guide-note > span[role="tooltip"] { position: absolute; bottom: calc(100% + 0.65rem); left: 50%; z-index: 5; width: min(18rem, calc(100vw - 2.5rem)); border: 1px solid rgba(23,49,55,0.12); border-radius: 14px; background: #173137; padding: 0.75rem 0.85rem; color: #f8f6ef; font-size: 0.72rem; line-height: 1.45; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
-.guide-note:hover > span[role="tooltip"], .guide-note:focus-within > span[role="tooltip"], .guide-note-open > span[role="tooltip"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.guide-note:hover > span[role="tooltip"], .guide-note.guide-note-open > span[role="tooltip"], .guide-note-trigger:focus-visible + span[role="tooltip"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 
 .booking-step { display: flex; align-items: center; gap: 0.5rem; border-radius: 14px; padding: 0.7rem; color: rgba(255,255,255,0.45); text-align: left; transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
 
@@ -355,8 +355,9 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
   .service-card-content button { align-items: flex-start; font-size: 0.58rem; line-height: 1.4; text-align: left; }
   .service-card-content p { line-height: 1.45; }
   .service-card-content .text-sm { font-size: 0.72rem; }
-  .guide-note > span[role="tooltip"] { position: fixed; inset-inline: 1rem; bottom: 1rem; z-index: 50; width: auto; max-width: none; transform: translateY(4px) !important; }
-  .guide-note:hover > span[role="tooltip"], .guide-note:focus-within > span[role="tooltip"], .guide-note.guide-note-open > span[role="tooltip"] { transform: translateY(0) !important; }
+  .guide-note > span[role="tooltip"] { left: 50%; right: auto; z-index: 50; width: min(18rem, calc(100vw - 2rem)); max-width: calc(100vw - 2rem); transform: translate(-50%, 4px) !important; }
+  .guide-note:hover > span[role="tooltip"] { opacity: 0; pointer-events: none; transform: translate(-50%, 4px) !important; }
+  .guide-note.guide-note-open > span[role="tooltip"], .guide-note-trigger:focus-visible + span[role="tooltip"] { opacity: 1; pointer-events: auto; transform: translate(-50%, 0) !important; }
   .faq-item summary { padding-block: 1rem; }
   .trust-strip { padding-block: 1.35rem; }
 }
