@@ -75,6 +75,15 @@ export type AdminChangeRequest = CustomerChangeRequest & {
   resolution: "approved" | "declined" | null;
   resolution_note: string | null;
 };
+export type AdminNotification = {
+  id: string;
+  action: string;
+  booking_id: string | null;
+  booking_customer_name: string | null;
+  booking_service_type: string | null;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+};
 
 const configuredApiUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/$/, "");
 
@@ -127,6 +136,7 @@ export const bookingApi = {
   changeRequests: (token: string, status: "requested" | "reviewed" | "resolved" = "requested") => request<AdminChangeRequest[]>(`/admin/change-requests?status=${status}`, {}, token),
   updateChangeRequest: (token: string, requestId: string, payload: { status: "reviewed" | "resolved"; resolution?: "approved" | "declined"; resolution_note?: string }) =>
     request<AdminChangeRequest>(`/admin/change-requests/${requestId}`, { method: "PATCH", body: JSON.stringify(payload) }, token),
+  notifications: (token: string, limit = 30) => request<AdminNotification[]>(`/admin/notifications?limit=${limit}`, {}, token),
 };
 
 async function requestBlob(path: string, accessToken: string): Promise<Blob> {

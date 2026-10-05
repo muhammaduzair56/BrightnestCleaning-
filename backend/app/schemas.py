@@ -333,6 +333,16 @@ class AdminAnalyticsResponse(BaseModel):
     months: list[AdminAnalyticsMonth]
 
 
+class AdminNotificationRead(BaseModel):
+    id: str
+    action: str
+    booking_id: str | None
+    booking_customer_name: str | None
+    booking_service_type: str | None
+    metadata: dict[str, object] | None
+    created_at: datetime
+
+
 class ReferralCodeCheckRequest(BaseModel):
     code: str = Field(min_length=3, max_length=32)
 

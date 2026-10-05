@@ -15,7 +15,7 @@ from app.config import get_settings
 from app.database import get_db
 from app.models import AdminUser, AuditEvent, Booking, BookingStatus, CustomerChangeRequest, CustomerChangeRequestStatus, ReferralCode, RecurringBookingPlan
 from app.notifications import notify_customer_booking_confirmation, notify_customer_change_resolution, notify_new_booking
-from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, AvailabilitySlot, BookingAccepted, BookingAvailabilityResponse, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
+from app.schemas import AdminAnalyticsMonth, AdminAnalyticsResponse, AdminChangeRequestRead, AdminChangeRequestUpdate, AdminNotificationRead, AvailabilitySlot, BookingAccepted, BookingAvailabilityResponse, BookingCreate, BookingListResponse, BookingRead, BookingUpdate, DashboardResponse, ReferralCodeCheckRequest, ReferralCodeCheckResponse
 from app.security import get_current_admin
 
 router = APIRouter(tags=["bookings"])
@@ -177,6 +177,32 @@ def list_change_requests(
             resolution_note=request.resolution_note,
         )
         for request in requests
+    ]
+
+
+@router.get("/admin/notifications", response_model=list[AdminNotificationRead])
+def list_admin_notifications(
+    limit: int = Query(default=30, ge=1, le=100),
+    db: Session = Depends(get_db),
+    admin: AdminUser = Depends(get_current_admin),
+) -> list[AdminNotificationRead]:
+    events = db.scalars(
+        select(AuditEvent)
+        .options(selectinload(AuditEvent.booking))
+        .order_by(AuditEvent.created_at.desc())
+        .limit(limit)
+    ).all()
+    return [
+        AdminNotificationRead(
+            id=event.id,
+            action=event.action,
+            booking_id=event.booking_id,
+            booking_customer_name=event.booking.customer_name if event.booking else None,
+            booking_service_type=event.booking.service_type if event.booking else None,
+            metadata=event.metadata_json,
+            created_at=event.created_at,
+        )
+        for event in events
     ]
 
 

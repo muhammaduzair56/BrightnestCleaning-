@@ -2,8 +2,8 @@
  * BrightNest design reminder — the private admin uses the same calm ink/mint system as the
  * public site, with operational density, direct status clarity and no customer-facing clutter.
  */
-import { AdminAnalytics, AdminAnalyticsMonth, AdminChangeRequest, Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
-import { Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck, CalendarClock, X } from "lucide-react";
+import { AdminAnalytics, AdminAnalyticsMonth, AdminChangeRequest, AdminNotification, Booking, BookingStatus, PaymentStatus, bookingApi, configuredApiUrl, Dashboard } from "@/lib/api";
+import { Bell, Check, ChevronRight, ClipboardList, LockKeyhole, LogOut, Mail, RefreshCcw, ShieldCheck, CalendarClock, X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { applySeo } from "@/lib/seo";
@@ -26,6 +26,19 @@ const statusTone: Record<BookingStatus, string> = {
   completed: "bg-[#dce8d5] text-[#173137]",
   cancelled: "bg-[#eee9dd] text-[#173137]/65",
 };
+
+function notificationTitle(notification: AdminNotification) {
+  if (notification.action === "booking_created") return "New booking request received";
+  if (notification.action === "booking_updated") return "Booking details updated";
+  if (notification.action === "customer_change_request_updated") return "Customer change request updated";
+  if (notification.action === "admin_bootstrapped") return "Admin workspace created";
+  if (notification.action === "admin_logged_in") return "Admin signed in";
+  return notification.action.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function notificationTime(value: string) {
+  return new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+}
 
 function readStoredToken() {
   return sessionStorage.getItem("brightnest_admin_access") ?? "";
@@ -63,6 +76,8 @@ export default function Admin() {
   const [selected, setSelected] = useState<Booking | null>(null);
   const [changeRequests, setChangeRequests] = useState<AdminChangeRequest[]>([]);
   const [selectedChangeRequest, setSelectedChangeRequest] = useState<AdminChangeRequest | null>(null);
+  const [notifications, setNotifications] = useState<AdminNotification[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [resolutionNote, setResolutionNote] = useState("");
 
   useEffect(() => {
@@ -98,16 +113,18 @@ export default function Admin() {
     setLoading(true);
     setError("");
     try {
-      const [dashboardResponse, analyticsResponse, bookingsResponse, requestsResponse] = await Promise.all([
+      const [dashboardResponse, analyticsResponse, bookingsResponse, requestsResponse, notificationsResponse] = await Promise.all([
         bookingApi.dashboard(activeToken),
         bookingApi.analytics(activeToken, appliedStartDate, appliedEndDate, appliedServiceType),
         bookingApi.list(activeToken, activeFilter),
         bookingApi.changeRequests(activeToken, "requested"),
+        bookingApi.notifications(activeToken),
       ]);
       setDashboard(dashboardResponse);
       setAnalytics(analyticsResponse);
       setBookings(bookingsResponse.items);
       setChangeRequests(requestsResponse);
+      setNotifications(notificationsResponse);
     } catch (requestError) {
       const message = requestError instanceof Error ? requestError.message : "Could not load booking requests.";
       setError(message);
@@ -172,6 +189,7 @@ export default function Admin() {
     setAnalytics(null);
     setSelected(null);
     setChangeRequests([]);
+    setNotifications([]);
     setSelectedChangeRequest(null);
   };
 
@@ -252,7 +270,7 @@ export default function Admin() {
     <div className="admin-dashboard-shell">
       <aside className="admin-sidebar">
         <Link href="/" className="flex items-center gap-3"><span className="brand-mark grid h-11 w-11 place-items-center rounded-[16px] bg-[#d9f0e8]"><ShieldCheck className="h-5 w-5 text-[#2f9f91]" /></span><span className="font-display text-[28px] tracking-[-0.055em]">BrightNest</span></Link>
-        <div className="mt-14 space-y-2"><span className="admin-nav-item admin-nav-current"><ClipboardList className="h-4 w-4" /> Booking requests</span><span className="admin-nav-item text-white/45"><Mail className="h-4 w-4" /> Notification centre</span></div>
+        <div className="mt-14 space-y-2"><button type="button" onClick={() => setShowNotifications(false)} className={`admin-nav-item w-full ${!showNotifications ? "admin-nav-current" : "text-white/45"}`}><ClipboardList className="h-4 w-4" /> Booking requests</button><button type="button" onClick={() => setShowNotifications(true)} className={`admin-nav-item w-full ${showNotifications ? "admin-nav-current" : "text-white/45"}`}><Mail className="h-4 w-4" /> Notification centre{notifications.length > 0 && <span className="ml-auto rounded-full bg-[#f1c9ad] px-2 py-0.5 text-[10px] font-extrabold text-[#173137]">{notifications.length}</span>}</button></div>
         <button className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-white/60 transition-colors hover:text-white" onClick={logout}><LogOut className="h-4 w-4" /> Sign out</button>
       </aside>
       <main className="min-w-0 bg-[#f8f6ef] p-5 sm:p-8 lg:p-12">
@@ -262,7 +280,7 @@ export default function Admin() {
         </div>
         {error && <p className="admin-error mt-6" role="alert">{error}</p>}
         <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-5 sm:p-6" aria-label="Analytics date range filter"><div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end"><div><p className="eyebrow text-[#2f9f91]">Analytics window</p><h2 className="font-display mt-2 text-2xl tracking-[-0.04em]">Choose a date range</h2><p className="mt-2 text-sm leading-6 text-[#173137]/60">Filter bookings, recorded revenue and cancellation trends by preferred visit date.</p></div><div className="flex flex-col gap-3 sm:flex-row sm:items-end"><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">Service<select value={serviceType} onChange={(event) => setServiceType(event.target.value)} className="admin-input min-w-[190px] bg-white normal-case tracking-normal"><option value="">All services</option>{analyticsServices.map((service) => <option key={service} value={service}>{service}</option>)}</select></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">From<input type="date" value={startDate} max={endDate || undefined} onChange={(event) => setStartDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><label className="grid gap-1.5 text-xs font-extrabold uppercase tracking-[0.1em] text-[#173137]/55">To<input type="date" value={endDate} min={startDate || undefined} onChange={(event) => setEndDate(event.target.value)} className="admin-input min-w-[150px] bg-white normal-case tracking-normal" /></label><div className="flex gap-2"><button type="button" onClick={applyDateRange} disabled={loading} className="admin-action-button justify-center bg-[#173137] text-white">Apply</button><button type="button" onClick={clearDateRange} disabled={loading || (!startDate && !endDate && !appliedStartDate && !appliedEndDate)} className="admin-action-button justify-center">Clear</button></div></div></div><p className="mt-4 text-xs font-bold text-[#173137]/45">{appliedServiceType ? `${appliedServiceType} · ` : ""}{appliedStartDate && appliedEndDate ? `Showing ${appliedStartDate} to ${appliedEndDate}` : "All services · latest six-month overview."}</p></section>
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+        {showNotifications ? <section className="mt-8 rounded-[24px] border border-[#173137]/10 bg-white p-5 sm:p-7" aria-label="Notification centre"><div className="flex flex-col justify-between gap-4 border-b border-[#173137]/10 pb-5 sm:flex-row sm:items-end"><div><p className="eyebrow text-[#2f9f91]">Recent activity</p><h2 className="font-display mt-2 text-3xl tracking-[-0.05em]">Notification centre</h2><p className="mt-2 text-sm leading-6 text-[#173137]/60">Booking and admin activity appears here as soon as it is recorded.</p></div><button type="button" onClick={() => void loadData()} disabled={loading} className="admin-action-button justify-center"><RefreshCcw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button></div>{notifications.length === 0 ? <div className="mt-6 rounded-2xl bg-[#edf3ed] p-6 text-sm font-bold text-[#173137]/60">No notifications have been recorded yet.</div> : <div className="mt-6 divide-y divide-[#173137]/10">{notifications.map((notification) => <article key={notification.id} className="flex gap-4 py-4 first:pt-0 last:pb-0"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#d9f0e8] text-[#2f9f91]"><Bell className="h-4 w-4" /></span><div className="min-w-0"><div className="flex flex-wrap items-center gap-x-3 gap-y-1"><h3 className="font-extrabold text-[#173137]">{notificationTitle(notification)}</h3><time className="text-xs font-bold text-[#173137]/45" dateTime={notification.created_at}>{notificationTime(notification.created_at)}</time></div><p className="mt-1 text-sm text-[#173137]/65">{notification.booking_customer_name ? `${notification.booking_customer_name}${notification.booking_service_type ? ` · ${notification.booking_service_type}` : ""}` : "BrightNest operations"}</p>{notification.booking_id && <p className="mt-1 text-xs font-bold text-[#2f9f91]">Reference {notification.booking_id.slice(0, 8)}</p>}</div></article>)}</div>}</section> : <><div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
           {(["total", "new", "contacted", "confirmed", "completed", "cancelled"] as const).map((key) => <div key={key} className="admin-stat"><span>{key === "total" ? "All requests" : statusLabels[key]}</span><strong>{dashboard?.[key] ?? "—"}</strong></div>)}
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -288,7 +306,7 @@ export default function Admin() {
           <aside className="rounded-[24px] border border-[#173137]/10 bg-[#edf3ed] p-6">
             {selected ? <><div className="flex items-start justify-between gap-3"><div><p className="eyebrow">Request details</p><h2 className="font-display mt-3 text-3xl tracking-[-0.05em]">{selected.customer_name}</h2></div><span className={`admin-status ${statusTone[selected.status]}`}>{statusLabels[selected.status]}</span></div><div className="mt-7 space-y-4 text-sm"><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Service</strong>{selected.service_type} · {selected.frequency}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Property details</strong>{selected.bin_cleaning ? "Bin cleaning — room counts not applicable" : selected.bedrooms === 0 && selected.bathrooms === 0 ? "Specialist service — room counts not applicable" : `${selected.bedrooms} bedroom${selected.bedrooms === 1 ? "" : "s"} · ${selected.bathrooms} bathroom${selected.bathrooms === 1 ? "" : "s"}`}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Preferred visit</strong>{selected.preferred_date} at {selected.preferred_time.slice(0, 5)}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Contact</strong>{selected.customer_email}<br />{selected.postcode}</p><p><strong className="block text-xs uppercase tracking-[0.12em] text-[#173137]/45">Customer note</strong>{selected.notes || "No additional note"}</p></div><div className="mt-7 border-t border-[#173137]/10 pt-6"><p className="eyebrow">Pricing & payment</p><div className="mt-4 grid grid-cols-2 gap-3"><label className="admin-label">Currency<input className="admin-input" value={currency} onChange={(event) => setCurrency(event.target.value.toUpperCase())} maxLength={3} /></label><label className="admin-label">Payment status<select className="admin-input" value={paymentStatus} onChange={(event) => setPaymentStatus(event.target.value as PaymentStatus)}><option value="unpaid">Unpaid</option><option value="paid">Paid</option><option value="partially_refunded">Partially refunded</option><option value="refunded">Refunded</option><option value="failed">Failed</option></select></label><label className="admin-label">Subtotal (pence)<input className="admin-input" type="number" min="0" step="1" value={subtotalPence} onChange={(event) => setSubtotalPence(event.target.value)} placeholder="e.g. 12000" /></label><label className="admin-label">Tax rate (%)<input className="admin-input" type="number" min="0" max="100" step="0.01" value={taxRatePercent} onChange={(event) => setTaxRatePercent(event.target.value)} placeholder="e.g. 20" /></label><label className="admin-label">Tax (pence)<input className="admin-input" type="number" min="0" step="1" value={taxPence} onChange={(event) => setTaxPence(event.target.value)} placeholder="e.g. 2400" /></label><label className="admin-label">Total (pence)<input className="admin-input" type="number" min="0" step="1" value={totalPence} onChange={(event) => setTotalPence(event.target.value)} placeholder="e.g. 14400" /></label></div><label className="admin-label mt-3">Payment provider<input className="admin-input" value={paymentProvider} onChange={(event) => setPaymentProvider(event.target.value)} placeholder="e.g. Stripe" /></label><label className="admin-label mt-3">Payment reference<input className="admin-input" value={paymentReference} onChange={(event) => setPaymentReference(event.target.value)} placeholder="Provider reference only — no card details" /></label><label className="admin-label mt-3">Paid at<input className="admin-input" type="datetime-local" value={paidAt} onChange={(event) => setPaidAt(event.target.value)} /></label><p className="mt-3 text-xs leading-5 text-[#173137]/50">Amounts are stored as whole pence. Never enter card numbers, bank details or security codes.</p></div><label className="admin-label mt-7" htmlFor="admin-notes">Internal note</label><textarea id="admin-notes" className="admin-input min-h-28 resize-y" value={adminNotes} onChange={(event) => setAdminNotes(event.target.value)} placeholder="Next action, quote or contact note" /><button disabled={saving} onClick={() => void updateBooking(selected.status)} className="admin-action-button mt-4 w-full justify-center">{saving ? "Saving…" : "Save pricing & payment"}</button><div className="mt-5 grid grid-cols-2 gap-2">{(["contacted", "confirmed", "completed", "cancelled"] as BookingStatus[]).map((nextStatus) => <button key={nextStatus} disabled={saving} onClick={() => void updateBooking(nextStatus)} className="admin-action-button">{nextStatus === selected.status ? <Check className="h-3.5 w-3.5" /> : null}{statusLabels[nextStatus]}</button>)}</div></> : <div className="grid min-h-[340px] place-items-center text-center"><div><span className="admin-icon mx-auto"><ClipboardList className="h-6 w-6" /></span><p className="mt-5 text-sm font-bold text-[#173137]/60">Select a request to see the full details and next action.</p></div></div>}
           </aside>
-        </div>
+        </div></>}
       </main>
     </div>
   );
