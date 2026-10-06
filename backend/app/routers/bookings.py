@@ -34,6 +34,11 @@ TIME_SLOT_DEFINITIONS = (
     ("17:00", "5:00 pm", "Evening"),
 )
 ACTIVE_BOOKING_STATUSES = (BookingStatus.NEW, BookingStatus.CONTACTED, BookingStatus.CONFIRMED)
+CLIENT_NOTIFICATION_ACTIONS = (
+    "booking_created",
+    "customer_change_request_created",
+    "customer_data_request_created",
+)
 
 
 def _booking_read(booking: Booking) -> BookingRead:
@@ -189,6 +194,7 @@ def list_admin_notifications(
     events = db.scalars(
         select(AuditEvent)
         .options(selectinload(AuditEvent.booking))
+        .where(AuditEvent.action.in_(CLIENT_NOTIFICATION_ACTIONS))
         .order_by(AuditEvent.created_at.desc())
         .limit(limit)
     ).all()

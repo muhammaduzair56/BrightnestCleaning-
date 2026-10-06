@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.database import get_db
-from app.models import Booking, CustomerChangeRequest, CustomerChangeRequestStatus, CustomerDataRequest, CustomerMagicLink
+from app.models import AuditEvent, Booking, CustomerChangeRequest, CustomerChangeRequestStatus, CustomerDataRequest, CustomerMagicLink
 from app.notifications import notify_customer_change_request, send_customer_magic_link
 from app.receipts import build_completed_receipt_pdf
 from app.schemas import (
@@ -106,6 +106,7 @@ def create_customer_data_request(
         return CustomerDataRequestResponse(id=existing.id, request_type=payload.request_type, status=existing.status, message="Your request is already being reviewed by BrightNest.")
     request = CustomerDataRequest(customer_email=customer_email, request_type=payload.request_type)
     db.add(request)
+    db.add(AuditEvent(action="customer_data_request_created", metadata_json={"request_type": payload.request_type, "customer_email": customer_email}))
     db.commit()
     db.refresh(request)
     return CustomerDataRequestResponse(id=request.id, request_type=payload.request_type, status=request.status, message="Your request has been securely recorded. BrightNest will contact you to complete it.")
@@ -178,6 +179,7 @@ def create_customer_change_request(
         message=payload.message,
     )
     db.add(change_request)
+    db.add(AuditEvent(booking_id=booking.id, action="customer_change_request_created", metadata_json={"request_type": payload.request_type.value, "customer_email": customer_email}))
     db.commit()
     db.refresh(change_request)
     background_tasks.add_task(notify_customer_change_request, change_request.id)

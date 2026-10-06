@@ -29,10 +29,8 @@ const statusTone: Record<BookingStatus, string> = {
 
 function notificationTitle(notification: AdminNotification) {
   if (notification.action === "booking_created") return "New booking request received";
-  if (notification.action === "booking_updated") return "Booking details updated";
-  if (notification.action === "customer_change_request_updated") return "Customer change request updated";
-  if (notification.action === "admin_bootstrapped") return "Admin workspace created";
-  if (notification.action === "admin_logged_in") return "Admin signed in";
+  if (notification.action === "customer_change_request_created") return "Customer change request received";
+  if (notification.action === "customer_data_request_created") return "Customer data request received";
   return notification.action.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
