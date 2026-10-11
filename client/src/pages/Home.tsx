@@ -34,6 +34,9 @@ const BookingCalendar = lazy(() => import("@/components/ui/calendar").then((modu
 
 type BookingStep = 1 | 2 | 3;
 
+// Temporary pause: keep the calculator logic available, but do not display calculated totals.
+const SHOW_INDICATIVE_PRICE_CALCULATOR = false;
+
 const services = [
   {
     eyebrow: "Everyday care",
@@ -323,7 +326,7 @@ export default function Home() {
   const baseHourlyRate = Number(selectedService?.price.match(/£(\d+)/)?.[1] ?? 0);
   const roomAdjustment = Math.max(0, Number(bedrooms) - 1) * 10 + Math.max(0, Number(bathrooms) - 1) * 8;
   const binAdjustment = binCleaning ? 15 : 0;
-  const indicativeTotal = baseHourlyRate ? baseHourlyRate * 2 + roomAdjustment + binAdjustment : null;
+  const indicativeTotal = SHOW_INDICATIVE_PRICE_CALCULATOR && baseHourlyRate ? baseHourlyRate * 2 + roomAdjustment + binAdjustment : null;
   const selectedFrequency = visitRhythms.find((item) => item.value === frequency) ?? visitRhythms[0];
   const selectedTime = timeSlots.find((item) => item.value === time);
   const selectedDate = date ? new Date(`${date}T12:00:00`) : undefined;
@@ -857,7 +860,7 @@ export default function Home() {
                           <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
                           <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/72">We’ll confirm the exact scope and quote with your booking request.</small></span>
                         </label>}
-                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Indicative price</p><p className="mt-1 text-xs leading-5 text-white/72">Based on a two-hour starting visit and the details selected.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
+                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Price</p><p className="mt-1 text-xs leading-5 text-white/72">BrightNest will review the property details and provide a tailored quote before confirming the booking.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
