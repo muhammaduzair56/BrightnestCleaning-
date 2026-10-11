@@ -81,6 +81,7 @@ class Booking(Base):
     bedrooms: Mapped[int] = mapped_column(nullable=False, default=1)
     bathrooms: Mapped[int] = mapped_column(nullable=False, default=1)
     bin_cleaning: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    additional_services: Mapped[dict[str, object] | None] = mapped_column(JSON, nullable=True)
     notes: Mapped[str | None] = mapped_column(Text)
     status: Mapped[BookingStatus] = mapped_column(
         Enum(BookingStatus, name="booking_status", values_callable=enum_values),

@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from io import BytesIO
 
 import pytest
@@ -13,13 +13,13 @@ os.environ["APP_ENV"] = "test"
 os.environ["TRUSTED_HOSTS"] = "testserver,localhost,127.0.0.1"
 
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
 from app.cache import cache
 from app.database import Base, get_db
 from app.main import app
-from app.models import AdminUser, Booking, BookingStatus, PaymentStatus
+from app.models import AdminUser, Booking, BookingStatus, PaymentStatus, RecurringBookingPlan
 from app.schemas import BookingCreate, BookingUpdate
 from app.security import create_access_token, decode_token, hash_password
 
@@ -135,6 +135,234 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
     finally:
         app.dependency_overrides.clear()
         engine.dispose()
+
+
+def test_additional_services_are_persisted_and_visible_to_admin(monkeypatch, tmp_path):
+    database_path = tmp_path / "brightnest-additional-services.sqlite"
+    engine = create_engine(f"sqlite:///{database_path}")
+    Base.metadata.create_all(engine)
+    TestSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def override_db():
+        session = TestSession()
+        try:
+            yield session
+        finally:
+            session.close()
+
+    async def skip_email_delivery(booking_id: str):
+        return None
+
+    with TestSession() as session:
+        session.add(AdminUser(email="admin@brightnest-cleaning.co.uk", password_hash=hash_password("StrongAdminPass123")))
+        session.commit()
+
+    app.dependency_overrides[get_db] = override_db
+    monkeypatch.setattr("app.routers.bookings.notify_new_booking", skip_email_delivery)
+    monkeypatch.setattr("app.routers.bookings.notify_customer_booking_confirmation", skip_email_delivery)
+    cache._local.clear()
+    cache._local_limits.clear()
+    client = TestClient(app)
+    additional_services = {
+        "bin_cleaning": {
+            "number_of_bins": 2,
+            "bins": [{"type_or_colour": "Black"}, {"type_or_colour": "  "}],
+            "collection_day": "Tuesday",
+            "frequency": "Recurring",
+            "notes": "Use the side gate.",
+        },
+        "items": [
+            {"service": "Kitchen deep cleaning", "kitchen_requirements": "Inside cupboards"},
+            {"service": "Single oven cleaning", "quantity": 2},
+            {"service": "Inside window cleaning", "number_of_windows": 5, "side": "Both"},
+            {"service": "Other", "description": "Clean the conservatory"},
+        ],
+    }
+    try:
+        booking_response = client.post(
+            "/api/v1/bookings",
+            json={
+                "customer_name": "Amina Khan",
+                "customer_email": "amina@example.co.uk",
+                "postcode": "B1 1AA",
+                "service_type": "Deep cleaning",
+                "frequency": "One-off visit",
+                "preferred_date": "2030-01-01",
+                "preferred_time": "10:30:00",
+                "bedrooms": 3,
+                "bathrooms": 2,
+                "bin_cleaning": False,
+                "additional_services": additional_services,
+                "privacy_consent": True,
+                "notes": "Keep this separate from service details.",
+            },
+        )
+        assert booking_response.status_code == 201, booking_response.text
+        booking_id = booking_response.json()["booking_id"]
+
+        login_response = client.post(
+            "/api/v1/admin/auth/login",
+            json={"email": "admin@brightnest-cleaning.co.uk", "password": "StrongAdminPass123"},
+        )
+        assert login_response.status_code == 200
+        headers = {"Authorization": f"Bearer {login_response.json()['access_token']}"}
+        detail_response = client.get(f"/api/v1/admin/bookings/{booking_id}", headers=headers)
+        assert detail_response.status_code == 200
+        booking = detail_response.json()
+        assert booking["bin_cleaning"] is True
+        assert booking["notes"] == "Keep this separate from service details."
+        assert booking["additional_services"]["bin_cleaning"] == {
+            "number_of_bins": 2,
+            "bins": [{"type_or_colour": "Black"}, {"type_or_colour": None}],
+            "collection_day": "Tuesday",
+            "frequency": "Recurring",
+            "notes": "Use the side gate.",
+        }
+        assert [item["service"] for item in booking["additional_services"]["items"]] == [
+            "Kitchen deep cleaning",
+            "Single oven cleaning",
+            "Inside window cleaning",
+            "Other",
+        ]
+        assert booking["additional_services"]["items"][-1]["description"] == "Clean the conservatory"
+        with TestSession() as session:
+            plan = session.scalar(select(RecurringBookingPlan).where(RecurringBookingPlan.source_booking_id == booking_id))
+            assert plan is None
+    finally:
+        app.dependency_overrides.clear()
+        cache._local.clear()
+        cache._local_limits.clear()
+        engine.dispose()
+
+
+def test_additional_services_contract_validates_bin_counts_and_other_description():
+    base = {
+        "customer_name": "Amina Khan",
+        "customer_email": "amina@example.co.uk",
+        "postcode": "B1 1AA",
+        "service_type": "Deep cleaning",
+        "frequency": "One-off visit",
+        "preferred_date": "2030-01-01",
+        "preferred_time": "10:30:00",
+        "privacy_consent": True,
+    }
+    valid = BookingCreate.model_validate(
+        {
+            **base,
+            "additional_services": {
+                "bin_cleaning": {"number_of_bins": 2, "frequency": "One-off"},
+                "items": [{"service": "Carpet/rug cleaning"}],
+            },
+        }
+    )
+    assert valid.bin_cleaning is True
+    assert len(valid.additional_services.bin_cleaning.bins) == 2
+
+    primary_bin = BookingCreate.model_validate(
+        {
+            **base,
+            "service_type": "Bin cleaning",
+            "bedrooms": 0,
+            "bathrooms": 0,
+            "additional_services": {"bin_cleaning": {"number_of_bins": 1, "frequency": "One-off"}, "items": []},
+        }
+    )
+    assert primary_bin.service_type == "Bin cleaning"
+    assert primary_bin.bin_cleaning is True
+
+    with pytest.raises(ValueError, match="description is required"):
+        BookingCreate.model_validate({**base, "additional_services": {"items": [{"service": "Other", "description": "  "}]}})
+
+    with pytest.raises(ValueError, match="Provide one bin type/colour entry"):
+        BookingCreate.model_validate(
+            {
+                **base,
+                "additional_services": {
+                    "bin_cleaning": {"number_of_bins": 2, "bins": [{"type_or_colour": "Green"}]},
+                    "items": [],
+                },
+            }
+        )
+
+    with pytest.raises(ValueError, match="only be selected once"):
+        BookingCreate.model_validate(
+            {
+                **base,
+                "additional_services": {
+                    "items": [
+                        {"service": "Single oven cleaning"},
+                        {"service": "Single oven cleaning", "quantity": 2},
+                    ]
+                },
+            }
+        )
+
+
+def test_recurring_generation_only_copies_recurring_bin_details(tmp_path):
+    from app.routers.bookings import run_recurring_bookings
+
+    database_path = tmp_path / "brightnest-recurring-additional-services.sqlite"
+    engine = create_engine(f"sqlite:///{database_path}")
+    Base.metadata.create_all(engine)
+    TestSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+    recurring_bin = {"number_of_bins": 1, "bins": [{"type_or_colour": "Green"}], "frequency": "Recurring"}
+    one_off_bin = {"number_of_bins": 1, "bins": [{"type_or_colour": "Black"}], "frequency": "One-off"}
+    source_ids: dict[str, str] = {}
+    plan_ids: dict[str, str] = {}
+
+    with TestSession() as session:
+        admin = AdminUser(email="admin@brightnest-cleaning.co.uk", password_hash=hash_password("StrongAdminPass123"))
+        session.add(admin)
+        session.flush()
+        for key, service, bin_details, items in (
+            ("recurring", "Deep cleaning", recurring_bin, [{"service": "Single oven cleaning", "quantity": 2}]),
+            ("one-off", "Deep cleaning", one_off_bin, []),
+            ("bin-only", "Bin cleaning", one_off_bin, []),
+        ):
+            source = Booking(
+                customer_name="Amina Khan",
+                customer_email=f"{key}@example.co.uk",
+                customer_phone="07123456789",
+                postcode="B1 1AA",
+                service_type=service,
+                frequency="Weekly",
+                preferred_date=date.today() - timedelta(days=7),
+                preferred_time=time(10, 30),
+                bedrooms=0 if service == "Bin cleaning" else 1,
+                bathrooms=0 if service == "Bin cleaning" else 1,
+                bin_cleaning=True,
+                additional_services={"bin_cleaning": bin_details, "items": items},
+                notes="Original note",
+                status=BookingStatus.CONFIRMED,
+            )
+            session.add(source)
+            session.flush()
+            plan = RecurringBookingPlan(
+                source_booking_id=source.id,
+                customer_email=source.customer_email,
+                frequency="Weekly",
+                next_date=date.today() - timedelta(days=1),
+                active=True,
+            )
+            session.add(plan)
+            session.flush()
+            source_ids[key] = source.id
+            plan_ids[key] = plan.id
+        session.commit()
+
+        result = run_recurring_bookings(session, admin)
+        assert result == {"created": 2, "plans_checked": 3}
+        generated = session.scalars(select(Booking).where(Booking.id.not_in(source_ids.values()))).all()
+        by_email = {booking.customer_email: booking for booking in generated}
+        recurring_copy = by_email["recurring@example.co.uk"]
+        assert recurring_copy.bin_cleaning is True
+        assert recurring_copy.additional_services["bin_cleaning"]["frequency"] == "Recurring"
+        assert recurring_copy.additional_services["items"] == []
+        one_off_copy = by_email["one-off@example.co.uk"]
+        assert one_off_copy.bin_cleaning is False
+        assert one_off_copy.additional_services == {"bin_cleaning": None, "items": []}
+        assert session.get(RecurringBookingPlan, plan_ids["bin-only"]).active is False
+    engine.dispose()
 
 
 def test_public_booking_endpoint_applies_rate_limit_before_database_work():

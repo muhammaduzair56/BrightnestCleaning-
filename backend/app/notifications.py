@@ -70,6 +70,49 @@ def _send_email_sync(*, recipients: list[str], subject: str, html: str, reply_to
         client.send_message(message)
 
 
+def _additional_services_email_html(additional_services: object) -> str:
+    if not isinstance(additional_services, dict):
+        return ""
+
+    groups: list[tuple[str, list[tuple[str, object]]]] = []
+    bin_details = additional_services.get("bin_cleaning")
+    if isinstance(bin_details, dict):
+        bin_rows: list[tuple[str, object]] = [
+            ("Number of bins", bin_details.get("number_of_bins", 1)),
+            ("Frequency", bin_details.get("frequency", "One-off")),
+        ]
+        for index, item in enumerate(bin_details.get("bins", []), start=1):
+            if isinstance(item, dict):
+                bin_rows.append((f"Bin {index} type/colour", item.get("type_or_colour") or "Not specified"))
+        if bin_details.get("collection_day"):
+            bin_rows.append(("Collection day", bin_details["collection_day"]))
+        if bin_details.get("notes"):
+            bin_rows.append(("Bin notes", bin_details["notes"]))
+        groups.append(("Bin cleaning", bin_rows))
+
+    items = additional_services.get("items", [])
+    if isinstance(items, list):
+        for item in items:
+            if not isinstance(item, dict) or not item.get("service"):
+                continue
+            rows = [
+                (key.replace("_", " ").capitalize(), value)
+                for key, value in item.items()
+                if key != "service" and value is not None and value != ""
+            ]
+            groups.append((str(item["service"]), rows))
+
+    if not groups:
+        return ""
+    rendered_groups = "".join(
+        f"<li><strong>{escape(label)}</strong><ul>"
+        + "".join(f"<li>{escape(field)}: {escape(str(value))}</li>" for field, value in rows)
+        + "</ul></li>"
+        for label, rows in groups
+    )
+    return f"<h3>Additional Cleaning Services</h3><ul>{rendered_groups}</ul>"
+
+
 def _booking_email_html(booking: Booking) -> str:
     rows = [
         ("Reference", booking.id),
@@ -88,7 +131,8 @@ def _booking_email_html(booking: Booking) -> str:
         f"<td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(str(value))}</td></tr>"
         for label, value in rows
     )
-    return f"<h2>New BrightNest booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>"
+    additional_services_html = _additional_services_email_html(booking.additional_services)
+    return f"<h2>New BrightNest booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>{additional_services_html}"
 
 
 def _booking_confirmation_html(booking: Booking) -> str:

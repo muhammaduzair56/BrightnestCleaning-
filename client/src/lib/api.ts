@@ -5,6 +5,31 @@
 export type BookingStatus = "new" | "contacted" | "confirmed" | "cancelled" | "completed";
 export type PaymentStatus = "unpaid" | "paid" | "partially_refunded" | "refunded" | "failed";
 
+export type BinCleaningDetails = {
+  number_of_bins: number;
+  bins: Array<{ type_or_colour?: string }>;
+  collection_day?: string;
+  frequency: "One-off" | "Recurring";
+  notes?: string;
+};
+
+export type AdditionalCleaningItem =
+  | { service: "Kitchen deep cleaning"; kitchen_requirements?: string }
+  | { service: "Single oven cleaning"; quantity: number }
+  | { service: "Double oven cleaning"; quantity: number }
+  | { service: "Fridge/freezer cleaning"; appliance_type?: "Fridge" | "Freezer" | "Fridge/freezer"; quantity: number }
+  | { service: "Inside window cleaning"; number_of_windows: number; side: "Inside" | "Outside" | "Both" }
+  | { service: "Carpet/rug cleaning"; number_of_rooms?: number; number_of_items?: number; description?: string }
+  | { service: "Sofa/upholstery cleaning"; upholstery_type: "Sofa" | "Armchair" | "Other"; number_of_seats?: number; other_description?: string }
+  | { service: "Mattress cleaning"; quantity: number; size?: "Single" | "Double" | "King" | "Super king" | "Other" }
+  | { service: "Washing machine cleaning"; quantity: number; appliance_type?: "Front-loader" | "Top-loader" | "Washer-dryer" | "Other" }
+  | { service: "Other"; description: string };
+
+export type AdditionalServicesRequest = {
+  bin_cleaning: BinCleaningDetails | null;
+  items: AdditionalCleaningItem[];
+};
+
 export type BookingPayload = {
   customer_name: string;
   customer_email: string;
@@ -17,6 +42,7 @@ export type BookingPayload = {
   bedrooms: number;
   bathrooms: number;
   bin_cleaning: boolean;
+  additional_services: AdditionalServicesRequest;
   privacy_consent: true;
   notes?: string;
 };

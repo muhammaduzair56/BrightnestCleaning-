@@ -45,6 +45,17 @@ def _booking_read(booking: Booking) -> BookingRead:
     return BookingRead.model_validate(booking)
 
 
+def _recurring_bin_details(booking: Booking) -> dict[str, object] | None:
+    """Return Bin details only when the customer explicitly requested recurring Bin Cleaning."""
+    additional = booking.additional_services
+    if not isinstance(additional, dict):
+        return None
+    details = additional.get("bin_cleaning")
+    if isinstance(details, dict) and details.get("frequency") == "Recurring":
+        return details
+    return None
+
+
 async def _invalidate_booking_cache() -> None:
     await cache.bump_booking_version()
 
@@ -101,7 +112,9 @@ async def create_booking(payload: BookingCreate, background_tasks: BackgroundTas
         db.add(booking)
         db.flush()
         db.add(AuditEvent(booking_id=booking.id, action="booking_created", metadata_json={"service_type": booking.service_type, "privacy_consent": True}))
-        if booking.frequency != "One-off visit":
+        recurring_bin = _recurring_bin_details(booking)
+        bin_only_one_off = booking.service_type == "Bin cleaning" and recurring_bin is None
+        if booking.frequency != "One-off visit" and not bin_only_one_off:
             interval_days = {"Weekly": 7, "Fortnightly": 14, "Monthly": 28}.get(booking.frequency, 0)
             if interval_days:
                 db.add(RecurringBookingPlan(source_booking_id=booking.id, customer_email=booking.customer_email, frequency=booking.frequency, next_date=booking.preferred_date + timedelta(days=interval_days)))
@@ -301,7 +314,13 @@ def run_recurring_bookings(db: Session = Depends(get_db), admin: AdminUser = Dep
         if not interval_days:
             plan.active = False
             continue
-        next_booking = Booking(customer_name=source.customer_name, customer_email=source.customer_email, customer_phone=source.customer_phone, postcode=source.postcode, service_type=source.service_type, frequency=source.frequency, preferred_date=plan.next_date, preferred_time=source.preferred_time, bedrooms=source.bedrooms, bathrooms=source.bathrooms, bin_cleaning=source.bin_cleaning, notes=source.notes, status=BookingStatus.NEW, currency=source.currency, payment_status=source.payment_status)
+        recurring_bin = _recurring_bin_details(source)
+        if source.service_type == "Bin cleaning" and recurring_bin is None:
+            # A Bin-only main service has no future work when its separate Bin frequency is one-off.
+            plan.active = False
+            continue
+        next_additional_services = {"bin_cleaning": recurring_bin, "items": []}
+        next_booking = Booking(customer_name=source.customer_name, customer_email=source.customer_email, customer_phone=source.customer_phone, postcode=source.postcode, service_type=source.service_type, frequency=source.frequency, preferred_date=plan.next_date, preferred_time=source.preferred_time, bedrooms=source.bedrooms, bathrooms=source.bathrooms, bin_cleaning=recurring_bin is not None, additional_services=next_additional_services, notes=source.notes, status=BookingStatus.NEW, currency=source.currency, payment_status=source.payment_status)
         db.add(next_booking)
         plan.last_generated_at = datetime.now(timezone.utc)
         plan.next_date = plan.next_date + timedelta(days=interval_days)

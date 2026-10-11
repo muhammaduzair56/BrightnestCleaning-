@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { FormEvent, lazy, Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ApiError, bookingApi, type BookingAvailability } from "@/lib/api";
+import { ApiError, bookingApi, type AdditionalCleaningItem, type BinCleaningDetails, type BookingAvailability } from "@/lib/api";
 import { applySeo, homeSchema } from "@/lib/seo";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Link } from "wouter";
@@ -210,6 +210,183 @@ const timeSlots = [
   { value: "17:00", label: "5:00 pm", description: "Evening" },
 ];
 
+const additionalServiceChoices = [
+  "Bin cleaning",
+  "Kitchen deep cleaning",
+  "Single oven cleaning",
+  "Double oven cleaning",
+  "Fridge/freezer cleaning",
+  "Inside window cleaning",
+  "Carpet/rug cleaning",
+  "Sofa/upholstery cleaning",
+  "Mattress cleaning",
+  "Washing machine cleaning",
+  "Other",
+] as const;
+
+type AdditionalServiceChoice = (typeof additionalServiceChoices)[number];
+type NonBinAdditionalService = Exclude<AdditionalServiceChoice, "Bin cleaning">;
+type AdditionalServiceDetailsState = Record<string, Record<string, string>>;
+
+const initialBinCleaningDetails: BinCleaningDetails = {
+  number_of_bins: 1,
+  bins: [{ type_or_colour: "" }],
+  frequency: "One-off",
+};
+
+const initialAdditionalServiceDetails: AdditionalServiceDetailsState = {
+  "Kitchen deep cleaning": { kitchen_requirements: "" },
+  "Single oven cleaning": { quantity: "1" },
+  "Double oven cleaning": { quantity: "1" },
+  "Fridge/freezer cleaning": { appliance_type: "", quantity: "1" },
+  "Inside window cleaning": { number_of_windows: "1", side: "Inside" },
+  "Carpet/rug cleaning": { number_of_rooms: "", number_of_items: "", description: "" },
+  "Sofa/upholstery cleaning": { upholstery_type: "Sofa", number_of_seats: "", other_description: "" },
+  "Mattress cleaning": { quantity: "1", size: "" },
+  "Washing machine cleaning": { quantity: "1", appliance_type: "" },
+  Other: { description: "" },
+};
+
+function optionalDetailText(details: Record<string, string>, key: string) {
+  return details[key]?.trim() || undefined;
+}
+
+function optionalDetailCount(details: Record<string, string>, key: string) {
+  const value = optionalDetailText(details, key);
+  return value ? Number(value) : undefined;
+}
+
+function detailCount(details: Record<string, string>, key: string, fallback = 1) {
+  return Number(optionalDetailText(details, key) ?? fallback);
+}
+
+function buildAdditionalCleaningItem(service: NonBinAdditionalService, details: Record<string, string>): AdditionalCleaningItem {
+  switch (service) {
+    case "Kitchen deep cleaning":
+      return { service, kitchen_requirements: optionalDetailText(details, "kitchen_requirements") };
+    case "Single oven cleaning":
+    case "Double oven cleaning":
+      return { service, quantity: detailCount(details, "quantity") };
+    case "Fridge/freezer cleaning":
+      return { service, appliance_type: optionalDetailText(details, "appliance_type") as "Fridge" | "Freezer" | "Fridge/freezer" | undefined, quantity: detailCount(details, "quantity") };
+    case "Inside window cleaning":
+      return { service, number_of_windows: detailCount(details, "number_of_windows"), side: (details.side || "Inside") as "Inside" | "Outside" | "Both" };
+    case "Carpet/rug cleaning":
+      return { service, number_of_rooms: optionalDetailCount(details, "number_of_rooms"), number_of_items: optionalDetailCount(details, "number_of_items"), description: optionalDetailText(details, "description") };
+    case "Sofa/upholstery cleaning":
+      return { service, upholstery_type: (details.upholstery_type || "Sofa") as "Sofa" | "Armchair" | "Other", number_of_seats: optionalDetailCount(details, "number_of_seats"), other_description: optionalDetailText(details, "other_description") };
+    case "Mattress cleaning":
+      return { service, quantity: detailCount(details, "quantity"), size: optionalDetailText(details, "size") as "Single" | "Double" | "King" | "Super king" | "Other" | undefined };
+    case "Washing machine cleaning":
+      return { service, quantity: detailCount(details, "quantity"), appliance_type: optionalDetailText(details, "appliance_type") as "Front-loader" | "Top-loader" | "Washer-dryer" | "Other" | undefined };
+    case "Other":
+      return { service, description: optionalDetailText(details, "description") ?? "" };
+  }
+}
+
+type AdditionalServicesSectionProps = {
+  mainService: string;
+  selected: AdditionalServiceChoice[];
+  onToggle: (service: AdditionalServiceChoice) => void;
+  binDetails: BinCleaningDetails;
+  onBinDetailsChange: (details: BinCleaningDetails) => void;
+  detailValues: AdditionalServiceDetailsState;
+  onDetailChange: (service: NonBinAdditionalService, field: string, value: string) => void;
+};
+
+function AdditionalServicesSection({ mainService, selected, onToggle, binDetails, onBinDetailsChange, detailValues, onDetailChange }: AdditionalServicesSectionProps) {
+  const binSelected = mainService === "Bin cleaning" || selected.includes("Bin cleaning");
+  const visibleChoices = additionalServiceChoices.filter((choice) => mainService !== "Bin cleaning" || choice !== "Bin cleaning");
+  const selectedNonBin = selected.filter((choice): choice is NonBinAdditionalService => choice !== "Bin cleaning");
+
+  const renderFields = (service: NonBinAdditionalService) => {
+    const values = detailValues[service] ?? {};
+    const slug = service.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const input = (field: string, label: string, type: "text" | "number" = "text", min?: number, max?: number) => (
+      <label key={field} className="block text-xs font-extrabold text-white/80" htmlFor={`${slug}-${field}`}>
+        {label}
+        <input id={`${slug}-${field}`} data-testid={`${slug}-${field}`} className="field-control mt-1 w-full" type={type} min={min} max={max} value={values[field] ?? ""} onChange={(event) => onDetailChange(service, field, event.target.value)} />
+      </label>
+    );
+    const textarea = (field: string, label: string, required = false) => (
+      <label key={field} className="block text-xs font-extrabold text-white/80" htmlFor={`${slug}-${field}`}>
+        {label}{required && <span className="ml-1 text-[#9ee0d2]">(required)</span>}
+        <textarea id={`${slug}-${field}`} data-testid={`${slug}-${field}`} className="field-control mt-1 min-h-20 w-full resize-y" value={values[field] ?? ""} onChange={(event) => onDetailChange(service, field, event.target.value)} aria-required={required} />
+      </label>
+    );
+    const select = (field: string, label: string, options: string[]) => (
+      <label key={field} className="block text-xs font-extrabold text-white/80" htmlFor={`${slug}-${field}`}>
+        {label}
+        <select id={`${slug}-${field}`} data-testid={`${slug}-${field}`} className="field-control mt-1 w-full" value={values[field] ?? ""} onChange={(event) => onDetailChange(service, field, event.target.value)}>
+          <option value="">Select if known</option>
+          {options.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+      </label>
+    );
+
+    switch (service) {
+      case "Kitchen deep cleaning":
+        return textarea("kitchen_requirements", "Kitchen requirements (optional)");
+      case "Single oven cleaning":
+      case "Double oven cleaning":
+        return input("quantity", "Number of ovens", "number", 1, 20);
+      case "Fridge/freezer cleaning":
+        return <div className="grid gap-3 sm:grid-cols-2">{select("appliance_type", "Appliance type (optional)", ["Fridge", "Freezer", "Fridge/freezer"])}{input("quantity", "Number of appliances", "number", 1, 20)}</div>;
+      case "Inside window cleaning":
+        return <div className="grid gap-3 sm:grid-cols-2">{input("number_of_windows", "Number of windows", "number", 1, 100)}{select("side", "Cleaning requirement", ["Inside", "Outside", "Both"])}</div>;
+      case "Carpet/rug cleaning":
+        return <><div className="grid gap-3 sm:grid-cols-2">{input("number_of_rooms", "Number of rooms (optional)", "number", 1, 100)}{input("number_of_items", "Number of rugs/items (optional)", "number", 1, 100)}</div>{textarea("description", "Carpet/rug details (optional)")}</>;
+      case "Sofa/upholstery cleaning":
+        return <><div className="grid gap-3 sm:grid-cols-2">{select("upholstery_type", "Type", ["Sofa", "Armchair", "Other"])}{input("number_of_seats", "Number of seats (optional)", "number", 1, 100)}</div>{values.upholstery_type === "Other" && textarea("other_description", "Please describe the upholstery (optional)")}</>;
+      case "Mattress cleaning":
+        return <div className="grid gap-3 sm:grid-cols-2">{input("quantity", "Number of mattresses", "number", 1, 20)}{select("size", "Mattress size (optional)", ["Single", "Double", "King", "Super king", "Other"])}</div>;
+      case "Washing machine cleaning":
+        return <div className="grid gap-3 sm:grid-cols-2">{input("quantity", "Number of appliances", "number", 1, 20)}{select("appliance_type", "Appliance type (optional)", ["Front-loader", "Top-loader", "Washer-dryer", "Other"])}</div>;
+      case "Other":
+        return textarea("description", "Describe the other cleaning service", true);
+    }
+  };
+
+  return (
+    <fieldset className="rounded-[18px] border border-white/12 bg-white/5 p-4 sm:p-5" aria-label="Additional Cleaning Services" data-testid="additional-services-section">
+      <legend className="px-1 text-base font-extrabold text-white">Additional Cleaning Services <span className="text-xs font-bold text-white/60">(optional, select any that apply)</span></legend>
+      <p className="mb-3 mt-1 text-xs leading-5 text-white/70">Optional extras for your quote. Select only what applies.</p>
+      {mainService === "Bin cleaning" && <p className="mb-3 rounded-xl bg-[#9ee0d2]/10 p-3 text-xs font-bold text-[#b9e9de]">Bin cleaning is your main service, so its details are shown below without a duplicate option.</p>}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2">
+        {visibleChoices.map((choice) => {
+          const checked = selected.includes(choice);
+          const slug = choice.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+          return <label key={choice} htmlFor={`additional-${slug}`} className="flex min-h-11 min-w-0 cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-[#0f282d]/70 p-2 text-xs font-bold leading-4 text-white/85 transition-colors hover:bg-white/10">
+            <input id={`additional-${slug}`} data-testid={`additional-${slug}`} type="checkbox" checked={checked} onChange={() => onToggle(choice)} className="h-4 w-4 shrink-0 accent-[#2f9f91]" />
+            <span className="min-w-0">{choice}</span>
+          </label>;
+        })}
+      </div>
+
+      {binSelected && <div className="mt-4 rounded-xl border border-[#9ee0d2]/20 bg-[#0f282d]/70 p-4" data-testid="bin-cleaning-details">
+        <h4 className="font-extrabold text-[#9ee0d2]">Bin cleaning details</h4>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <label className="block text-xs font-extrabold text-white/80" htmlFor="bin-number">Number of bins<input id="bin-number" data-testid="bin-number" className="field-control mt-1 w-full" type="number" min={1} max={50} value={binDetails.number_of_bins} onChange={(event) => {
+            const count = Math.max(1, Math.min(50, Number(event.target.value) || 1));
+            onBinDetailsChange({ ...binDetails, number_of_bins: count, bins: Array.from({ length: count }, (_, index) => binDetails.bins[index] ?? {}) });
+          }} /></label>
+          <label className="block text-xs font-extrabold text-white/80" htmlFor="bin-frequency">Bin cleaning frequency<select id="bin-frequency" data-testid="bin-frequency" className="field-control mt-1 w-full" value={binDetails.frequency} onChange={(event) => onBinDetailsChange({ ...binDetails, frequency: event.target.value as BinCleaningDetails["frequency"] })}><option value="One-off">One-off</option><option value="Recurring">Recurring</option></select></label>
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">{binDetails.bins.map((bin, index) => <label key={index} className="block text-xs font-extrabold text-white/80" htmlFor={`bin-type-${index + 1}`}>Bin {index + 1} colour/type (optional)<input id={`bin-type-${index + 1}`} data-testid={`bin-type-${index + 1}`} className="field-control mt-1 w-full" value={bin.type_or_colour ?? ""} onChange={(event) => onBinDetailsChange({ ...binDetails, bins: binDetails.bins.map((current, currentIndex) => currentIndex === index ? { type_or_colour: event.target.value } : current) })} placeholder="e.g. green wheelie bin" /></label>)}</div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <label className="block text-xs font-extrabold text-white/80" htmlFor="bin-collection-day">Collection day (optional)<select id="bin-collection-day" data-testid="bin-collection-day" className="field-control mt-1 w-full" value={binDetails.collection_day ?? ""} onChange={(event) => onBinDetailsChange({ ...binDetails, collection_day: event.target.value })}><option value="">Not sure / skip</option>{["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => <option key={day} value={day}>{day}</option>)}</select></label>
+          <label className="block text-xs font-extrabold text-white/80" htmlFor="bin-notes">Bin notes (optional)<textarea id="bin-notes" data-testid="bin-notes" className="field-control mt-1 min-h-20 w-full resize-y" value={binDetails.notes ?? ""} onChange={(event) => onBinDetailsChange({ ...binDetails, notes: event.target.value })} /></label>
+        </div>
+      </div>}
+
+      {selectedNonBin.map((service) => <div key={service} className="mt-4 rounded-xl border border-white/10 bg-[#0f282d]/70 p-4" data-testid={`details-${service.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`}>
+        <h4 className="mb-3 font-extrabold text-[#9ee0d2]">{service} details</h4>
+        {renderFields(service)}
+      </div>)}
+    </fieldset>
+  );
+}
+
 const faqs = [
   {
     question: "What happens after I submit a booking request?",
@@ -288,7 +465,9 @@ export default function Home() {
   const [service, setService] = useState("");
   const [bedrooms, setBedrooms] = useState("1");
   const [bathrooms, setBathrooms] = useState("1");
-  const [binCleaning, setBinCleaning] = useState(false);
+  const [selectedAdditionalServices, setSelectedAdditionalServices] = useState<AdditionalServiceChoice[]>([]);
+  const [binCleaningDetails, setBinCleaningDetails] = useState<BinCleaningDetails>(initialBinCleaningDetails);
+  const [additionalServiceDetails, setAdditionalServiceDetails] = useState<AdditionalServiceDetailsState>(initialAdditionalServiceDetails);
   const [frequency, setFrequency] = useState("One-off visit");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -323,6 +502,7 @@ export default function Home() {
   const selectedService = services.find((item) => item.title === service);
   const needsPropertyDetails = propertyDetailServices.has(service);
   const binCleaningOnly = service === "Bin cleaning";
+  const binCleaning = binCleaningOnly || selectedAdditionalServices.includes("Bin cleaning");
   const baseHourlyRate = Number(selectedService?.price.match(/£(\d+)/)?.[1] ?? 0);
   const roomAdjustment = Math.max(0, Number(bedrooms) - 1) * 10 + Math.max(0, Number(bathrooms) - 1) * 8;
   const binAdjustment = binCleaning ? 15 : 0;
@@ -365,6 +545,14 @@ export default function Home() {
     return toDateKey(candidate);
   };
 
+  const toggleAdditionalService = (name: AdditionalServiceChoice) => {
+    setSelectedAdditionalServices((current) => current.includes(name) ? current.filter((item) => item !== name) : [...current, name]);
+  };
+
+  const updateAdditionalServiceDetail = (name: NonBinAdditionalService, field: string, value: string) => {
+    setAdditionalServiceDetails((current) => ({ ...current, [name]: { ...current[name], [field]: value } }));
+  };
+
   const bookService = (serviceName?: string) => {
     if (serviceName) setService(serviceName);
     scrollToSection("booking");
@@ -381,6 +569,11 @@ export default function Home() {
 
     if (step === 1 && needsPropertyDetails && (Number(bedrooms) < 1 || Number(bathrooms) < 1)) {
       setFormError("Please select at least one bedroom and one bathroom for this property service.");
+      return;
+    }
+
+    if (step === 1 && selectedAdditionalServices.includes("Other") && !additionalServiceDetails.Other?.description?.trim()) {
+      setFormError("Please describe the additional service selected as Other.");
       return;
     }
 
@@ -419,6 +612,17 @@ export default function Home() {
         bedrooms: needsPropertyDetails ? Number(bedrooms) : 0,
         bathrooms: needsPropertyDetails ? Number(bathrooms) : 0,
         bin_cleaning: binCleaningOnly || binCleaning,
+        additional_services: {
+          bin_cleaning: binCleaning ? {
+            ...binCleaningDetails,
+            bins: binCleaningDetails.bins.map((bin) => ({ type_or_colour: bin.type_or_colour?.trim() || undefined })),
+            collection_day: binCleaningDetails.collection_day?.trim() || undefined,
+            notes: binCleaningDetails.notes?.trim() || undefined,
+          } : null,
+          items: selectedAdditionalServices
+            .filter((item): item is NonBinAdditionalService => item !== "Bin cleaning")
+            .map((item) => buildAdditionalCleaningItem(item, additionalServiceDetails[item] ?? {})),
+        },
         privacy_consent: true,
         notes: notes.trim() || undefined,
       });
@@ -855,12 +1059,17 @@ export default function Home() {
                             </select>
                             <p id="bathrooms-help" className="mt-2 text-xs font-bold leading-5 text-white/72">Include en-suites if helpful.</p>
                           </div>
-                        </div> : <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">{binCleaningOnly ? "Bin cleaning selected" : "Specialist service selected"}</strong><span className="mt-1 block text-xs font-bold text-white/72">Bedrooms and bathrooms are not needed for this request. We’ll confirm the exact scope, access and quote with you.</span></div>}
-                        {!binCleaningOnly && <label className="booking-addon flex cursor-pointer items-start gap-3 rounded-[16px] border border-white/12 bg-white/5 p-4 text-sm font-bold leading-5 text-white/80 transition-colors hover:bg-white/10">
-                          <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
-                          <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/72">We’ll confirm the exact scope and quote with your booking request.</small></span>
-                        </label>}
-                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Price</p><p className="mt-1 text-xs leading-5 text-white/72">BrightNest will review the property details and provide a tailored quote before confirming the booking.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
+                        </div> : service ? <div className="rounded-[16px] border border-[#9ee0d2]/25 bg-[#9ee0d2]/10 p-4 text-sm font-bold leading-5 text-white/78"><strong className="text-[#9ee0d2]">{binCleaningOnly ? "Bin cleaning selected" : "Specialist service selected"}</strong><span className="mt-1 block text-xs font-bold text-white/72">Bedrooms and bathrooms are not needed for this request. We’ll confirm the exact scope, access and quote with you.</span></div> : <p className="text-xs font-bold leading-5 text-white/72">Choose a cleaning service to see only the details relevant to it.</p>}
+                        <AdditionalServicesSection
+                          mainService={service}
+                          selected={selectedAdditionalServices}
+                          onToggle={toggleAdditionalService}
+                          binDetails={binCleaningDetails}
+                          onBinDetailsChange={setBinCleaningDetails}
+                          detailValues={additionalServiceDetails}
+                          onDetailChange={updateAdditionalServiceDetail}
+                        />
+                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Price</p><p className="mt-1 text-xs leading-5 text-white/72">BrightNest will review the property details and provide a tailored quote before confirming the booking.</p></div><strong className="text-xl text-[#f8f6ef] sm:whitespace-nowrap">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
