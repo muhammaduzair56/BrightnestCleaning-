@@ -1,9 +1,11 @@
-export const SITE_URL = "https://brightnestcleaning.vercel.app";
-export const SITE_NAME = "BrightNest Cleaning UK";
-export const DEFAULT_IMAGE = `${SITE_URL}/brightnest-social-preview.jpg`;
+export const SITE_URL = "https://velloracleaning.vercel.app";
+export const SITE_NAME = "Vellora Cleaning";
+export const DEFAULT_IMAGE = `${SITE_URL}/vellora-cleaning-logo.webp`;
 
 const DEFAULT_DESCRIPTION =
-  "Thoughtful domestic and specialist cleaning across the UK. Request a regular, deep, end-of-tenancy or tailored clean from BrightNest Cleaning UK.";
+  "Domestic and specialist cleaning across the UK from Vellora Cleaning. Request regular, deep, end-of-tenancy or tailored cleaning.";
+const DEFAULT_KEYWORDS =
+  "Vellora Cleaning, cleaning services UK, domestic cleaning, deep cleaning, end-of-tenancy cleaning";
 
 type SeoOptions = {
   title: string;
@@ -74,6 +76,7 @@ export function applySeo({
   const socialImage = absoluteUrl(image);
   document.title = title;
   upsertMeta("name", "description", description);
+  upsertMeta("name", "keywords", DEFAULT_KEYWORDS);
   upsertMeta("name", "robots", noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large");
   upsertMeta("property", "og:type", type);
   upsertMeta("property", "og:locale", "en_GB");
@@ -82,11 +85,15 @@ export function applySeo({
   upsertMeta("property", "og:description", description);
   upsertMeta("property", "og:url", canonical);
   upsertMeta("property", "og:image", socialImage);
+  upsertMeta("property", "og:image:url", socialImage);
+  upsertMeta("property", "og:image:secure_url", socialImage);
   upsertMeta("property", "og:image:alt", title);
   upsertMeta("name", "twitter:card", "summary_large_image");
   upsertMeta("name", "twitter:title", title);
   upsertMeta("name", "twitter:description", description);
   upsertMeta("name", "twitter:image", socialImage);
+  upsertMeta("name", "twitter:image:src", socialImage);
+  upsertMeta("name", "twitter:image:alt", title);
   if (publishedTime) upsertMeta("property", "article:published_time", publishedTime);
   if (modifiedTime) upsertMeta("property", "article:modified_time", modifiedTime);
   upsertLink("canonical", canonical);

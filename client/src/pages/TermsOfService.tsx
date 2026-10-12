@@ -2,9 +2,10 @@
  * BrightNest design reminder — Quiet British Home Editorial: plain-language terms presented
  * with generous measure, calm ink/mint material contrast, and no intimidating legal clutter.
  */
-import { ArrowLeft, ClipboardCheck, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ClipboardCheck, Mail } from "lucide-react";
 import { Link } from "wouter";
-
+import { useEffect } from "react";
+import { applySeo } from "@/lib/seo";
 const terms = [
   {
     title: "1. About these terms",
@@ -41,11 +42,15 @@ const terms = [
 ];
 
 export default function TermsOfService() {
+  useEffect(() => {
+    applySeo({ title: "Terms of Service | Vellora Cleaning", description: "Review the terms for submitting cleaning enquiries, requesting quotes and arranging a service through this website.", path: "/terms-of-service" });
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#f8f6ef] text-[#173137]">
       <header className="border-b border-[#173137]/10 bg-[#f8f6ef]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1220px] items-center justify-between px-5 py-5 lg:px-10">
-          <Link href="/" className="group inline-flex items-center gap-3 font-display text-[28px] tracking-[-0.06em]"><span className="grid h-11 w-11 place-items-center rounded-[16px] bg-[#d9f0e8] text-[#2f9f91]"><ShieldCheck className="h-5 w-5" /></span> BrightNest</Link>
+          <Link href="/" className="inline-flex shrink-0 items-center" aria-label="Vellora Cleaning home"><img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[43px] w-[130px] object-contain object-left" /></Link>
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#173137]/72 transition-colors hover:text-[#2f9f91]"><ArrowLeft className="h-4 w-4" /> Back to website</Link>
         </div>
       </header>

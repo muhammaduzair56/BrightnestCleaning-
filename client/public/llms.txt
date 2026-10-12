@@ -1,34 +1,34 @@
-# BrightNest Cleaning UK
+# Vellora Cleaning
 
-> BrightNest Cleaning UK provides thoughtful domestic and specialist cleaning across the United Kingdom, with a simple booking request flow and final confirmation by the BrightNest team.
+> Vellora Cleaning provides domestic and specialist cleaning across the United Kingdom, with a simple booking request flow and final confirmation by the Vellora Cleaning team.
 
-BrightNest accepts requests for regular home cleaning, deep cleaning, end-of-tenancy cleaning, move-in/move-out cleaning, office cleaning and specialist services. Customers enter a valid UK postcode, choose a preferred date and time, and receive confirmation after the request is reviewed. No payment is taken at the initial request stage.
+Vellora Cleaning accepts requests for regular home cleaning, deep cleaning, end-of-tenancy cleaning, move-in/move-out cleaning, office cleaning and specialist services. Customers enter a valid UK postcode, choose a preferred date and time, and receive confirmation after the request is reviewed. No payment is taken at the initial request stage.
 
 ## Website
 
-- [BrightNest home](https://brightnestcleaning.vercel.app/): Brand overview, service highlights and booking request entry point.
-- [Cleaning services](https://brightnestcleaning.vercel.app/services): Dedicated service information pages.
-- [Booking request](https://brightnestcleaning.vercel.app/#booking): Public booking form for UK cleaning requests.
-- [Cleaning advice blog](https://brightnestcleaning.vercel.app/blog): Practical cleaning notes for homes, hosts and workplaces.
+- [Vellora Cleaning home](https://velloracleaning.vercel.app/): Brand overview, service highlights and booking request entry point.
+- [Cleaning services](https://velloracleaning.vercel.app/services): Dedicated service information pages.
+- [Booking request](https://velloracleaning.vercel.app/#booking): Public booking form for UK cleaning requests.
+- [Cleaning advice blog](https://velloracleaning.vercel.app/blog): Practical cleaning notes for homes, hosts and workplaces.
 
 ## Services
 
-- [Regular home cleaning](https://brightnestcleaning.vercel.app/services/regular-home-cleaning): Recurring and one-off domestic cleaning.
-- [Deep cleaning](https://brightnestcleaning.vercel.app/services/deep-cleaning): Detailed room-by-room cleaning.
-- [End-of-tenancy cleaning](https://brightnestcleaning.vercel.app/services/end-of-tenancy-cleaning): Cleaning for a smoother handover.
-- [Office and commercial cleaning](https://brightnestcleaning.vercel.app/services/office-commercial-cleaning): Cleaning for workspaces and shared areas.
+- [Regular home cleaning](https://velloracleaning.vercel.app/services/regular-home-cleaning): Recurring and one-off domestic cleaning.
+- [Deep cleaning](https://velloracleaning.vercel.app/services/deep-cleaning): Detailed room-by-room cleaning.
+- [End-of-tenancy cleaning](https://velloracleaning.vercel.app/services/end-of-tenancy-cleaning): Cleaning for a smoother handover.
+- [Office and commercial cleaning](https://velloracleaning.vercel.app/services/office-commercial-cleaning): Cleaning for workspaces and shared areas.
 
 ## Policies
 
-- [Privacy policy](https://brightnestcleaning.vercel.app/privacy-policy): Privacy and personal-data information.
-- [Terms of service](https://brightnestcleaning.vercel.app/terms-of-service): Booking, cancellation and service terms.
+- [Privacy policy](https://velloracleaning.vercel.app/privacy-policy): Privacy and personal-data information.
+- [Terms of service](https://velloracleaning.vercel.app/terms-of-service): Booking, cancellation and service terms.
 
 ## Contact
 
 - Phone: [+44 7859 293986](tel:+447859293986)
-- WhatsApp: [Message BrightNest on WhatsApp](https://wa.me/447859293986)
+- WhatsApp: [Message Vellora Cleaning on WhatsApp](https://wa.me/447859293986)
 
 ## Optional
 
-- [Sitemap](https://brightnestcleaning.vercel.app/sitemap.xml): Public URL inventory for search engines.
-- [AI resource catalog](https://brightnestcleaning.vercel.app/.well-known/ai-catalog.json): Machine-readable discovery metadata.
+- [Sitemap](https://velloracleaning.vercel.app/sitemap.xml): Public URL inventory for search engines.
+- [AI resource catalog](https://velloracleaning.vercel.app/.well-known/ai-catalog.json): Machine-readable discovery metadata.

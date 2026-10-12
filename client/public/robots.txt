@@ -6,5 +6,5 @@ Disallow: /api/
 Disallow: /*?token=
 Disallow: /*?access_token=
 
-Sitemap: https://brightnestcleaning.vercel.app/sitemap.xml
-Host: https://brightnestcleaning.vercel.app
+Sitemap: https://velloracleaning.vercel.app/sitemap.xml
+Host: https://velloracleaning.vercel.app

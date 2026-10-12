@@ -1,21 +1,21 @@
 {
   "specVersion": "1.0",
   "host": {
-    "displayName": "BrightNest Cleaning UK",
-    "identifier": "brightnestcleaning.vercel.app",
-    "documentationUrl": "https://brightnestcleaning.vercel.app/llms.txt",
-    "logoUrl": "https://brightnestcleaning.vercel.app/vellora-cleaning-logo.webp"
+    "displayName": "Vellora Cleaning",
+    "identifier": "velloracleaning.vercel.app",
+    "documentationUrl": "https://velloracleaning.vercel.app/llms.txt",
+    "logoUrl": "https://velloracleaning.vercel.app/vellora-cleaning-logo.webp"
   },
   "entries": [
     {
-      "identifier": "urn:air:brightnestcleaning.vercel.app:website:cleaning-services",
-      "displayName": "BrightNest Cleaning UK website",
+      "identifier": "urn:air:velloracleaning.vercel.app:website:cleaning-services",
+      "displayName": "Vellora Cleaning website",
       "type": "text/html",
-      "url": "https://brightnestcleaning.vercel.app/",
-      "description": "Public BrightNest Cleaning UK website with domestic and specialist cleaning information and a UK-wide booking request flow.",
+      "url": "https://velloracleaning.vercel.app/",
+      "description": "Public Vellora Cleaning website with domestic and specialist cleaning information and a UK-wide booking request flow.",
       "tags": ["cleaning", "UK", "domestic cleaning", "specialist cleaning"],
       "version": "1.0",
-      "updatedAt": "2026-10-04T00:00:00Z"
+      "updatedAt": "2026-10-12T08:42:00Z"
     }
   ]
 }

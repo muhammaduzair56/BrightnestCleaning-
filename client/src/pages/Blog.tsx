@@ -168,8 +168,8 @@ const articles: Article[] = [
 
 function ArticleMetadata({ article }: { article?: Article }) {
   useEffect(() => {
-    const title = article ? `${article.title} | BrightNest Cleaning UK` : "Cleaning Advice & Home Care Journal | BrightNest Cleaning UK";
-    const description = article?.excerpt ?? "Practical cleaning advice for UK homes, hosts, landlords and busy households from BrightNest Cleaning UK.";
+    const title = article ? `${article.title} | Vellora Cleaning` : "Cleaning Advice & Home Care Journal | Vellora Cleaning";
+    const description = article?.excerpt ?? "Practical cleaning advice for UK homes, hosts, landlords and busy households from Vellora Cleaning.";
     const path = article ? `/blog/${article.id}` : "/blog";
     const publishedTime = article ? new Date(article.date).toISOString() : undefined;
     const articleSchema = article
@@ -182,8 +182,8 @@ function ArticleMetadata({ article }: { article?: Article }) {
           image: article.socialImage ?? article.image,
           datePublished: publishedTime,
           dateModified: publishedTime,
-          author: { "@type": "Organization", name: "BrightNest Cleaning UK", url: SITE_URL },
-          publisher: { "@type": "Organization", name: "BrightNest Cleaning UK", url: SITE_URL },
+          author: { "@type": "Organization", name: "Vellora Cleaning", url: SITE_URL },
+          publisher: { "@type": "Organization", name: "Vellora Cleaning", url: SITE_URL },
           mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${path}` },
           inLanguage: "en-GB",
         }

@@ -131,7 +131,7 @@ function BookingGroup({ title, intro, bookings, empty, token, onChanged, showRec
 
 export default function Dashboard() {
   useEffect(() => {
-    applySeo({ title: "My bookings | BrightNest Cleaning UK", description: "Private customer booking dashboard for BrightNest Cleaning UK.", path: "/dashboard", noindex: true });
+    applySeo({ title: "My bookings | Vellora Cleaning", description: "Private customer booking dashboard for Vellora Cleaning.", path: "/dashboard", noindex: true });
   }, []);
 
   const [token, setToken] = useState(readStoredToken);

@@ -333,8 +333,8 @@ export default function Home() {
 
   useEffect(() => {
     applySeo({
-      title: "Cleaning Services UK | BrightNest Cleaning UK",
-      description: "Book thoughtful domestic and specialist cleaning across the UK. Regular, deep, end-of-tenancy, office and tailored cleaning from BrightNest.",
+      title: "Cleaning Services UK | Vellora Cleaning",
+      description: "Book domestic and specialist cleaning across the UK with Vellora Cleaning. Request regular, deep, end-of-tenancy, office or tailored cleaning.",
       path: "/",
       jsonLd: homeSchema,
     });

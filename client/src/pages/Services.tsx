@@ -110,7 +110,7 @@ const services: Service[] = [
 function ServiceMetadata({ service }: { service?: Service }) {
   useEffect(() => {
     if (!service) {
-      applySeo({ title: "Cleaning Services UK | BrightNest Cleaning UK", description: "Explore BrightNest domestic and specialist cleaning services available across the UK.", path: "/services" });
+      applySeo({ title: "Cleaning Services UK | Vellora Cleaning", description: "Explore domestic and specialist cleaning services from Vellora Cleaning across the UK. Request a tailored quote for homes, rentals and workspaces.", path: "/services" });
       return;
     }
     const path = `/services/${service.slug}`;
@@ -119,14 +119,14 @@ function ServiceMetadata({ service }: { service?: Service }) {
       "@type": "Service",
       name: service.title,
       description: service.description,
-      provider: { "@type": "CleaningService", name: "BrightNest Cleaning UK", url: SITE_URL, telephone: "+447859293986" },
+      provider: { "@type": "CleaningService", name: "Vellora Cleaning", url: SITE_URL, telephone: "+447859293986" },
       areaServed: { "@type": "Country", name: "United Kingdom" },
       serviceType: service.title,
       url: `${SITE_URL}${path}`,
     };
     const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: service.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) };
     const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: SITE_URL }, { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` }, { "@type": "ListItem", position: 3, name: service.title, item: `${SITE_URL}${path}` }] };
-    applySeo({ title: `${service.title} UK | BrightNest Cleaning UK`, description: service.description, path, jsonLd: [serviceSchema, faqSchema, breadcrumb] });
+    applySeo({ title: `${service.title} UK | Vellora Cleaning`, description: service.description, path, jsonLd: [serviceSchema, faqSchema, breadcrumb] });
   }, [service]);
   return null;
 }
