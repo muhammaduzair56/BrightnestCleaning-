@@ -1,10 +1,10 @@
-# BrightNest API — Railway Deployment
+# Vellora API — Railway Deployment
 
 ## Purpose
 
 This backend is ready to deploy from the public GitHub repository using Railway's Nixpacks builder. Railway reads `requirements.txt`, runs the included startup script, checks `/health`, and exposes a generated HTTPS domain.
 
-> Do not create a Railway database, Redis instance, or volume for this deployment. BrightNest uses its existing Neon PostgreSQL database. Redis is optional because the application has a resilience fallback for early low-volume use.
+> Do not create a Railway database, Redis instance, or volume for this deployment. Vellora uses its existing Neon PostgreSQL database. Redis is optional because the application has a resilience fallback for early low-volume use.
 
 ## Railway project setup
 
@@ -31,25 +31,25 @@ Create these under **Service → Variables**. Set sensitive values as masked/sec
 | `APP_ENV` | `production` | Yes |
 | `DATABASE_URL` | Existing Neon pooled PostgreSQL URL, including SSL options | Yes |
 | `JWT_SECRET` | New random secret, 32+ characters | Yes |
-| `ADMIN_NOTIFICATION_EMAIL` | `brightnestcleaninguk@gmail.com` | Yes |
+| `ADMIN_NOTIFICATION_EMAIL` | `hello.velloraclean@gmail.com` | Yes |
 | `EMAIL_FROM` | Sender accepted by Brevo, ideally on a verified domain | Yes |
-| `EMAIL_LOGO_URL` | Public HTTPS BrightNest logo URL for branded customer emails | Optional; default is built in |
+| `EMAIL_LOGO_URL` | Public HTTPS Vellora logo URL for branded customer emails | Optional; default is built in |
 | `SMTP_HOST` | `smtp-relay.brevo.com` | Yes for email delivery |
 | `SMTP_PORT` | `2525` | Recommended |
 | `SMTP_TIMEOUT_SECONDS` | `15` | Recommended |
 | `SMTP_USERNAME` | Brevo SMTP login | Yes for email delivery |
 | `SMTP_PASSWORD` | Private Brevo SMTP key | Yes for email delivery |
-| `FRONTEND_BASE_URL` | `https://brightnestcleaning.vercel.app` | Yes for customer dashboard links |
+| `FRONTEND_BASE_URL` | `https://velloracleaning.vercel.app` | Yes for customer dashboard links |
 | `CUSTOMER_MAGIC_LINK_MINUTES` | `30` | Recommended |
 | `BOOTSTRAP_ADMIN_EMAIL` | Private admin login email | Initial admin setup |
 | `BOOTSTRAP_ADMIN_PASSWORD` | Unique 12+ character password | Initial admin setup |
-| `ALLOWED_ORIGINS` | `https://brightnestcleaning.vercel.app` | Yes |
+| `ALLOWED_ORIGINS` | `https://velloracleaning.vercel.app` | Yes |
 | `TRUSTED_HOSTS` | `*.up.railway.app` initially; later replace with the exact Railway hostname | Yes |
 | `ENABLE_DOCS` | `false` | Recommended |
 | `LOG_LEVEL` | `INFO` | Recommended |
 | `REDIS_URL` | Managed TLS Redis URL, if added later | Optional |
 
-Railway supplies the `PORT` variable automatically. Do not add it manually unless troubleshooting tells you to do so. The backend `requirements.txt` includes ReportLab for generating receipts in memory; no PDF files are stored on disk. Store only payment metadata and processor references in BrightNest. Never store card numbers, CVV, bank details, PANs, or payment secrets; use a payment provider for those credentials.
+Railway supplies the `PORT` variable automatically. Do not add it manually unless troubleshooting tells you to do so. The backend `requirements.txt` includes ReportLab for generating receipts in memory; no PDF files are stored on disk. Store only payment metadata and processor references in Vellora. Never store card numbers, CVV, bank details, PANs, or payment secrets; use a payment provider for those credentials.
 
 ## Growth and operations configuration
 
@@ -57,7 +57,7 @@ Add these optional variables when the corresponding production destinations are 
 
 | Name | Purpose |
 | --- | --- |
-| `COVERAGE_POSTCODE_PREFIXES` | Server-authoritative comma-separated prefixes BrightNest serves. Set `ALL` for full UK postcode mode, or use prefixes such as `B6,B7,B8` while expanding regionally. |
+| `COVERAGE_POSTCODE_PREFIXES` | Server-authoritative comma-separated prefixes Vellora serves. Set `ALL` for full UK postcode mode, or use prefixes such as `B6,B7,B8` while expanding regionally. |
 | `VITE_COVERAGE_POSTCODE_PREFIXES` | Matching frontend value for immediate form feedback. Set `ALL` for full UK mode; the backend remains authoritative. |
 | `VITE_GOOGLE_REVIEWS_URL` | Public Google Business Profile review URL. The site shows a link only when configured and never fabricates reviews. |
 | `VITE_TRUSTPILOT_URL` | Public Trustpilot profile URL, also shown only when configured. |
@@ -91,7 +91,7 @@ VITE_API_BASE_URL=https://YOUR-RAILWAY-DOMAIN.up.railway.app
 ```
 
 Do not append `/api/v1`; the frontend applies that path internally. Confirm a real test booking is saved in Neon and validate the private `/admin` login. In Admin → Booking requests, enter amounts as whole pence and ensure subtotal plus tax equals total before marking a payment status. The customer receipt should then show the stored currency, tax rate, tax amount, total, payment status, provider, and safe processor reference.
-To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected. From an upcoming booking, submit one reschedule or cancellation request and confirm the customer sees a pending status while the BrightNest notification arrives at `ADMIN_NOTIFICATION_EMAIL`. Only one unresolved change request is accepted per booking. Mark one real booking as completed, then confirm its customer can download a PDF receipt while another customer cannot access it and an unfinished booking returns a clear not-ready response.
+To verify the customer dashboard, request a magic link using the email from a real booking, open the link, confirm upcoming and past bookings are customer-scoped, and confirm an expired or reused link is rejected. From an upcoming booking, submit one reschedule or cancellation request and confirm the customer sees a pending status while the Vellora notification arrives at `ADMIN_NOTIFICATION_EMAIL`. Only one unresolved change request is accepted per booking. Mark one real booking as completed, then confirm its customer can download a PDF receipt while another customer cannot access it and an unfinished booking returns a clear not-ready response.
 
 ## Trial note
 

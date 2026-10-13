@@ -1,4 +1,4 @@
-"""Password hashing and signed JWT handling for BrightNest administrators."""
+"""Password hashing and signed JWT handling for Vellora administrators."""
 from __future__ import annotations
 
 import hashlib

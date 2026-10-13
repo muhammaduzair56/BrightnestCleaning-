@@ -1,4 +1,4 @@
-"""Server-side SMTP notifications for BrightNest booking workflows."""
+"""Server-side SMTP notifications for Vellora booking workflows."""
 from __future__ import annotations
 
 import asyncio
@@ -88,11 +88,11 @@ def _booking_email_html(booking: Booking) -> str:
         f"<td style='padding:8px;border-bottom:1px solid #e5e7eb'>{escape(str(value))}</td></tr>"
         for label, value in rows
     )
-    return f"<h2>New BrightNest booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>"
+    return f"<h2>New Vellora booking request</h2><table style='border-collapse:collapse'>{rendered_rows}</table>"
 
 
 def _booking_confirmation_html(booking: Booking) -> str:
-    """Build the customer-facing BrightNest confirmation email with inline CSS."""
+    """Build the customer-facing Vellora confirmation email with inline CSS."""
     logo_url = escape(settings.email_logo_url, quote=True)
     booking_reference = escape(booking.id)
     customer_name = escape(booking.customer_name)
@@ -108,13 +108,13 @@ def _booking_confirmation_html(booking: Booking) -> str:
     if booking.bin_cleaning:
         details = f"{details} · Bin cleaning" if details else "Bin cleaning"
     details_row = f"<tr><td style='padding:13px 0;color:#647477;font-size:13px'>Property details</td><td style='padding:13px 0;text-align:right;color:#173137;font-weight:700;font-size:13px'>{escape(details or 'Specialist service — scope to be confirmed')}</td></tr>"
-    whatsapp_url = "https://wa.me/447859293986?text=Hello%20BrightNest%2C%20I%20have%20a%20booking%20request%20question."
+    whatsapp_url = "https://wa.me/447859293986?text=Hello%20Vellora%2C%20I%20have%20a%20booking%20request%20question."
     return f"""<!doctype html>
 <html><body style="margin:0;background:#f3f0e7;font-family:Arial,Helvetica,sans-serif;color:#173137">
   <div style="padding:28px 12px">
     <div style="max-width:620px;margin:0 auto;background:#fffdf7;border-radius:24px;overflow:hidden;border:1px solid #dce7df">
       <div style="background:#173137;padding:24px 30px;text-align:center">
-        <img src="{logo_url}" width="190" alt="BrightNest Cleaning UK" style="display:inline-block;max-width:190px;height:auto;background:#fffdf7;border-radius:12px;padding:6px">
+        <img src="{logo_url}" width="190" alt="Vellora Cleaning" style="display:inline-block;max-width:190px;height:auto;background:#fffdf7;border-radius:12px;padding:6px">
       </div>
       <div style="padding:34px 30px 28px">
         <p style="margin:0;color:#23786f;font-size:11px;letter-spacing:2px;font-weight:700;text-transform:uppercase">Booking request received</p>
@@ -133,13 +133,13 @@ def _booking_confirmation_html(booking: Booking) -> str:
           <tr><td style="padding:13px 0;color:#647477;font-size:13px;border-top:1px solid #e8eee9">Phone</td><td style="padding:13px 0;text-align:right;color:#173137;font-weight:700;font-size:13px;border-top:1px solid #e8eee9">{phone}</td></tr>
           {details_row}
         </table>
-        <div style="margin:25px 0 0;padding:16px 18px;border-left:4px solid #2f9f91;background:#f1f7f2;color:#526568;font-size:13px;line-height:1.65">No payment is required today. Your visit is confirmed after BrightNest reviews your request and agrees the scope and quote with you.</div>
+        <div style="margin:25px 0 0;padding:16px 18px;border-left:4px solid #2f9f91;background:#f1f7f2;color:#526568;font-size:13px;line-height:1.65">No payment is required today. Your visit is confirmed after Vellora reviews your request and agrees the scope and quote with you.</div>
         <div style="margin:26px 0 4px;text-align:center">
           <a href="{whatsapp_url}" style="display:inline-block;background:#173137;color:#fffdf7;text-decoration:none;border-radius:999px;padding:13px 21px;font-size:13px;font-weight:700">Message us on WhatsApp</a>
         </div>
         <p style="margin:20px 0 0;color:#718083;font-size:12px;line-height:1.6;text-align:center">Questions? Reply to this email or call +44 7859 293986.</p>
       </div>
-      <div style="padding:20px 30px;background:#173137;color:#d9f0e8;text-align:center;font-size:11px;line-height:1.6">BrightNest Cleaning UK · Thoughtful cleaning across the UK<br>This is an acknowledgement of your request, not a final booking confirmation.</div>
+      <div style="padding:20px 30px;background:#173137;color:#d9f0e8;text-align:center;font-size:11px;line-height:1.6">Vellora Cleaning · Thoughtful cleaning across the UK<br>This is an acknowledgement of your request, not a final booking confirmation.</div>
     </div>
   </div>
 </body></html>"""
@@ -156,7 +156,7 @@ async def notify_customer_booking_confirmation(booking_id: str) -> None:
             _send_email_sync,
             recipients=[booking.customer_email],
             reply_to=str(settings.admin_notification_email),
-            subject=f"We received your BrightNest booking request · {booking.id[:8]}",
+            subject=f"We received your Vellora booking request · {booking.id[:8]}",
             html=_booking_confirmation_html(booking),
         )
         logger.info("Customer booking confirmation sent booking_id=%s", booking_id)
@@ -167,7 +167,7 @@ async def notify_customer_booking_confirmation(booking_id: str) -> None:
 
 
 async def notify_customer_change_request(change_request_id: str) -> None:
-    """Alert the BrightNest team about a customer booking-change request."""
+    """Alert the Vellora team about a customer booking-change request."""
     session: Session = SessionLocal()
     try:
         change_request = session.get(CustomerChangeRequest, change_request_id)
@@ -193,7 +193,7 @@ async def notify_customer_change_request(change_request_id: str) -> None:
             recipients=[str(settings.admin_notification_email)],
             reply_to=booking.customer_email,
             subject=f"Customer {change_request.request_type.value} request: {booking.service_type}",
-            html=f"<h2>BrightNest customer booking-change request</h2><table style='border-collapse:collapse'>{rows}</table>",
+            html=f"<h2>Vellora customer booking-change request</h2><table style='border-collapse:collapse'>{rows}</table>",
         )
     except Exception:
         logger.exception("Customer change-request notification failed request_id=%s", change_request_id)
@@ -202,7 +202,7 @@ async def notify_customer_change_request(change_request_id: str) -> None:
 
 
 async def notify_customer_change_resolution(change_request_id: str) -> None:
-    """Tell the customer how BrightNest resolved their booking-change request."""
+    """Tell the customer how Vellora resolved their booking-change request."""
     session: Session = SessionLocal()
     try:
         change_request = session.get(CustomerChangeRequest, change_request_id)
@@ -213,7 +213,7 @@ async def notify_customer_change_resolution(change_request_id: str) -> None:
         decision_text = "approved" if decision == "approved" else "not approved"
         next_visit = f"{booking.preferred_date} at {booking.preferred_time.strftime('%H:%M')}"
         html = (
-            "<h2>BrightNest booking-change update</h2>"
+            "<h2>Vellora booking-change update</h2>"
             f"<p>Your request to <strong>{escape(change_request.request_type.value)}</strong> booking "
             f"<strong>{escape(booking.id[:8])}</strong> has been <strong>{decision_text}</strong>.</p>"
             f"<p>Your current booking is scheduled for {escape(next_visit)}.</p>"
@@ -222,7 +222,7 @@ async def notify_customer_change_resolution(change_request_id: str) -> None:
         await asyncio.to_thread(
             _send_email_sync,
             recipients=[booking.customer_email],
-            subject=f"BrightNest booking-change request {decision_text}",
+            subject=f"Vellora booking-change request {decision_text}",
             html=html,
         )
     except Exception:
@@ -238,7 +238,7 @@ async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
         return False
     link = f"{settings.frontend_base_url.rstrip('/')}/dashboard?token={quote(raw_token)}"
     html = (
-        "<h2>Your BrightNest booking dashboard</h2>"
+        "<h2>Your Vellora booking dashboard</h2>"
         "<p>Use the secure link below to view your upcoming and past booking requests.</p>"
         f"<p><a href=\"{escape(link)}\">Open my booking dashboard</a></p>"
         f"<p>This link expires in {settings.customer_magic_link_minutes} minutes and can only be used to access bookings for this email address.</p>"
@@ -247,7 +247,7 @@ async def send_customer_magic_link(customer_email: str, raw_token: str) -> bool:
         await asyncio.to_thread(
             _send_email_sync,
             recipients=[customer_email],
-            subject="Your BrightNest booking dashboard",
+            subject="Your Vellora booking dashboard",
             html=html,
         )
         return True

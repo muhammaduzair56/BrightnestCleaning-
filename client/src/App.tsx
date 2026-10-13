@@ -18,7 +18,7 @@ const Services = lazy(() => import("./pages/Services"));
 function RouteLoadingFallback() {
   return (
     <main className="grid min-h-screen place-items-center bg-[#f8f6ef] text-[#173137]" aria-live="polite" aria-busy="true">
-      <div className="flex items-center gap-3 text-sm font-extrabold"><span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#2f9f91]" /> Loading BrightNest</div>
+      <div className="flex items-center gap-3 text-sm font-extrabold"><span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#2f9f91]" /> Loading Vellora</div>
     </main>
   );
 }

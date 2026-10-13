@@ -1,1 +1,1 @@
-"""BrightNest FastAPI application package."""
+"""Vellora FastAPI application package."""

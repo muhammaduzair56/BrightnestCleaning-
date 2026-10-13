@@ -1,4 +1,4 @@
-"""Secure runtime configuration for the BrightNest FastAPI service."""
+"""Secure runtime configuration for the Vellora FastAPI service."""
 from __future__ import annotations
 
 from functools import lru_cache
@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=False)
 
-    app_name: str = "BrightNest Booking API"
+    app_name: str = "Vellora Booking API"
     app_env: Literal["development", "test", "production"] = "development"
     api_prefix: str = "/api/v1"
     database_url: str
@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     smtp_password: SecretStr | None = None
     admin_notification_email: EmailStr
     email_from: str
-    email_logo_url: str = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pQUupKLjmRbDVtER.webp"
+    email_logo_url: str = "https://velloracleaning.vercel.app/vellora-cleaning-logo.webp"
     bootstrap_admin_email: EmailStr | None = None
     bootstrap_admin_password: SecretStr | None = None
     allowed_origins: Annotated[list[str], NoDecode] = ["http://localhost:5173"]

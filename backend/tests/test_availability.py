@@ -3,8 +3,8 @@ from datetime import date, time, timedelta
 
 os.environ["DATABASE_URL"] = "postgresql://test:test@localhost/test?sslmode=require"
 os.environ["JWT_SECRET"] = "test-secret-that-is-long-enough-for-local-validation-only"
-os.environ["ADMIN_NOTIFICATION_EMAIL"] = "bookings@brightnest-cleaning.co.uk"
-os.environ["EMAIL_FROM"] = "BrightNest <bookings@brightnest-cleaning.co.uk>"
+os.environ["ADMIN_NOTIFICATION_EMAIL"] = "bookings@example.com"
+os.environ["EMAIL_FROM"] = "Vellora <bookings@example.com>"
 os.environ["APP_ENV"] = "test"
 os.environ["TRUSTED_HOSTS"] = "testserver,localhost,127.0.0.1"
 

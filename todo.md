@@ -256,7 +256,7 @@
 - [x] Implement non-blocking Brevo SMTP delivery for admin notifications and customer magic links.
 - [x] Add SMTP environment documentation and mocked transport tests.
 - [x] Run full validation and prepare the Railway redeploy with SMTP variables. Backend: 13 tests passed; frontend typecheck/build passed; Python compilation and diff checks passed.
-- [ ] Guide fresh Resend account creation using `brightnestcleaninguk@gmail.com` without exposing credentials.
+- [ ] User-managed: set Render `ADMIN_NOTIFICATION_EMAIL=hello.velloraclean@gmail.com` and configure/verify the Resend sender; keep credentials out of the repository.
 - [ ] Provide Railway variable mapping, redeploy steps, and safe post-deploy verification.
 - [x] Diagnose deployed Brevo SMTP connection timeout from Railway logs for booking and magic-link notifications: Railway reached the API, but SMTP connection to port 587 timed out.
 - [x] Apply and validate a transport-level SMTP timeout/connectivity fix before the next Railway redeploy: configurable 15-second timeout, default port 2525, and automatic 587-to-2525 fallback.

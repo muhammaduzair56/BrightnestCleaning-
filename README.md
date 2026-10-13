@@ -1,6 +1,6 @@
-# BrightNestCleaning-
+# Vellora Cleaning
 
-BrightNest Cleaning UK is a responsive, Vercel-configured React and Tailwind website for domestic and specialist cleaning services in Birmingham and surrounding areas. It includes the public service price guide and a frontend booking-request journey.
+Vellora Cleaning is a responsive, Vercel-configured React and Tailwind website for domestic and specialist cleaning services in Birmingham and surrounding areas. It includes the public service price guide and a frontend booking-request journey.
 
 ## Run locally
 

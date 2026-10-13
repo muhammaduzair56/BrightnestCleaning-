@@ -1,4 +1,4 @@
-"""Create the initial BrightNest administrator from deployment-only secrets when configured."""
+"""Create the initial Vellora administrator from deployment-only secrets when configured."""
 from __future__ import annotations
 
 import logging

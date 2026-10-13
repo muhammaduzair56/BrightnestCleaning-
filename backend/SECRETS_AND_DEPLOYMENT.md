@@ -1,4 +1,4 @@
-# BrightNest Backend: Secrets and Deployment
+# Vellora Backend: Secrets and Deployment
 
 All operational credentials must be created as deployment-provider secrets and must never be committed to the repository, placed in client-side variables, or rendered in the public website.
 

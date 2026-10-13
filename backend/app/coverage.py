@@ -1,4 +1,4 @@
-"""BrightNest service-area validation helpers."""
+"""Vellora service-area validation helpers."""
 from __future__ import annotations
 
 import re

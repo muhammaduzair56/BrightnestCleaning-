@@ -159,8 +159,8 @@ In variables ko **Service → Variables** mein add karein. Sensitive values ko m
 | `APP_ENV` | `production` | Haan |
 | `DATABASE_URL` | Neon PostgreSQL secure URL | Haan |
 | `JWT_SECRET` | Random 32+ character secret | Haan |
-| `ADMIN_NOTIFICATION_EMAIL` | `brightnestcleaninguk@gmail.com` | Haan |
-| `EMAIL_FROM` | `BrightNest Cleaning UK <brightnestcleaninguk@gmail.com>` ya verified sender | Haan |
+| `ADMIN_NOTIFICATION_EMAIL` | `hello.velloraclean@gmail.com` | Haan |
+| `EMAIL_FROM` | `Vellora Cleaning <verified-sender@your-domain.example>` ya verified sender | Haan |
 | `FRONTEND_BASE_URL` | `https://brightnestcleaning.vercel.app` | Haan |
 | `ALLOWED_ORIGINS` | `https://brightnestcleaning.vercel.app` | Haan |
 | `TRUSTED_HOSTS` | Exact Railway public hostname | Haan |
@@ -363,7 +363,7 @@ Railway logs mein startup command, migrations, port aur Uvicorn binding check ka
 Brevo SMTP host, username, password, TLS aur port check karein. Port `2525` fallback available rakhein. `EMAIL_FROM` valid email format mein ho, example:
 
 ```text
-BrightNest Cleaning UK <brightnestcleaninguk@gmail.com>
+Vellora Cleaning <verified-sender@your-domain.example>
 ```
 
 ### Custom domain verify nahi hota
@@ -415,4 +415,3 @@ Recommended order yeh hai:
 [2]: https://docs.railway.com/variables "Railway — Using Variables"
 
 [3]: https://neon.com/docs/connect/connect-securely "Neon — Connect to Neon securely"
-

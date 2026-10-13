@@ -1,4 +1,4 @@
-# Hugging Face Docker Space deployment for the BrightNest FastAPI service.
+# Hugging Face Docker Space deployment for the Vellora FastAPI service.
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

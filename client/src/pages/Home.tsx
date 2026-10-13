@@ -1,5 +1,5 @@
 /**
- * BrightNest design reminder — Quiet British Home Editorial: warm ivory, BrightNest Mint,
+ * Vellora design reminder — Quiet British Home Editorial: warm ivory, Vellora Mint,
  * editorial asymmetry, spacious calm, nestline arcs, and clear low-friction booking.
  */
 import {
@@ -214,7 +214,7 @@ const faqs = [
   {
     question: "What happens after I submit a booking request?",
     answer:
-      "Your request is sent securely to BrightNest with your preferred service, time and home details. It is not a confirmed appointment yet. The team will review availability, clarify the scope where needed, and confirm the next step with you.",
+      "Your request is sent securely to Vellora with your preferred service, time and home details. It is not a confirmed appointment yet. The team will review availability, clarify the scope where needed, and confirm the next step with you.",
   },
   {
     question: "What can I request through the booking form?",
@@ -224,31 +224,31 @@ const faqs = [
   {
     question: "Can I change or cancel a confirmed visit?",
     answer:
-      "Yes. Please contact BrightNest as early as possible. With 48 hours or more notice, you can change or cancel without a BrightNest cancellation charge. Between 24 and 48 hours, BrightNest will first try to find a suitable rescheduled visit.",
+      "Yes. Please contact Vellora as early as possible. With 48 hours or more notice, you can change or cancel without a Vellora cancellation charge. Between 24 and 48 hours, Vellora will first try to find a suitable rescheduled visit.",
     link: { href: "/terms-of-service", label: "Read cancellation and refund policy" },
   },
   {
     question: "What happens if I cancel with less than 24 hours’ notice?",
     answer:
-      "BrightNest will consider the circumstances and may apply a reasonable charge only where the allocated time cannot be rebooked. Any amount retained or charged is intended to reflect a direct loss, not act as a penalty.",
+      "Vellora will consider the circumstances and may apply a reasonable charge only where the allocated time cannot be rebooked. Any amount retained or charged is intended to reflect a direct loss, not act as a penalty.",
     link: { href: "/terms-of-service", label: "See the full cancellation policy" },
   },
   {
     question: "Can I receive a refund?",
     answer:
-      "For eligible advance payments, BrightNest will refund the unused amount or apply it to an agreed rescheduled visit. If you ask BrightNest to begin an online or distance-booked service during a statutory cooling-off period, a proportionate amount for work already supplied may be payable.",
+      "For eligible advance payments, Vellora will refund the unused amount or apply it to an agreed rescheduled visit. If you ask Vellora to begin an online or distance-booked service during a statutory cooling-off period, a proportionate amount for work already supplied may be payable.",
     link: { href: "/terms-of-service", label: "Read the refund terms" },
   },
   {
     question: "What if I am unhappy with the service?",
     answer:
-      "Please contact BrightNest as soon as reasonably possible, ideally within 48 hours, with any relevant details. BrightNest will review the concern and, where appropriate, offer repeat performance within a reasonable time or discuss an appropriate price reduction or refund.",
+      "Please contact Vellora as soon as reasonably possible, ideally within 48 hours, with any relevant details. Vellora will review the concern and, where appropriate, offer repeat performance within a reasonable time or discuss an appropriate price reduction or refund.",
     link: { href: "/terms-of-service", label: "See service-concern support" },
   },
   {
     question: "Do you cover my area?",
     answer:
-      "BrightNest accepts cleaning requests across the UK. Add your postcode in the request form so the team can confirm service availability and travel details.",
+      "Vellora accepts cleaning requests across the UK. Add your postcode in the request form so the team can confirm service availability and travel details.",
   },
   {
     question: "Can I ask for a tailored clean?",
@@ -258,7 +258,7 @@ const faqs = [
   {
     question: "Will I pay online today?",
     answer:
-      "No payment is taken with a booking request. First, BrightNest will confirm the service scope and preferred visit with you, then share the next steps clearly.",
+      "No payment is taken with a booking request. First, Vellora will confirm the service scope and preferred visit with you, then share the next steps clearly.",
   },
 ];
 
@@ -390,13 +390,13 @@ export default function Home() {
     }
 
     if (step === 2 && (!name.trim() || !emailIsValid || !phoneIsValid || !postcode.trim() || !postcodeIsCovered)) {
-      setFormError(!postcodeIsCovered ? "BrightNest is not currently showing coverage for this postcode. Please contact the team for a tailored check." : "Please check your contact details before continuing.");
+      setFormError(!postcodeIsCovered ? "Vellora is not currently showing coverage for this postcode. Please contact the team for a tailored check." : "Please check your contact details before continuing.");
       return;
     }
 
     if (step === 3 && !privacyConsent) {
       setPrivacyTouched(true);
-      setFormError("Please confirm that you consent to the BrightNest privacy policy before sending your request.");
+      setFormError("Please confirm that you consent to the Vellora privacy policy before sending your request.");
       return;
     }
 
@@ -424,7 +424,7 @@ export default function Home() {
       });
       setBookingReference(response.booking_id);
       setSubmitted(true);
-      toast.success("Your booking request has been received.", { description: "BrightNest will review your preferred visit and service details." });
+      toast.success("Your booking request has been received.", { description: "Vellora will review your preferred visit and service details." });
     } catch (error) {
       setFormError(error instanceof ApiError ? error.message : "We could not send your booking request. Please try again.");
     } finally {
@@ -435,7 +435,7 @@ export default function Home() {
   const navItems = [
     ["Services", "services"],
     ["How it works", "how-it-works"],
-    ["Why BrightNest", "difference"],
+    ["Why Vellora", "difference"],
     ["FAQs", "faqs"],
   ] as const;
 
@@ -463,13 +463,13 @@ export default function Home() {
             <button onClick={() => scrollToSection("top")} className="relative py-2 text-sm font-bold text-[#23786f] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#2f9f91]">Home</button>
             <button onClick={() => scrollToSection("difference")} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">About us</button>
             <Link href="/services" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Services</Link>
-            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100" aria-label="Read the BrightNest blog">Blog</Link>
+            <Link href="/blog" className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100" aria-label="Read the Vellora blog">Blog</Link>
             <button onClick={() => bookService()} className="relative py-2 text-sm font-bold text-[#173137]/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-[#2f9f91] after:transition-transform hover:text-[#23786f] hover:after:scale-x-100">Contact</button>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
             <Link href="/dashboard" className="border-l border-[#173137]/15 pl-4 text-sm font-bold text-[#173137]/70 transition-colors hover:text-[#23786f]">My bookings</Link>
-            <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#173137]/70 transition-colors hover:text-[#23786f]" aria-label={`Call BrightNest on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-3.5 w-3.5" /> Call us</a>
+            <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#173137]/70 transition-colors hover:text-[#23786f]" aria-label={`Call Vellora on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-3.5 w-3.5" /> Call us</a>
             <span className="hidden items-center gap-2 text-xs font-bold text-[#173137]/60 2xl:flex">
               <ShieldCheck className="h-4 w-4 text-[#23786f]" />
               UK-wide requests
@@ -556,7 +556,7 @@ export default function Home() {
                 src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp"
                 srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/KyOEDDpTbzuebQBu.webp 640w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp 960w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/yQRYQlqOSmmelxWf.webp 1400w"
                 sizes="(max-width: 640px) 100vw, 58vw"
-                alt="A BrightNest cleaner carefully preparing a living room"
+                alt="A Vellora cleaner carefully preparing a living room"
                 className="h-full min-h-[340px] w-full object-cover object-[72%_center] sm:min-h-[480px] lg:min-h-[640px]"
                 fetchPriority="high"
               />
@@ -647,7 +647,7 @@ export default function Home() {
               {[
                 ["01", "Choose the kind of reset", "Tell us what needs attention, plus the date and time that feels right for your week."],
                 ["02", "Share a few useful details", "Add your contact information and postcode so your request has the context it needs."],
-                ["03", "Confirm with clarity", "Review the plan in one place, then BrightNest can confirm the final service scope and preferred visit with you."],
+                ["03", "Confirm with clarity", "Review the plan in one place, then Vellora can confirm the final service scope and preferred visit with you."],
               ].map(([number, title, description]) => (
                 <div key={number} className="grid gap-3 py-5 sm:grid-cols-[62px_1fr] sm:gap-8 sm:py-9">
                   <span className="font-display text-2xl text-[#9ee0d2]">{number}</span>
@@ -664,7 +664,7 @@ export default function Home() {
         <section id="difference" className="scroll-mt-24 px-5 py-12 sm:py-20 lg:px-10 lg:py-24">
           <div className="mx-auto grid max-w-[1440px] gap-5 sm:gap-8 lg:grid-cols-[0.95fr_0.7fr_0.82fr] lg:items-stretch">
             <div className="rounded-[26px] bg-[#e7ede7] p-6 sm:rounded-[30px] sm:p-10 lg:rounded-[38px]">
-              <p className="eyebrow">The BrightNest approach</p>
+              <p className="eyebrow">The Vellora approach</p>
               <h2 className="font-display mt-5 max-w-[470px] text-[43px] leading-[0.98] tracking-[-0.055em] sm:text-[56px]">Care you can feel in the small things.</h2>
               <div className="mt-7 grid gap-4 sm:mt-10 sm:gap-5">
                 {[
@@ -707,8 +707,8 @@ export default function Home() {
                 <span aria-hidden="true">“</span>
                 <p>It looks amazing, we are beyond grateful!</p>
               </blockquote>
-              <p className="mt-7 max-w-[520px] text-base leading-7 text-white/65">A real message shared by a BrightNest client after their cleaning visit. The original feedback is shown here with BrightNest branding, while keeping the customer’s words intact.</p>
-              <div className="mt-8 flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]"><span className="grid h-8 w-8 place-items-center rounded-full border border-[#9ee0d2]/35"><Check className="h-4 w-4" /></span> Verified feedback supplied by BrightNest</div>
+              <p className="mt-7 max-w-[520px] text-base leading-7 text-white/65">A real message shared by a Vellora client after their cleaning visit. The original feedback is shown here with Vellora branding, while keeping the customer’s words intact.</p>
+              <div className="mt-8 flex items-center gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]"><span className="grid h-8 w-8 place-items-center rounded-full border border-[#9ee0d2]/35"><Check className="h-4 w-4" /></span> Verified feedback supplied by Vellora</div>
             </div>
             <figure className="testimonial-proof-card">
               <div className="testimonial-proof-glow" aria-hidden="true" />
@@ -722,7 +722,7 @@ export default function Home() {
                   <p className="px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#9ee0d2]">Kitchen detail</p>
                 </div>
               </div>
-              <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/75">Authentic client feedback and before-and-after work shared with BrightNest.</figcaption>
+              <figcaption className="relative z-10 mt-4 px-1 text-xs font-bold leading-5 text-white/75">Authentic client feedback and before-and-after work shared with Vellora.</figcaption>
               {(import.meta.env.VITE_GOOGLE_REVIEWS_URL || import.meta.env.VITE_TRUSTPILOT_URL) && <div className="relative z-10 mt-5 flex flex-wrap gap-2">{import.meta.env.VITE_GOOGLE_REVIEWS_URL && <a href={import.meta.env.VITE_GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Google Reviews <ArrowRight className="h-3.5 w-3.5" /></a>}{import.meta.env.VITE_TRUSTPILOT_URL && <a href={import.meta.env.VITE_TRUSTPILOT_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#9ee0d2]/35 px-3 py-2 text-xs font-extrabold text-[#9ee0d2] transition-colors hover:bg-white/10">See Trustpilot <ArrowRight className="h-3.5 w-3.5" /></a>}</div>}
             </figure>
           </div>
@@ -838,7 +838,7 @@ export default function Home() {
                               </div>
                             </DrawerContent>
                           </Drawer>
-                          <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">No payment today — you will receive a clear confirmation after BrightNest reviews your request.</p>
+                          <p id="service-picker-help" className="mt-2 text-xs font-bold leading-5 text-white/72">No payment today — you will receive a clear confirmation after Vellora reviews your request.</p>
                         </div>
                         {needsPropertyDetails ? <div className="grid gap-5 sm:grid-cols-2">
                           <div>
@@ -860,7 +860,7 @@ export default function Home() {
                           <input type="checkbox" checked={binCleaning} onChange={(event) => setBinCleaning(event.target.checked)} className="mt-1 h-4 w-4 accent-[#2f9f91]" />
                           <span><strong className="text-white">Add bin cleaning</strong><small className="mt-1 block text-xs font-bold text-white/72">We’ll confirm the exact scope and quote with your booking request.</small></span>
                         </label>}
-                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Price</p><p className="mt-1 text-xs leading-5 text-white/72">BrightNest will review the property details and provide a tailored quote before confirming the booking.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
+                        <div className="rounded-[18px] border border-[#9ee0d2]/20 bg-[#0f282d] px-5 py-4" aria-live="polite"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9ee0d2]">Price</p><p className="mt-1 text-xs leading-5 text-white/72">Vellora will review the property details and provide a tailored quote before confirming the booking.</p></div><strong className="whitespace-nowrap text-xl text-[#f8f6ef]">{indicativeTotal && needsPropertyDetails ? `From £${indicativeTotal}` : "Quote required"}</strong></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] font-bold text-white/72"><span>{selectedService ? selectedService.title : "Choose a service"}</span>{needsPropertyDetails && <span>{bedrooms} bed · {bathrooms} bath</span>}{(binCleaning || binCleaningOnly) && <span>+ bin detail</span>}</div><p className="mt-3 text-[10px] font-bold leading-4 text-white/65">Specialist and fixed-price services receive a confirmed quote before booking.</p></div>
                         <div>
                           <label id="frequency-picker-label" className="field-label">Visit rhythm</label>
                           <Drawer open={frequencyPickerOpen} onOpenChange={setFrequencyPickerOpen}>
@@ -1025,14 +1025,14 @@ export default function Home() {
                           ))}
                         </div>
                         {notes && <p className="mt-4 rounded-[16px] bg-[#2f9f91]/15 px-4 py-3 text-sm leading-6 text-white/75">“{notes}”</p>}
-                        <p className="mt-5 text-sm leading-6 text-white/75">Submitting sends your request securely to BrightNest. Your preferred visit is confirmed once the service details are reviewed.</p>
+                        <p className="mt-5 text-sm leading-6 text-white/75">Submitting sends your request securely to Vellora. Your preferred visit is confirmed once the service details are reviewed.</p>
                       </div>
                     )}
 
                     {step === 3 && (
                       <div className={`privacy-consent ${privacyTouched && !privacyConsent ? "privacy-consent-error" : ""}`}>
                         <input id="privacy-consent" type="checkbox" checked={privacyConsent} onChange={(event) => { setPrivacyConsent(event.target.checked); setPrivacyTouched(true); if (event.target.checked) setFormError(""); }} aria-invalid={privacyTouched && !privacyConsent} aria-describedby="privacy-consent-help" />
-                        <label htmlFor="privacy-consent"><strong>I consent to BrightNest using my details under its Privacy Policy</strong> to assess and respond to this booking request.</label>
+                        <label htmlFor="privacy-consent"><strong>I consent to Vellora using my details under its Privacy Policy</strong> to assess and respond to this booking request.</label>
                         <p id="privacy-consent-help" className="privacy-consent-help" aria-live="polite">{privacyTouched && !privacyConsent ? "Your consent is required before this request can be sent." : <>Required to send your booking request. <Link href="/privacy-policy" className="underline decoration-current/45 underline-offset-2">Read the Privacy Policy</Link>.</>}</p>
                       </div>
                     )}
@@ -1042,7 +1042,7 @@ export default function Home() {
                     {isSubmitting && (
                       <div className="booking-loading" role="status" aria-live="polite" aria-atomic="true">
                         <span className="booking-loading-orb"><LoaderCircle className="h-4 w-4 animate-spin" /></span>
-                        <span><strong>Sending your request securely<span className="booking-loading-dots" aria-hidden="true"><i /><i /><i /></span></strong><small>Please keep this page open for a moment while BrightNest records your preferred visit and home details.</small></span>
+                        <span><strong>Sending your request securely<span className="booking-loading-dots" aria-hidden="true"><i /><i /><i /></span></strong><small>Please keep this page open for a moment while Vellora records your preferred visit and home details.</small></span>
                       </div>
                     )}
                     {formError && <p role="alert" className="mt-5 rounded-xl bg-[#f1c9ad] px-4 py-3 text-sm font-bold text-[#173137]">{formError}</p>}
@@ -1058,11 +1058,11 @@ export default function Home() {
                     <div className="booking-success-seal"><span className="booking-success-orbit booking-success-orbit-one" /><span className="booking-success-orbit booking-success-orbit-two" /><span className="relative z-10 grid h-16 w-16 place-items-center rounded-full bg-[#2f9f91] text-white shadow-lg shadow-[#2f9f91]/30"><Check className="h-7 w-7" /></span></div>
                     <p className="eyebrow mt-9 text-[#9ee0d2]">Request received</p>
                     <h3 className="font-display mt-4 max-w-[480px] text-[46px] leading-[0.96] tracking-[-0.055em] sm:text-[58px]">Your clean is now in the right hands.</h3>
-                    <p className="mt-6 max-w-[490px] text-sm leading-7 text-white/65 sm:text-base">BrightNest has your preferred service, time and home details. The team will review availability and confirm the next step using the contact details you provided.</p>
+                    <p className="mt-6 max-w-[490px] text-sm leading-7 text-white/65 sm:text-base">Vellora has your preferred service, time and home details. The team will review availability and confirm the next step using the contact details you provided.</p>
                     {bookingReference && <p className="mt-5 rounded-full border border-white/20 px-4 py-2 text-xs font-extrabold tracking-[0.1em] text-[#9ee0d2]">REFERENCE · {bookingReference.slice(0, 8).toUpperCase()}</p>}
                     <div className="booking-success-note mt-5 max-w-[490px]">
                       <Check className="h-4 w-4" />
-                      <span>No payment has been taken. Your request is not a confirmed appointment until BrightNest gets back to you.</span>
+                      <span>No payment has been taken. Your request is not a confirmed appointment until Vellora gets back to you.</span>
                     </div>
                     <div className="mt-8 grid w-full max-w-[470px] gap-2 text-left sm:grid-cols-3">
                       {["Request logged", "Details reviewed", "Visit confirmed"].map((item, index) => <div key={item} className="booking-success-step"><span>0{index + 1}</span><p>{item}</p></div>)}
@@ -1129,7 +1129,7 @@ export default function Home() {
             <p className="mt-5 text-sm leading-7 text-white/75">Need a tailored home or specialist cleaning request?</p>
             <button onClick={() => bookService()} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white underline decoration-[#9ee0d2] decoration-2 underline-offset-4">Start your request <ArrowRight className="h-4 w-4" /></button>
             <div className="mt-6 flex flex-col gap-3 text-sm font-extrabold">
-              <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-2 text-white/85 transition-colors hover:text-[#9ee0d2]" aria-label={`Call BrightNest on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-4 w-4 text-[#9ee0d2]" /> {CONTACT_PHONE_DISPLAY}</a>
+              <a href={CONTACT_PHONE_HREF} className="inline-flex items-center gap-2 text-white/85 transition-colors hover:text-[#9ee0d2]" aria-label={`Call Vellora on ${CONTACT_PHONE_DISPLAY}`}><Phone className="h-4 w-4 text-[#9ee0d2]" /> {CONTACT_PHONE_DISPLAY}</a>
               <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/85 transition-colors hover:text-[#9ee0d2]"><MessageCircle className="h-4 w-4 text-[#9ee0d2]" /> Message us on WhatsApp</a>
             </div>
           </div>
@@ -1140,7 +1140,7 @@ export default function Home() {
           <div className="trust-strip-item"><CalendarDays className="h-4 w-4 text-[#9ee0d2]" /><span><strong>No payment with a request</strong><small>Preferred dates are reviewed before any visit is confirmed.</small></span></div>
         </div>
         <div className="mx-auto flex max-w-[1440px] flex-col gap-3 pt-6 text-[11px] font-bold text-white/65 sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} BrightNest Cleaning UK. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Vellora Cleaning. All rights reserved.</span>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><Link href="/privacy-policy" className="transition-colors hover:text-white">Privacy Policy</Link><span aria-hidden="true">·</span><Link href="/terms-of-service" className="transition-colors hover:text-white">Terms of Service</Link></div>
         </div>
       </footer>

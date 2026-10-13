@@ -1,4 +1,4 @@
-"""Request and response contracts for the BrightNest API."""
+"""Request and response contracts for the Vellora API."""
 from __future__ import annotations
 
 from datetime import date, datetime, time
@@ -64,7 +64,7 @@ class BookingCreate(BaseModel):
     def validate_coverage(cls, value: str) -> str:
         normalized = normalize_postcode(value)
         if not is_postcode_covered(normalized, get_settings().coverage_postcode_prefixes):
-            raise ValueError("This postcode is outside BrightNest's current coverage area")
+            raise ValueError("This postcode is outside Vellora's current coverage area")
         return normalized
 
     @field_validator("customer_phone")

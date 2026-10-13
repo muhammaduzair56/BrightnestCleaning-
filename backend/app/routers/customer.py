@@ -103,13 +103,13 @@ def create_customer_data_request(
 ) -> CustomerDataRequestResponse:
     existing = db.scalar(select(CustomerDataRequest).where(CustomerDataRequest.customer_email == customer_email, CustomerDataRequest.request_type == payload.request_type, CustomerDataRequest.status == "requested"))
     if existing is not None:
-        return CustomerDataRequestResponse(id=existing.id, request_type=payload.request_type, status=existing.status, message="Your request is already being reviewed by BrightNest.")
+        return CustomerDataRequestResponse(id=existing.id, request_type=payload.request_type, status=existing.status, message="Your request is already being reviewed by Vellora.")
     request = CustomerDataRequest(customer_email=customer_email, request_type=payload.request_type)
     db.add(request)
     db.add(AuditEvent(action="customer_data_request_created", metadata_json={"request_type": payload.request_type, "customer_email": customer_email}))
     db.commit()
     db.refresh(request)
-    return CustomerDataRequestResponse(id=request.id, request_type=payload.request_type, status=request.status, message="Your request has been securely recorded. BrightNest will contact you to complete it.")
+    return CustomerDataRequestResponse(id=request.id, request_type=payload.request_type, status=request.status, message="Your request has been securely recorded. Vellora will contact you to complete it.")
 
 
 @router.get("/data-export")
@@ -135,7 +135,7 @@ def download_completed_receipt(
     if booking.status.value != "completed":
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="A receipt is available after the cleaning is completed")
     pdf = build_completed_receipt_pdf(booking)
-    filename = f"brightnest-receipt-{booking.id[:8].lower()}.pdf"
+    filename = f"vellora-receipt-{booking.id[:8].lower()}.pdf"
     return StreamingResponse(
         BytesIO(pdf),
         media_type="application/pdf",
@@ -185,7 +185,7 @@ def create_customer_change_request(
     background_tasks.add_task(notify_customer_change_request, change_request.id)
     return CustomerChangeRequestResponse(
         id=change_request.id,
-        message="Your request has been sent to the BrightNest team.",
+        message="Your request has been sent to the Vellora team.",
         status=change_request.status,
     )
 

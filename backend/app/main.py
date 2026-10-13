@@ -1,4 +1,4 @@
-"""Application entry point for the BrightNest FastAPI service."""
+"""Application entry point for the Vellora FastAPI service."""
 from __future__ import annotations
 
 import logging
@@ -21,7 +21,7 @@ logger = logging.getLogger("brightnest.api")
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="BrightNest Booking API",
+        title="Vellora Booking API",
         version="1.0.0",
         docs_url="/docs" if settings.enable_docs else None,
         redoc_url=None,

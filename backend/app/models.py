@@ -1,4 +1,4 @@
-"""Database entities and performance indexes for BrightNest bookings and administration."""
+"""Database entities and performance indexes for Vellora bookings and administration."""
 from __future__ import annotations
 
 import enum

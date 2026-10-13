@@ -1,5 +1,5 @@
 /**
- * BrightNest API client — the only public runtime setting is the backend URL;
+ * Vellora API client — the only public runtime setting is the backend URL;
  * credentials, database access and email keys remain exclusively server-side.
  */
 export type BookingStatus = "new" | "contacted" | "confirmed" | "cancelled" | "completed";

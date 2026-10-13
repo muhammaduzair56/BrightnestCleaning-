@@ -24,7 +24,7 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expi
 
 
 class Base(DeclarativeBase):
-    """Base class for all BrightNest database models."""
+    """Base class for all Vellora database models."""
 
 
 def get_db() -> Generator[Session, None, None]:

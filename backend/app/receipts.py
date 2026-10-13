@@ -1,4 +1,4 @@
-"""PDF service receipts for completed BrightNest bookings.
+"""PDF service receipts for completed Vellora bookings.
 
 Receipts show only financial values explicitly stored on the booking. Payment credentials such as card numbers, bank details, CVV, and secrets are never accepted or rendered.
 """
@@ -47,8 +47,8 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
         leftMargin=22 * mm,
         topMargin=22 * mm,
         bottomMargin=20 * mm,
-        title=f"BrightNest service receipt {booking.id[:8].upper()}",
-        author="BrightNest Cleaning UK",
+        title=f"Vellora service receipt {booking.id[:8].upper()}",
+        author="Vellora Cleaning",
     )
     styles = getSampleStyleSheet()
     title = ParagraphStyle("ReceiptTitle", parent=styles["Title"], fontName="Helvetica-Bold", fontSize=25, leading=29, textColor=INK, alignment=TA_LEFT, spaceAfter=4)
@@ -60,11 +60,11 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
     small = ParagraphStyle("ReceiptSmall", parent=body, fontSize=8, leading=12, textColor=MUTED)
 
     story = [
-        _paragraph("BrightNest", title),
+        _paragraph("Vellora", title),
         _paragraph("Cleaning UK · Thoughtful domestic & specialist care", subtitle),
         Spacer(1, 13 * mm),
         _paragraph("SERVICE RECEIPT", section),
-        _paragraph("Thank you for trusting BrightNest with your home. This receipt records the completed service attached to your booking reference.", body),
+        _paragraph("Thank you for trusting Vellora with your home. This receipt records the completed service attached to your booking reference.", body),
         Spacer(1, 5 * mm),
     ]
 
@@ -115,10 +115,10 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
     story.extend([
         _paragraph("AMOUNT & PAYMENT", section),
         finance_table,
-        _paragraph("Amounts are shown exactly as stored by BrightNest. This receipt is not a VAT invoice unless the business and tax details have been separately confirmed.", small),
+        _paragraph("Amounts are shown exactly as stored by Vellora. This receipt is not a VAT invoice unless the business and tax details have been separately confirmed.", small),
         _paragraph(f"Customer notes: {booking.notes or 'No additional notes recorded.'}", small),
         Spacer(1, 18 * mm),
-        _paragraph("BrightNest Cleaning UK", body),
+        _paragraph("Vellora Cleaning", body),
         _paragraph("Thoughtful cleaning across the UK.", subtitle),
     ])
 
@@ -128,7 +128,7 @@ def build_completed_receipt_pdf(booking: Booking) -> bytes:
         canvas.rect(0, 0, A4[0], 12 * mm, fill=1, stroke=0)
         canvas.setFillColor(MINT)
         canvas.setFont("Helvetica-Bold", 8)
-        canvas.drawString(22 * mm, 6 * mm, "BRIGHTNEST CLEANING UK")
+        canvas.drawString(22 * mm, 6 * mm, "VELLORA CLEANING")
         canvas.setFillColor(MUTED)
         canvas.setFont("Helvetica", 8)
         canvas.drawRightString(A4[0] - 22 * mm, 6 * mm, f"Page {doc.page}")

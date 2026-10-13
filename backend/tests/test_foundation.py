@@ -7,8 +7,8 @@ from pypdf import PdfReader
 
 os.environ["DATABASE_URL"] = "postgresql://test:test@localhost/test?sslmode=require"
 os.environ["JWT_SECRET"] = "test-secret-that-is-long-enough-for-local-validation-only"
-os.environ["ADMIN_NOTIFICATION_EMAIL"] = "bookings@brightnest-cleaning.co.uk"
-os.environ["EMAIL_FROM"] = "BrightNest <bookings@brightnest-cleaning.co.uk>"
+os.environ["ADMIN_NOTIFICATION_EMAIL"] = "bookings@example.com"
+os.environ["EMAIL_FROM"] = "Vellora <bookings@example.com>"
 os.environ["APP_ENV"] = "test"
 os.environ["TRUSTED_HOSTS"] = "testserver,localhost,127.0.0.1"
 
@@ -73,7 +73,7 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
         return None
 
     session = TestSession()
-    session.add(AdminUser(email="admin@brightnest-cleaning.co.uk", password_hash=hash_password("StrongAdminPass123")))
+    session.add(AdminUser(email="admin@example.com", password_hash=hash_password("StrongAdminPass123")))
     session.commit()
     session.close()
     app.dependency_overrides[get_db] = override_db
@@ -101,7 +101,7 @@ def test_booking_creation_and_admin_status_update(monkeypatch, tmp_path):
 
         login_response = client.post(
             "/api/v1/admin/auth/login",
-            json={"email": "admin@brightnest-cleaning.co.uk", "password": "StrongAdminPass123"},
+            json={"email": "admin@example.com", "password": "StrongAdminPass123"},
         )
         assert login_response.status_code == 200
         access_token = login_response.json()["access_token"]
@@ -278,7 +278,7 @@ def test_customer_magic_link_exchange_returns_scoped_bookings(monkeypatch, tmp_p
         assert "attachment" in receipt_response.headers["content-disposition"]
         assert receipt_response.content.startswith(b"%PDF")
         receipt_text = "\n".join(page.extract_text() or "" for page in PdfReader(BytesIO(receipt_response.content)).pages)
-        assert "BrightNest" in receipt_text
+        assert "Vellora" in receipt_text
         assert "GBP 144.00" in receipt_text
         assert "Stripe" in receipt_text
         assert "pi_test_123" in receipt_text

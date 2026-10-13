@@ -1,6 +1,6 @@
-# BrightNest Booking API
+# Vellora Booking API
 
-This folder contains the Docker-ready FastAPI backend for BrightNest Cleaning UK. It stores booking requests and operational records in Neon PostgreSQL, exposes JWT-protected administrator routes, supports passwordless customer dashboard access, generates PDF receipts, and sends booking-related notifications through Brevo SMTP. Redis is supported for shared rate limiting and short-lived operational caching, with a resilient fallback for low-volume operation when Redis is not configured.
+This folder contains the Docker-ready FastAPI backend for Vellora Cleaning. It stores booking requests and operational records in Neon PostgreSQL, exposes JWT-protected administrator routes, supports passwordless customer dashboard access, generates PDF receipts, and sends booking-related notifications through Brevo SMTP. Redis is supported for shared rate limiting and short-lived operational caching, with a resilient fallback for low-volume operation when Redis is not configured.
 
 ## API contract
 

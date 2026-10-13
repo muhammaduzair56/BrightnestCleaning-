@@ -491,8 +491,8 @@ Only public frontend configuration belongs in a `VITE_` variable. Never put `DAT
 | `FRONTEND_BASE_URL` | Base URL for customer links | `https://brightnestcleaning.vercel.app` |
 | `ALLOWED_ORIGINS` | CORS allow-list | Exact Vercel frontend origin. |
 | `TRUSTED_HOSTS` | Host validation | Exact Railway public hostname plus required healthcheck host where applicable. |
-| `ADMIN_NOTIFICATION_EMAIL` | Team notification recipient | BrightNest operational inbox. |
-| `EMAIL_FROM` | Verified SMTP sender | `BrightNest Cleaning UK <verified-sender@your-domain.example>` |
+| `ADMIN_NOTIFICATION_EMAIL` | Team notification recipient | `hello.velloraclean@gmail.com`. |
+| `EMAIL_FROM` | Verified SMTP sender | `Vellora Cleaning <verified-sender@your-domain.example>` |
 | `SMTP_HOST` | SMTP relay | `smtp-relay.brevo.com` |
 | `SMTP_PORT` | SMTP relay port | `2525` recommended for Railway fallback. |
 | `SMTP_TIMEOUT_SECONDS` | Connection timeout | `15` by default. |
