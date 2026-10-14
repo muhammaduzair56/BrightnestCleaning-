@@ -20,7 +20,7 @@ export default function NotFound() {
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
       <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
         <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6"><img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[50px] w-[150px] object-contain" /></div>
+          <div className="flex justify-center mb-6"><img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="150px" alt="Vellora Cleaning logo" className="h-[50px] w-[150px] object-contain" /></div>
           <div className="flex justify-center mb-6">
             <div className="relative">
               <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse" />

@@ -50,7 +50,7 @@ export default function TermsOfService() {
     <main className="min-h-screen bg-[#f8f6ef] text-[#173137]">
       <header className="border-b border-[#173137]/10 bg-[#f8f6ef]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1220px] items-center justify-between px-5 py-5 lg:px-10">
-          <Link href="/" className="inline-flex shrink-0 items-center" aria-label="Vellora Cleaning home"><img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[43px] w-[130px] object-contain object-left" /></Link>
+          <Link href="/" className="inline-flex shrink-0 items-center" aria-label="Vellora Cleaning home"><img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="130px" alt="Vellora Cleaning logo" className="h-[43px] w-[130px] object-contain object-left" /></Link>
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#173137]/72 transition-colors hover:text-[#2f9f91]"><ArrowLeft className="h-4 w-4" /> Back to website</Link>
         </div>
       </header>

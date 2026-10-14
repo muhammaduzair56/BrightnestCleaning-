@@ -242,7 +242,7 @@ export default function Admin() {
       <div className="admin-shell">
         <section className="admin-login-grid">
           <div className="admin-login-intro">
-            <div className="flex items-center gap-3"><img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[62px] w-[186px] object-contain object-left" /></div>
+            <div className="flex items-center gap-3"><img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="186px" alt="Vellora Cleaning logo" className="h-[62px] w-[186px] object-contain object-left" /></div>
             <p className="eyebrow mt-16 text-[#9ee0d2]">Private operations</p>
             <h1 className="font-display mt-5 max-w-md text-6xl leading-[0.94] tracking-[-0.065em]">Care for every request, in one place.</h1>
             <p className="mt-7 max-w-md text-base leading-7 text-white/65">This workspace is only for authorised Vellora staff. Customer booking data is not exposed on the public website.</p>
@@ -267,7 +267,7 @@ export default function Admin() {
   return (
     <div className="admin-dashboard-shell">
       <aside className="admin-sidebar">
-        <Link href="/" className="flex items-center gap-3"><img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[48px] w-[144px] object-contain object-left" /></Link>
+        <Link href="/" className="flex items-center gap-3"><img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="144px" alt="Vellora Cleaning logo" className="h-[48px] w-[144px] object-contain object-left" /></Link>
         <div className="mt-14 space-y-2"><button type="button" onClick={() => setShowNotifications(false)} className={`admin-nav-item w-full ${!showNotifications ? "admin-nav-current" : "text-white/45"}`}><ClipboardList className="h-4 w-4" /> Booking requests</button><button type="button" onClick={() => setShowNotifications(true)} className={`admin-nav-item w-full ${showNotifications ? "admin-nav-current" : "text-white/45"}`}><Mail className="h-4 w-4" /> Notification centre{notifications.length > 0 && <span className="ml-auto rounded-full bg-[#f1c9ad] px-2 py-0.5 text-[10px] font-extrabold text-[#173137]">{notifications.length}</span>}</button></div>
         <button className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-white/60 transition-colors hover:text-white" onClick={logout}><LogOut className="h-4 w-4" /> Sign out</button>
       </aside>

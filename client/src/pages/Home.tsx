@@ -451,9 +451,11 @@ export default function Home() {
             className="group flex items-center text-left"
             onClick={() => scrollToSection("top")}
             aria-label="Back to top"
-          >
+            >
             <img
               src="/vellora-cleaning-logo.webp"
+              srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w"
+              sizes="(min-width: 640px) 184px, 170px"
               alt="Vellora Cleaning logo"
               className="h-[64px] w-[170px] origin-left scale-[1.14] object-contain object-left transition-transform duration-200 group-hover:scale-[1.18] group-active:scale-95 sm:h-[68px] sm:w-[184px]"
             />
@@ -553,11 +555,12 @@ export default function Home() {
 
             <div className="relative min-h-[340px] overflow-hidden rounded-[28px] bg-[#d8e9df] sm:min-h-[480px] sm:rounded-[32px] lg:min-h-[640px] lg:rounded-[42px]">
               <img
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp"
-                srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/KyOEDDpTbzuebQBu.webp 640w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/pxIqhqgUpleUnzgX.webp 960w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/yQRYQlqOSmmelxWf.webp 1400w"
-                sizes="(max-width: 640px) 100vw, 58vw"
+                src="/home-living-room-960.webp"
+                srcSet="/home-living-room-480.webp 480w, /home-living-room-720.webp 720w, /home-living-room-960.webp 960w, /home-living-room-1400.webp 1400w"
+                sizes="(max-width: 1023px) calc(100vw - 2.5rem), (max-width: 1440px) calc((100vw - 7rem) * 0.52), 732px"
                 alt="A Vellora cleaner carefully preparing a living room"
                 className="h-full min-h-[340px] w-full object-cover object-[72%_center] sm:min-h-[480px] lg:min-h-[640px]"
+                loading="eager"
                 fetchPriority="high"
               />
               <div className="absolute inset-x-5 top-5 flex items-start justify-between sm:inset-x-7 sm:top-7">
@@ -680,7 +683,7 @@ export default function Home() {
               </div>
             </div>
             <figure className="relative min-h-[300px] overflow-hidden rounded-[26px] bg-[#d7e2d9] sm:min-h-[460px] sm:rounded-[30px] lg:rounded-[38px]">
-              <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/IGXszbodrLcwAZHM.webp" srcSet="https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/QmtqNIWJDgjFlkJn.webp 480w, https://files.manuscdn.com/user_upload_by_module/session_file/310519663898260788/IGXszbodrLcwAZHM.webp 960w" sizes="(max-width: 640px) 100vw, 50vw" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
+              <img src="/home-cleaner-worktop-720.webp" srcSet="/home-cleaner-worktop-480.webp 480w, /home-cleaner-worktop-720.webp 720w, /home-cleaner-worktop-960.webp 960w" sizes="(max-width: 1023px) calc(100vw - 2.5rem), (max-width: 1440px) calc((100vw - 9rem) * 0.2834), 390px" alt="A professional cleaner carefully cleaning a kitchen worktop" className="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async" />
               <figcaption className="absolute bottom-5 left-5 right-5 rounded-[19px] bg-[#173137]/88 p-4 text-sm font-bold leading-5 text-white backdrop-blur-md">
                 Detail matters — especially in the spaces that hold your day together.
               </figcaption>
@@ -1114,7 +1117,7 @@ export default function Home() {
       <footer className="bg-[#173137] px-5 pb-7 pt-10 text-[#f8f6ef] sm:pt-14 lg:px-10 lg:pt-18">
         <div className="mx-auto grid max-w-[1440px] gap-7 border-b border-white/15 pb-9 sm:gap-10 sm:pb-12 md:grid-cols-[1.25fr_0.75fr_0.75fr]">
           <div>
-            <img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" />
+            <img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="218px" alt="Vellora Cleaning logo" className="h-[100px] w-[218px] origin-left scale-[1.08] object-contain object-left" loading="lazy" decoding="async" />
             <p className="mt-6 max-w-[360px] text-sm leading-7 text-white/75">Thoughtful domestic and specialist cleaning across the UK.</p>
           </div>
           <div>

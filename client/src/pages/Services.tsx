@@ -148,7 +148,7 @@ function ServiceHeader() {
     <header className="sticky top-0 z-40 px-3 pt-3 sm:px-5 lg:px-8">
       <div className="mx-auto flex min-h-[72px] max-w-[1440px] items-center justify-between gap-5 rounded-full border border-[#173137]/12 bg-[#fffdf7]/95 px-4 shadow-[0_10px_30px_rgba(23,49,55,0.08)] backdrop-blur-xl sm:min-h-[76px] sm:px-5 lg:px-7">
         <Link href="/" className="group flex shrink-0 items-center" aria-label="Vellora Cleaning home">
-          <img src="/vellora-cleaning-logo.webp" alt="Vellora Cleaning logo" className="h-[62px] w-[166px] origin-left scale-[1.12] object-contain object-left transition-transform duration-200 group-hover:scale-[1.16] group-active:scale-95 sm:h-[68px] sm:w-[184px]" />
+          <img src="/vellora-cleaning-logo.webp" srcSet="/vellora-cleaning-logo-320.webp 320w, /vellora-cleaning-logo-480.webp 480w, /vellora-cleaning-logo.webp 680w" sizes="(min-width: 640px) 184px, 166px" alt="Vellora Cleaning logo" className="h-[62px] w-[166px] origin-left scale-[1.12] object-contain object-left transition-transform duration-200 group-hover:scale-[1.16] group-active:scale-95 sm:h-[68px] sm:w-[184px]" />
         </Link>
         <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Primary navigation">
           {navigation.map(([label, href]) => label === "Services" ? (
